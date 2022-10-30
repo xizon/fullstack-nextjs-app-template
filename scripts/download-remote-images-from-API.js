@@ -8,6 +8,9 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
+const { matchAllImageUrls } = require('../src/utils/match-string.js');
+const { renameImage } = require('../src/utils/rename.js');
+
 const mkdirsSync = function (dirname) {
     if (fs.existsSync(dirname)) {
         return true;
@@ -24,18 +27,12 @@ console.log('\x1b[36m%s\x1b[0m', `--> Downloading remote images from API... `);
 axios.get(apiUrls.RECEIVE_DEMO_LIST).then((response) => {
 
     const posts = response.data;
-    const allImages = posts.map((post) => post.flag);
-
+    const allImages = matchAllImageUrls(JSON.stringify(posts));
     allImages.forEach((filepath) => {
 
         //
         const publicDir = '../public/';
-
-        const fileslug = filepath.split('//').pop();
-        const filename = filepath.split('/').pop();
-        const extension = filename.split('.').pop().toLowerCase();
-
-        const newFilename = filename.replace(`.${extension}`, `-${fileslug.replace(/[^a-zA-Z ]/g, "")}.${extension}`);
+        const newFilename = renameImage(filepath);
         const targetPath = path.resolve(__dirname, publicDir + 'static-remote/images/' + newFilename);
 
         if (!fs.existsSync(targetPath)) {

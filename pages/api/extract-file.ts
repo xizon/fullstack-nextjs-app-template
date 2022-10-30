@@ -4,6 +4,9 @@ import fs from 'fs';
 import path from 'path';
 import axios from "axios";
 
+import { renameImage } from '@/utils/rename.js';
+
+
 const mkdirsSync = function (dirname) {
     if (fs.existsSync(dirname)) {
         return true;
@@ -23,11 +26,7 @@ export default async function handler(
     const publicDir = '../../../../public/';
 
     const filepath: any = req.query.sourceurl;
-    const fileslug = filepath.split('//').pop();
-    const filename = filepath.split('/').pop();
-    const extension = filename.split('.').pop().toLowerCase();
-
-    const newFilename = filename.replace(`.${extension}`, `-${fileslug.replace(/[^a-zA-Z ]/g, "")}.${extension}`);
+    const newFilename = renameImage(filepath);
     const targetPath = path.resolve(__dirname, publicDir + 'static-remote/images/' + newFilename);
 
     if ( ! fs.existsSync(targetPath) ) {

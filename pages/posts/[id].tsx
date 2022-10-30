@@ -5,6 +5,9 @@ import Footer from '@/components/Footer';
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 
+import { matchAllImageUrls } from '@/utils/match-string.js';
+import { renameImage } from '@/utils/rename.js';
+
 
 /** Render data
  * ---------------------------------
@@ -96,18 +99,15 @@ export async function getStaticProps(context) {
     try {
         res = await axios.get(apiUrls.RECEIVE_DEMO_LISTDETAIL.replace('{id}', id.replace('.html', '')));
 
+        
         //update image URLs
         //---------
         odata = res.data[0];
         let orginData = JSON.stringify(odata);
-        const allImages = [ odata.flag ];  
+        const allImages = matchAllImageUrls(orginData);
         allImages.forEach((filepath) => {
 
-            const fileslug = filepath.split('//').pop();
-            const filename = filepath.split('/').pop();
-            const extension = filename.split('.').pop().toLowerCase();
-
-            const newFilename = filename.replace(`.${extension}`, `-${fileslug.replace(/[^a-zA-Z ]/g, "")}.${extension}`);
+            const newFilename = renameImage(filepath);
 
             //
             const re = new RegExp(filepath, "g");

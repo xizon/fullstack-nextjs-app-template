@@ -1,5 +1,11 @@
 # Changelog
 
+#### = 0.2.6 (October 30, 2022) =
+
+* Tweak: Tools to optimize remote downloads.
+
+
+
 #### = 0.2.5 (October 27, 2022) =
 
 * New: Download images or other files of the remote API to the local (valid for local testing)

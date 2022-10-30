@@ -14,6 +14,7 @@ import axios from "axios";
 
 import { useState, useEffect } from 'react';
 import apiRemoteToLocal from '@/utils/api-remote-to-local.js';
+import { matchAllImageUrls } from '@/utils/match-string.js';
 
 function Example() {
 
@@ -28,7 +29,7 @@ function Example() {
 
             if ( odata === null ) return;
 
-            const allImages = [ odata.flag ];  
+            const allImages = matchAllImageUrls(orginData);
             const newData = await apiRemoteToLocal(odata, allImages);
             setOdata( newData );       
         };
