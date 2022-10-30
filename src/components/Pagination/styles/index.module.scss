@@ -1,0 +1,101 @@
+/* ====================================================== 
+   <!-- Pagination -->                         
+/* ====================================================== */
+
+
+.pagination__container {
+	margin-top: 2.84375rem;
+	
+	&::before {
+		display: table;
+		content: "";
+		line-height: 0;
+	}
+	&::after {
+		display: table;
+		content: "";
+		line-height: 0;
+		clear: both;
+	}
+	
+	ul {
+		font-size: 0; /*Fighting the Space Between Inline Block Elements*/
+		
+		li {
+			display: inline-block;
+			font-size: 1rem;/*Fighting the Space Between Inline Block Elements*/
+
+			a,
+			> span {
+				display: inline-block;
+				width: 3.125rem;
+				height: 3.125rem;
+				padding-top: 0.25rem;
+				text-align: center;
+				background: none;
+				border: none;
+				color: #333;
+				font-variant-ligatures: common-ligatures;
+				border-radius: 4px;
+				/*Ligatures and contextual forms are ways of combining glyphs to produce more harmonized forms.*/
+				margin-bottom: 0;
+				font-size: 0.875rem;
+				line-height: 3.25;
+				margin-top: 0;
+				margin-bottom: 2.06818181818rem;
+			}	
+
+			a:hover {
+				background: #efefef;
+				color: #232323;	
+			}
+
+			&.is-active {
+
+				a,
+				> span {
+					border-color: #ddd;
+					background-color: #eee;
+					font-style: italic;
+				}
+			}	
+
+			&.is-disabled {
+				a,
+				> span {
+					cursor: not-allowed;
+					pointer-events: none;
+					user-select: none;
+					opacity: .3;
+				}
+
+			}
+
+
+
+		}	
+		
+		
+	}
+
+
+}
+
+
+
+@media all and (max-width: 768px) {
+    .pagination__container {
+        ul {
+        
+            li {
+          
+                a,
+                > span {
+                    margin-bottom: 1rem;
+                }
+            }	
+            
+        }
+    }
+
+}

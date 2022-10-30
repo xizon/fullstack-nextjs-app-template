@@ -1,0 +1,70 @@
+/* Background effect. It covers the entire site */
+.modal {
+	background-color: rgba(0, 0, 0, 0.7);
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	/* Fix position on the top-left corner*/
+	top: 0;
+	left: 0;
+	overflow: auto;
+	padding-top: 80px;
+
+
+	table {
+		border: none;
+		width: "100%";
+		padding: 0;
+		margin: 0;
+	}
+
+	tr {
+		vertical-align: top;
+	}
+	td {
+		padding: 5px;
+	}
+
+
+
+}
+
+/* Modal content */
+.modal-content {
+	background-color: white;
+	width: 70%;
+	max-width: 640px;
+	max-height: 70%;
+	min-height: 100px;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid black;
+	border-radius: 8px;
+	transform: translateY(-100px);
+}
+
+.modal-flex {
+	display: flex;
+	height: 100%;
+	flex-direction: row;
+	justify-content: left;
+	align-items: center;
+}
+
+/* Close button */
+.modal-close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 25px;
+	font-weight: bold;
+	text-decoration: none !important;
+	transform: translateY(-10px);
+}
+
+.modal-close:hover,
+.modal-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}

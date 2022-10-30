@@ -1,0 +1,65 @@
+{
+  "author": "UIUX Lab",
+  "email": "uiuxlab@gmail.com",
+  "name": "fullstack-nextjs-app-template",
+  "version": "0.2.5",
+  "description": "A full-stack sample web application based on Next.js that creates a simple whole-website architecture.",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xizon/fullstack-nextjs-app-template.git"
+  },
+  "keywords": [
+    "typescript",
+    "template",
+    "react",
+    "express",
+    "ssr",
+    "reactjs",
+    "nextjs",
+    "expressjs",
+    "pm2",
+    "server-side-rendering",
+    "next"
+  ],
+  "scripts": {
+    "dev": "next dev & node src/server/php-runner.js",
+    "build": "cross-env SKIP_BUILD_STATIC_GENERATION=true NODE_ENV=production node scripts/download-remote-images-from-API.js & next build",
+    "build:static": "cross-env NODE_ENV=production next build",
+    "start": "NODE_ENV=production node server.js",
+    "export": "next build && next export",
+    "export:fix": "node scripts/paths-static-page.js",
+    "export:test": "node scripts/paths-static-page.js && node scripts/server-generated-static-site.js",
+    "lint": "next lint",
+    "phpserver": "node src/server/php-runner.js",
+    "deploy:dev": "cross-env NODE_ENV=development pm2 start server.js & node src/server/php-runner.js",
+    "deploy:prod": "cross-env NODE_ENV=production pm2 start server.js",
+    "destroy": "pm2 stop server.js & pm2 delete server.js"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "next": "^13.0.0",
+    "next-cookies": "^2.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.54.5"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^6.3.1",
+    "@types/node": "18.7.13",
+    "@types/react": "18.0.17",
+    "@types/react-dom": "18.0.6",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "eslint": "8.22.0",
+    "eslint-config-next": "^13.0.0",
+    "express": "^4.18.1",
+    "php-express": "0.0.3",
+    "typescript": "4.7.4"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xizon/fullstack-nextjs-app-template/issues"
+  },
+  "homepage": "https://github.com/xizon/fullstack-nextjs-app-template#readme"
+}
