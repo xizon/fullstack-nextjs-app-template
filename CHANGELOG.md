@@ -1,9 +1,10 @@
 # Changelog
 
-#### = 0.2.6 (October 30, 2022) =
+
+#### = 0.2.7 (October 31, 2022) =
 
 * Tweak: Tools to optimize remote downloads.
-
+* Tweak: Fix the parameter passing problem of build CLI.
 
 
 #### = 0.2.5 (October 27, 2022) =
