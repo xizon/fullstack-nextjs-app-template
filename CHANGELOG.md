@@ -1,7 +1,8 @@
 # Changelog
 
-#### = 0.3.1 (November 2, 2022) =
+#### = 0.3.2 (November 2, 2022) =
 
+* Fix: Fix script for matching image URLs
 * Tweak:Optimized sanitize function and content output in JSON format.
 
 
