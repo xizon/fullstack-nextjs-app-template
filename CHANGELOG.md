@@ -1,5 +1,9 @@
 # Changelog
 
+#### = 0.3.1 (November 2, 2022) =
+
+* Tweak:Optimized sanitize function and content output in JSON format.
+
 
 #### = 0.3.0 (October 31, 2022) =
 

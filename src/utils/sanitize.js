@@ -50,3 +50,18 @@ export function htmlDecode(str) {
     return res;
 
 }
+
+
+
+
+/**
+ * JSON string decode
+ *
+ * @param {string} str Input text
+ * @return {string} Filtered text
+ */
+ export function jsonStrDecode(str) {
+    return str.replace(/(?:\r\n|\r|\n)/g, "<br />");
+}
+
+

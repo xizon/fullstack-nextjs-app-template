@@ -8,6 +8,7 @@ import axios from "axios";
 import { matchAllImageUrls } from '@/utils/match-string.js';
 import { renameImage } from '@/utils/rename.js';
 
+import { jsonStrDecode } from "@/utils/sanitize";
 
 /** Render data
  * ---------------------------------
@@ -35,7 +36,7 @@ function PostSingle({ currentData }) {
                     <section className="intro intro-subpage">
                         <div className="container">
                             <div key={currentData.name}>
-                                <h2>{currentData.name}</h2>
+                                <h2 dangerouslySetInnerHTML={{__html: jsonStrDecode(currentData.name) }} />
                                 <img style={{ width: '220px', height: '150px' }} src={currentData.flag} />
                                 <br />
                                 <sub><strong>New path:</strong> {currentData.flag}</sub>
