@@ -13,8 +13,8 @@ import axios from "axios";
 
 
 import { useState, useEffect } from 'react';
-import apiRemoteToLocal from '@/utils/api-remote-to-local.js';
-import { matchAllImageUrls } from '@/utils/match-string.js';
+import apiRemoteToLocal from '@/utils/api-remote-to-local';
+import { matchAllImageUrls } from '@/utils/match-string';
 
 function Example() {
 

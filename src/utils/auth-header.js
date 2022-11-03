@@ -12,7 +12,7 @@ export default () => {
 /*
 Example:
 
-import authHeader from 'auth-header.js';
+import authHeader from 'auth-header';
 axios.post('api/path', {data: mydata}, { 
     headers: { 
         ...authHeader(),

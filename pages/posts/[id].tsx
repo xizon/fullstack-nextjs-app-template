@@ -5,8 +5,8 @@ import Footer from '@/components/Footer';
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 
-import { matchAllImageUrls } from '@/utils/match-string.js';
-import { renameImage } from '@/utils/rename.js';
+import { matchAllImageUrls } from '@/utils/match-string';
+import { renameImage } from '@/utils/rename';
 
 import { jsonStrDecode } from "@/utils/sanitize";
 

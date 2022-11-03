@@ -4,11 +4,11 @@ import Footer from '@/components/Footer';
 
 import { useEffect, useState, useRef } from 'react';
 
-import AuthService from "@/utils/dataservice-auth.js";
+import AuthService from "@/utils/dataservice-auth";
 
 
 // Authority 
-import isAdmin from '@/utils/is-admin.js';
+import isAdmin from '@/utils/is-admin';
 
 
 const SignIn = () => {

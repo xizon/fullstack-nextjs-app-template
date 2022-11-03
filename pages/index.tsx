@@ -7,7 +7,7 @@ import SocialMetadata from '@/components/SocialMetadata';
 
 
 import SvgIcon from "../public//assets/images/icon.svg";
-import CRUDService from "@/utils/dataservice-crud.js";
+import CRUDService from "@/utils/dataservice-crud";
 import { useEffect } from 'react';
 
 type Props = { 

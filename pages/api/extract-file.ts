@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import axios from "axios";
 
-import { renameImage } from '@/utils/rename.js';
+import { renameImage } from '@/utils/rename';
 
 
 const mkdirsSync = function (dirname) {

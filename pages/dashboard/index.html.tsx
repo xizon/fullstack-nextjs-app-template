@@ -10,7 +10,7 @@ import cookies from 'next-cookies';
 import { useEffect } from 'react';
 
 // Authority 
-import isAdmin from '@/utils/is-admin.js';
+import isAdmin from '@/utils/is-admin';
 
 
 /** Render data

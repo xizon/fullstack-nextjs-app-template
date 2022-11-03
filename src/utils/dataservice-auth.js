@@ -1,6 +1,6 @@
 import axios from 'axios';
 import apiUrls from '@/config/apiUrls';
-import { setCookie, delCookie } from '@/utils/cookies-tool.js';
+import { setCookie, delCookie } from '@/utils/cookies-tool';
 
 class AuthService {
 	

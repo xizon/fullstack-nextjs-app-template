@@ -2,8 +2,8 @@ import axios from 'axios';
 import apiUrls from '@/config/apiUrls';
 
 // Authority 
-import isAdmin from '@/utils/is-admin.js';
-import authHeader from '@/utils/auth-header.js';
+import isAdmin from '@/utils/is-admin';
+import authHeader from '@/utils/auth-header';
 
 
 class UserService {

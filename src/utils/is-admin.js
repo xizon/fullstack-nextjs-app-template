@@ -1,6 +1,6 @@
 // Authority 
-import authHeader from '@/utils/auth-header.js';
-import { getCookie } from '@/utils/cookies-tool.js';
+import authHeader from '@/utils/auth-header';
+import { getCookie } from '@/utils/cookies-tool';
 
 export default function isAdmin() {
 
