@@ -1,5 +1,10 @@
 # Changelog
 
+
+#### = 0.3.3 (November 8, 2022) =
+
+* Fix:  Correct query for URL parameters.
+
 #### = 0.3.2 (November 2, 2022) =
 
 * Fix: Fix script for matching image URLs

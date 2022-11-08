@@ -98,7 +98,7 @@ export async function getStaticProps(context) {
     let odata: any = null;
 
     try {
-        res = await axios.get(apiUrls.RECEIVE_DEMO_LISTDETAIL.replace('{id}', id.replace('.html', '')));
+        res = await axios.get(apiUrls.RECEIVE_DEMO_LISTDETAIL.replace('{id}', encodeURIComponent(id).replace('.html', '')));
 
         
         //update image URLs
