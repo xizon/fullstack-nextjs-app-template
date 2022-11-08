@@ -46,9 +46,7 @@ const Posts = () => {
 
               {!loaded ? <>Loading...</> : posts.map((post: any) => {
                 return (
-                    <li key={post.name}>
-                      {post.name} - (region: {post.region})
-                    </li>
+                    <li key={post.name} dangerouslySetInnerHTML={{__html: `${post.name} - (region: ${post.region})` }}></li>
                 );
               })}
               </ul>

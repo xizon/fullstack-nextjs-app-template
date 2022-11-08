@@ -1,7 +1,7 @@
 # Changelog
 
 
-#### = 0.3.4 (November 8, 2022) =
+#### = 0.3.5 (November 8, 2022) =
 
 * Fix:  Fix JSON content output.
 * Fix:  Correct query for URL parameters.

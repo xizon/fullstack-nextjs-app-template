@@ -34,9 +34,7 @@ function Posts({ currentData }) {
                 {!posts ? <>Loading...</> : posts.map((post: any) => {
                   return (
                     <li key={post.name}>
-                      <Link href={`/posts/${post.name}.html`}>
-                      {post.name} - (region: {post.region})
-                      </Link>
+                      <Link href={`/posts/${post.name}.html`} dangerouslySetInnerHTML={{__html: `${post.name} - (region: ${post.region})` }}></Link>
 
                       
                     </li>

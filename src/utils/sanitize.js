@@ -51,17 +51,3 @@ export function htmlDecode(str) {
 
 }
 
-
-
-
-/**
- * JSON string decode
- *
- * @param {string} str Input text
- * @return {string} Filtered text
- */
- export function jsonStrDecode(str) {
-    return str.replace(/(?:\r\n)/g, "<br />");
-}
-
-
