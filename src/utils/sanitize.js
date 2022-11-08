@@ -61,7 +61,7 @@ export function htmlDecode(str) {
  * @return {string} Filtered text
  */
  export function jsonStrDecode(str) {
-    return str.replace(/(?:\r\n|\r|\n)/g, "<br />");
+    return str.replace(/(?:\r\n)/g, "<br />");
 }
 
 
