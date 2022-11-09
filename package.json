@@ -2,7 +2,7 @@
   "author": "UIUX Lab",
   "email": "uiuxlab@gmail.com",
   "name": "fullstack-nextjs-app-template",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "A full-stack sample web application based on Next.js that creates a simple whole-website architecture.",
   "main": "next.config.js",
   "repository": {
@@ -27,7 +27,7 @@
     "build": "cross-env SKIP_BUILD_STATIC_GENERATION=true NODE_ENV=production node scripts/download-remote-images-from-API.js & cross-env SKIP_BUILD_STATIC_GENERATION=true NODE_ENV=production next build",
     "build:static": "cross-env NODE_ENV=production node scripts/download-remote-images-from-API.js & cross-env NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
-    "export": "next build && next export",
+    "export": "next build && next export && node scripts/publishing-to-platform.js",
     "export:fix": "node scripts/paths-static-page.js",
     "export:test": "node scripts/paths-static-page.js && node scripts/server-generated-static-site.js",
     "lint": "next lint",

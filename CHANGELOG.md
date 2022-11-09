@@ -1,9 +1,11 @@
 # Changelog
 
-#### = 0.3.6 (November 9, 2022) =
 
-* Fix:  Image matching problem with parameters.
 
+#### = 0.3.7 (November 9, 2022) =
+
+* Fix: Image matching problem with parameters.
+* Fix: Solve problems that may arise when publishing to e.g. Github page
 
 
 #### = 0.3.5 (November 8, 2022) =
