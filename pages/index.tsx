@@ -10,6 +10,8 @@ import SvgIcon from "../public//assets/images/icon.svg";
 import CRUDService from "@/utils/dataservice-crud";
 import { useEffect } from 'react';
 
+import appData from "@/data/app.json";
+
 type Props = { 
   protocol: string | null;
   host: string | null;
@@ -32,10 +34,10 @@ const Home: NextPage<Props> = () => {
         <meta name="description" content="A whole-website building solution based on Next.js. It serves as a case to sort out the thinking." />
 
         <SocialMetadata
-          ogTitle="HomePage"
-          ogDesc="A whole-website building solution based on Next.js. It serves as a case to sort out the thinking."
-          ogUrl="/"
-          ogImage="/assets/images/logo-black.png"
+          ogTitle={`HomePage`}
+          ogDesc={`A whole-website building solution based on Next.js. It serves as a case to sort out the thinking.`}
+          ogUrl={`${appData.siteUrl}/`}
+          ogImage={`${appData.siteUrl}/assets/images/logo-black.png`}
         />  
       </Head>
 

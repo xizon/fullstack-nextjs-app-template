@@ -447,24 +447,25 @@ There probably won’t be any messages if the service restarted successfully. Ot
 This project is based on [`create-next-app (Next.js v12.2.x+)`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) to create and extend the basic functions of the whole site.
 
 
-### (1) Node.js Port 3000 already in use but it actually isn't?
+
+### ⚙️ Node.js Port 3000 already in use but it actually isn't?
 
 run the following command
 ```sh
 $ killall -9 node
 ```
 
-### (2) Change the Favicon
+### ⚙️ Change the Favicon
 
 To change your Site Favicon, navigate the file `pages/_document.tsx` and modify the code between `<Head>`
 
 
-### (3) Customize Menu
+### ⚙️ Customize Menu
 
 Navigate the file `src/components/Header` and modify it.
 
 
-### (4) Set port in next.js
+### ⚙️ Set port in next.js
 
 In your package.json file, add -p 8080 to the dev/start scripts to start the server on port 8080:
 ```json
@@ -477,6 +478,21 @@ In your package.json file, add -p 8080 to the dev/start scripts to start the ser
 Alternatively, if you don't want to hardcode this in the package.json file, you could start the script with ENV variable PORT.
 ```sh
 $ PORT=8080 npm run dev
+```
+
+
+### ⚙️ Site URL (Root Directory) Configurations:
+
+Change the root directory of the website so that it can be used when you upload the project to another directory. Modify the key `siteUrl` of the `./src/data/app.json`.
+
+If the file is in the root directory, you can leave it empty. If in another directory, you can write: "/blog". **(no trailing slash)**
+
+
+```json
+{
+    "siteUrl": "http://localhost:3000",
+    "copyright": "xxxxxxxxxx"
+}
 ```
 
 
@@ -496,7 +512,7 @@ $ PORT=8080 npm run dev
 
 ## Supported development environment
 
-- Next.js 12.2.x + 
+- Next.js 13.x + 
 - React 18 +
 - TypeScript 4.x.x + 
 - Express 4.x.x

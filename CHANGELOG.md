@@ -2,6 +2,11 @@
 
 
 
+#### = 0.3.8 (November 12, 2022) =
+
+* New: Add Site URL (Root Directory) Configurations.
+
+
 #### = 0.3.7 (November 9, 2022) =
 
 * Fix: Image matching problem with parameters.

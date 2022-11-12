@@ -1,12 +1,15 @@
 import Head from 'next/head';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SocialMetadata from '@/components/SocialMetadata';
 
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 
 import { matchAllImageUrls } from '@/utils/match-string';
 import { renameImage } from '@/utils/rename';
+
+import appData from "@/data/app.json";
 
 
 /** Render data
@@ -25,6 +28,16 @@ function PostSingle({ currentData }) {
 
             <Head>
                 <title>{`${currentData.name} - Website Title`}</title>
+
+                <meta name="description" content="A whole-website building solution based on Next.js. It serves as a case to sort out the thinking." />
+
+                <SocialMetadata
+                ogTitle={`${currentData.name} - Website Title`}
+                ogDesc={`${currentData.name}`}
+                ogUrl={`${appData.siteUrl}/posts/${currentData.name}.html`}
+                ogImage={`${appData.siteUrl}${currentData.flag}`}
+                />  
+                
             </Head>
 
 

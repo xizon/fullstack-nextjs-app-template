@@ -3,13 +3,13 @@
  * <!-- Footer -->
  *************************************
  */
-import appInfo from "@/data/app.json";
+import appData from "@/data/app.json";
 
 export default function Footer() {
     return (
         <>
             <footer className="clearfix">
-               <p dangerouslySetInnerHTML={{__html: appInfo.copyright}}/>
+               <p dangerouslySetInnerHTML={{__html: appData.copyright}}/>
             </footer>
 
         </>
