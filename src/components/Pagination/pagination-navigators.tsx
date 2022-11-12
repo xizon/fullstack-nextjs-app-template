@@ -42,14 +42,15 @@ export function paginationNavigators(visibleNavigators, totalPages, activePage, 
 
     // symmetrical on the left and right sides
     if ( symmetry ) {
-        const totalDisplayedPages = visibleNavigators + (visibleNavigators - 1);
-        const activedPageIndex = result.indexOf(activePage);
-        const leftSideTotal = (visibleNavigators - 1) - activedPageIndex;
+        if ( totalPages > activePage ) {
+            const totalDisplayedPages = visibleNavigators + (visibleNavigators - 1);
+            const activedPageIndex = result.indexOf(activePage);
+            const leftSideTotal = (visibleNavigators - 1) - activedPageIndex;
 
-        for (let i = 1; i <= leftSideTotal; i++) {
-            result.unshift(activePage - i - activedPageIndex);
+            for (let i = 1; i <= leftSideTotal; i++) {
+                result.unshift(activePage - i - activedPageIndex);
+            }
         }
-
     }
 
 	

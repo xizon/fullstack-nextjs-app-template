@@ -156,14 +156,14 @@ export default function Pagination(props: PaginationProps) {
         _ellipsis = '';
     }
 
-    const _ellipsisElements = _ellipsisArr.map(item => {
+    const _ellipsisElements = _ellipsisArr.map((item, i) => {
         if (item > 0 && item <= totalPages && !_onlyPrevNextButtons) {
             //Delete values whose display range is more than the total
             if ( navArr.indexOf(item) === -1 ) {
                 _ellipsisEnabled = true;
 
                 return (
-                    <li key={item} className={activePage === item ? _activeClassName : ''}>
+                    <li key={i} className={activePage === item ? _activeClassName : ''}>
                         <a href={apiUrl.replace('{page}', item)} onClick={(e) => {
                             e.preventDefault(); 
                             gotoPageClickEvent(item);  
@@ -198,10 +198,10 @@ export default function Pagination(props: PaginationProps) {
 
 
                 {
-                    navArr.map(item => {
+                    navArr.map((item, i) => {
                         if (item > 0 && item <= totalPages && !_onlyPrevNextButtons) {
                             return (
-                                <li key={item} className={activePage === item ? _activeClassName : ''}>
+                                <li key={i} className={activePage === item ? _activeClassName : ''}>
                                     <a href={apiUrl.replace('{page}', item)} onClick={(e) => { 
                                         e.preventDefault(); 
                                         gotoPageClickEvent(item); 

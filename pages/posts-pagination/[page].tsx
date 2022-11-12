@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 import Pagination from '@/components/Pagination';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 //page
 import pageData from "@/data/page.json";
@@ -33,6 +33,19 @@ function PostsPagination({ currentData, page, perPage }) {
         //
         setCurrentPage(number);
     }
+
+
+    //
+    //
+    useEffect(() => {
+
+        // page changed
+        //-----
+        setCurrentPage(parseFloat(page));
+
+
+    }, [page]);
+
 
     return (
         <>
@@ -72,6 +85,7 @@ function PostsPagination({ currentData, page, perPage }) {
                                     lastLabel={<>Last</>}
                                     align="center"
                                     symmetry={true}
+                                    breakLabel="..."
                                 />
                             </div>
 
@@ -234,8 +248,8 @@ const myfunc = async () => {
     } catch (err) { };
 
     return {
-        currentData1: res1 !== null ? res1.data : '',
-        currentData12: res2 !== null ? res2.data : 0,
+        currentData1: res1 !== null ? res1.data : null,
+        currentData2: res2 !== null ? res2.data : 0,
     }
 }
 */
