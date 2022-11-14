@@ -18,6 +18,17 @@ const nextConfig = {
     env: {
         STATIC_URL: '/public',
     }
+    /*
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: process.env.NODE_ENV === 'development' ? '/index.html' : '/',
+                permanent: true,
+            },
+        ]
+    },
+    */
 }
 
 module.exports = nextConfig
