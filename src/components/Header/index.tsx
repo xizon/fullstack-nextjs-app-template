@@ -5,6 +5,8 @@
  */
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import BackToTop from '@/components/BackToTop';
+
 
 const Link = ({ children, href, ...attributes }) => {
 
@@ -45,6 +47,7 @@ export default function Header() {
 
     return (
         <>
+            <BackToTop speed={700} easing="easeOut" />
             <header>
                 <div className="container">
                     <div className="brand">

@@ -1,6 +1,10 @@
 # Changelog
 
 
+#### = 0.4.0 (November 17, 2022) =
+
+* New: Add general component <BackToTop />.
+
 
 #### = 0.3.9 (November 12, 2022) =
 
