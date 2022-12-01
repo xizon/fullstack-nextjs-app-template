@@ -27,7 +27,7 @@ export default async function handler(
 
     const filepath: any = req.query.sourceurl;
     const newFilename = renameImage(filepath);
-    const targetPath = path.resolve(__dirname, publicDir + 'static-remote/images/' + newFilename);
+    const targetPath = path.resolve(__dirname, publicDir + 'static-remote/files/' + newFilename);
 
     if ( ! fs.existsSync(targetPath) ) {
         // download remote assets
@@ -41,7 +41,7 @@ export default async function handler(
 
             // from  `.next/server/...`
             mkdirsSync(path.resolve(__dirname, publicDir + 'static-remote/'));
-            mkdirsSync(path.resolve(__dirname, publicDir + 'static-remote/images/'));
+            mkdirsSync(path.resolve(__dirname, publicDir + 'static-remote/files/'));
 
             //
             if ( !fs.existsSync(targetPath) ) {
@@ -51,7 +51,7 @@ export default async function handler(
         } catch (err) { };
     }
     
-    res.status(200).send(`/static-remote/images/${newFilename}`);
+    res.status(200).send(`/static-remote/files/${newFilename}`);
 
 
 

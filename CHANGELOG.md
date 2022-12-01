@@ -1,6 +1,11 @@
 # Changelog
 
 
+#### = 0.4.1 (December 1, 2022) =
+
+* New: Remote resource download support video and audio.
+
+
 #### = 0.4.0 (November 17, 2022) =
 
 * New: Add general component <BackToTop />.

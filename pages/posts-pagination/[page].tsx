@@ -17,9 +17,6 @@ function PostsPagination({ currentData, page, perPage }) {
 
     const [currentPage, setCurrentPage] = useState<number>(parseFloat(page));
 
-    // no date
-    //---------
-    if (currentData === null) return null;
 
     //
     //---------
@@ -47,7 +44,7 @@ function PostsPagination({ currentData, page, perPage }) {
     }, [page]);
 
 
-    return (
+    return currentData === null ? null : (
         <>
             <Head>
                 <title>{`Posts Pagination(page ${page})`}</title>

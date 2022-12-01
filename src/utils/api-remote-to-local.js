@@ -14,7 +14,7 @@ import axios from "axios";
 
 import { useState, useEffect } from 'react';
 import apiRemoteToLocal from '@/utils/api-remote-to-local';
-import { matchAllImageUrls } from '@/utils/match-string';
+import { matchAllFilesUrls } from '@/utils/match-string';
 
 function Example() {
 
@@ -24,12 +24,12 @@ function Example() {
         // Download and update image URLs from remote server
         // 
         // !!!!Note: that if you use the production environment, you cannot monitor the newly added resources in the `public` 
-        // in real time, and you need to restart, so we download remote images via `npm run build`
+        // in real time, and you need to restart, so we download remote files via `npm run build`
         const formatData = async () => {
 
             if ( odata === null ) return;
 
-            const allImages = matchAllImageUrls(orginData);
+            const allImages = matchAllFilesUrls(orginData);
             const newData = await apiRemoteToLocal(odata, allImages);
             setOdata( newData );       
         };
