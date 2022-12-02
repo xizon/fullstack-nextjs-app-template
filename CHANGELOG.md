@@ -1,5 +1,9 @@
 # Changelog
 
+#### = 0.4.2 (December 2, 2022) =
+
+* Tweak: some minor optimizations.
+
 
 #### = 0.4.1 (December 1, 2022) =
 

@@ -1,10 +1,10 @@
 /**
- * Rename a image to another from URL path
+ * Rename a file to another from URL path
  *
  * @param {string} filepath The current file path
  * @return {string} A new file name
  */
-function renameImage(filepath) {
+function renameFile(filepath) {
 
     const fileslug = filepath.split('//').pop();
     const filename = filepath.split('/').pop();
@@ -17,5 +17,5 @@ function renameImage(filepath) {
 
 // node & browser
 module.exports = {
-    renameImage
+    renameFile
 }

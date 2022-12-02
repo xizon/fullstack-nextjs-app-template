@@ -9,7 +9,7 @@ const path = require('path');
 const axios = require('axios');
 
 const { matchAllFilesUrls } = require('../src/utils/match-string.js');
-const { renameImage } = require('../src/utils/rename.js');
+const { renameFile } = require('../src/utils/rename.js');
 
 const mkdirsSync = function (dirname) {
     if (fs.existsSync(dirname)) {
@@ -32,7 +32,7 @@ axios.get(apiUrls.RECEIVE_DEMO_LIST).then((response) => {
 
         //
         const publicDir = '../public/';
-        const newFilename = renameImage(filepath);
+        const newFilename = renameFile(filepath);
         const targetPath = path.resolve(__dirname, publicDir + 'static-remote/files/' + newFilename);
 
         if (!fs.existsSync(targetPath)) {

@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import axios from "axios";
 
-import { renameImage } from '@/utils/rename';
+import { renameFile } from '@/utils/rename';
 
 
 const mkdirsSync = function (dirname) {
@@ -26,7 +26,7 @@ export default async function handler(
     const publicDir = '../../../../public/';
 
     const filepath: any = req.query.sourceurl;
-    const newFilename = renameImage(filepath);
+    const newFilename = renameFile(filepath);
     const targetPath = path.resolve(__dirname, publicDir + 'static-remote/files/' + newFilename);
 
     if ( ! fs.existsSync(targetPath) ) {

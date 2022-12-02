@@ -7,6 +7,7 @@
 
 ## Table of Contents
 
+* [Scheme](#scheme)
 * [File Structures](#file-structures)
 * [Getting Started](#getting-started)
 * [Deploy on Custom Server](#deploy-on-custom-server)
@@ -15,6 +16,38 @@
 * [Supported development environment](#supported-development-environment)
 * [Changelog](#changelog)
 * [Licensing](#licensing)
+
+
+## Scheme
+
+List my progress here:
+
+
+| Function Block |  Supports  |
+| --- | --- |
+| Navigation | ✔ |
+| Parameter Acquisition | ✔ |
+| Pagination | ✔ |
+| Basic Components | ✔ |
+| Authorization | ✔ |
+| Login | ✔ |
+| Register | ✔ |
+| Network Requests | ✔ |
+| Routes Demo | ✔ |
+| API Demo | ✔ |
+| CURD Demo | ✔ |
+| JWT Demo | ✔ |
+| File Import | ✔ |
+| SEO Premium | ✔ |
+| Static Pages | ✔ |
+| Incremental Static Regeneration | ✔ |
+| Remote Download | ✔ |
+| Fully Static HTML Files Generation | ✔ |
+| Custom Server | ✔ |
+| Frontend Page Interacts With Node | ✔ |
+| Alias Support | ✔ |
+| Local PHP Service Association | ✔ |
+| Server Deployment | ✔ |
 
 
 

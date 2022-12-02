@@ -7,7 +7,7 @@ import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 
 import { matchAllFilesUrls } from '@/utils/match-string';
-import { renameImage } from '@/utils/rename';
+import { renameFile } from '@/utils/rename';
 
 import appData from "@/data/app.json";
 
@@ -120,7 +120,7 @@ export async function getStaticProps(context) {
         const allImages = matchAllFilesUrls(orginData);
         allImages.forEach((filepath) => {
 
-            const newFilename = renameImage(filepath);
+            const newFilename = renameFile(filepath);
 
             //
             const re = new RegExp(filepath, "g");
