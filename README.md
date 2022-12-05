@@ -332,6 +332,17 @@ $ pm2 stop "fullstack-nextjs-app-template" & pm2 delete "fullstack-nextjs-app-te
 ```
 
 
+#### 3.5) Detect available init system, generate configuration and enable startup system, and you can check the status of the same using
+
+```sh
+$ pm2 startup
+$ systemctl status pm2-root
+$ pm2 start /{your_directory}/fullstack-nextjs-app-template/server.js --restart-delay=3000
+$ pm2 save
+```
+
+
+
 <blockquote>
 <h3>💡 Some solutions to problems that may occur when deploying the application with NPM or PM2 on cloud server:</h3>
  
