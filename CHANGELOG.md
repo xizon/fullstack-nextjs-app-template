@@ -1,5 +1,16 @@
 # Changelog
 
+
+#### = 0.4.3 (March 2, 2022) =
+
+* New: Added configuration for deploying with Docker.
+  - change `next.config.js`
+  - add `Dockerfile` & `.dockerignore`
+
+* New: Added an example using dynamic component imports.
+* New: Added examples of dynamic routing API.
+
+
 #### = 0.4.2 (December 2, 2022) =
 
 * Tweak: some minor optimizations.

@@ -2,6 +2,11 @@
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
+    
+    // for docker
+    // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
+    output: 'standalone', 
+
     //  add a page route with html extension 
     // Rename the file under pages directory to `.html.tsx`
     pageExtensions: ['html.jsx', 'jsx', 'js', 'tsx', 'ts'],

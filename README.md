@@ -37,6 +37,7 @@ List my progress here:
 | API Demo | ✔ |
 | CURD Demo | ✔ |
 | JWT Demo | ✔ |
+| Dynamic Routes Demo | ✔ |
 | File Import | ✔ |
 | SEO Premium | ✔ |
 | Static Pages | ✔ |
@@ -48,6 +49,7 @@ List my progress here:
 | Alias Support | ✔ |
 | Local PHP Service Association | ✔ |
 | Server Deployment | ✔ |
+| Deploy Using Docker | ✔ |
 
 
 
@@ -65,6 +67,8 @@ fullstack-nextjs-app-template/
 ├── tsconfig.json
 ├── package-lock.json
 ├── package.json 
+├── .dockerignore
+├── Dockerfile
 ├── out/  
 ├── scripts/  
 ├── public/  
@@ -539,6 +543,205 @@ If the file is in the root directory, you can leave it empty. If in another dire
 }
 ```
 
+### ⚙️ Deploy Using Docker:
+
+**Step 1.** First download docker (version Intel chip, note. macOs10.14 and below versions use up to version 4.11.0)
+
+https://docs.docker.com/desktop/release-notes/#4110
+
+
+install docker on ubuntu
+
+```sh
+$ sudo apt-get update
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+$ sudo docker run hello-world
+```
+
+
+**Step 2.** Create a new file `Dockerfile` in the root directory of the application
+
+
+```sh
+$ cd /Applications/MAMP/htdocs/fullstack-nextjs-app-template
+$ touch Dockerfile
+$ vi Dockerfile
+```
+
+the following:
+
+```sh
+
+# Use official Node mirrors.
+# https://hub.docker.com
+FROM node:18.14.2-alpine3.17 AS base
+
+
+# Install dependencies only when needed
+FROM base AS deps
+
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+
+RUN apk add --no-cache libc6-compat
+WORKDIR /fullstack-nextjs-app-template
+
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+    
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /fullstack-nextjs-app-template
+COPY --from=deps /fullstack-nextjs-app-template/node_modules ./node_modules
+COPY . .
+
+
+# Other custom operations
+# Copy the local code into the container (copy the custom page to the software core library)
+# Copying a single file can be written as COPY index.php /var/www/html/
+# Copy folder can be written as COPY ./files/ /var/www/html/
+
+# Check if the folder exists
+RUN if test -e ./custom; then cp -avr ./custom/pages/ /fullstack-nextjs-app-template/; cp -avr ./custom/src/ /fullstack-nextjs-app-template/; cp -avr ./custom/public/ /fullstack-nextjs-app-template/; fi
+
+
+# Build the project
+RUN npm run build
+
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /fullstack-nextjs-app-template
+
+ENV NODE_ENV production
+
+
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry during the build.
+# ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /fullstack-nextjs-app-template/public ./public
+
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /fullstack-nextjs-app-template/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /fullstack-nextjs-app-template/.next/static ./.next/static
+
+
+USER nextjs
+
+# Declare port 3000, just tell the mirror user the default port, the actual mapping will be informed below
+EXPOSE 3000
+
+ENV PORT 3000
+
+# run node script (deploy custom server configuration)
+CMD ["node", "server.js"]
+
+```
+
+…
+
+
+**Step 3.** To add support for Docker to an existing project, simply copy the Dockerfile to the root of the project and add the following to the `next.config.js` file:
+
+```js
+// next.config.js
+module.exports = {
+     // ... rest of the configuration.
+       output: 'standalone',
+}
+```
+
+
+
+**Step 4.** Build your container:
+Syntax: docker build [OPTIONS] PATH | URL | -
+
+! ! ! Note: The last path is a point, don't miss it
+
+```sh
+$ docker build -t fullstack-nextjs-app-template:v1 .
+```
+
+[The first deployment takes a few minutes because it needs other docker libraries, and it only takes tens of seconds after that]
+
+
+**Step 5.** Run your application. Based on the tags you gave your Dockerfile, you can now run them with the docker run command.
+
+The -p flag exposes the container's ports to services outside of docker (the first port is the port exposed to the outside).
+
+Run your container:
+
+```sh
+$ docker run -p 3000:3000 fullstack-nextjs-app-template:v1
+```
+
+
+
+**Step 6.** Persistence running (exit the command panel is still executed, add a parameter -d)
+
+Run the image with -d to run the container in detached mode, leaving the container running in the background. The -p flag redirects the public port to a private port inside the container.
+
+```sh
+$ docker run -p 3000:3000 -d fullstack-nextjs-app-template:v1
+```
+
+
+
+**Step 7.** Docker process check
+
+```sh
+$ docker ps
+$ docker stop <PID>
+$ docker kill <PID>
+```
+
+
+
+**Step 8.** Node.js process check
+
+The process already exists, to delete, for example, port 3000
+
+```sh
+#Query the process of port 3000
+$ lsof -i tcp:3000
+
+#PID is replaced by the id of the process
+$ kill -9 <PID>
+```
+
+**Step 9.** Export the image
+
+View the container that is running in the background (note that you need to run it first to find the id)
+
+```sh
+$ docker ps
+```
+
+To package the running docker container into an image image, run `docker commit <container_id> <image_name:version>`
+
+```sh
+$ docker commit 16cb27979742 fullstack-nextjs-app-template:v1
+```
+
+Next, save the newly packaged image as a tar file, run `docker save <image_name:version> -o <path_name>`
+
+
+```sh
+$ docker save fullstack-nextjs-app-template:v1 -o ./fullstack-nextjs-app-template-v1.tar
+```
 
 
 ## Contributing

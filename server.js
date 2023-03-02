@@ -1,6 +1,8 @@
-const { createServer } = require('http');
 const { parse } = require('url');
 const next = require('next');
+const path = require('path');
+
+const express = require('express')
 
 let dev = process.env.NODE_ENV !== 'production';
 dev = false;  // need run `npm run build` first
@@ -11,19 +13,42 @@ const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
 
-
-
 app.prepare().then(() => {
-    createServer(async (req, res) => {
+
+
+    /**
+     * ----------------------------------------------------------------
+     * Using express()
+     * ----------------------------------------------------------------
+     */
+    const server = express();
+
+    // Static resources in plugins can be used dynamically (no need to redeploy)
+    // you can visit the static URL like this: http://localhost:3000/vars/custom-page/
+    server.use("/vars", express.static(__dirname + "/plugins"));
+  
+    server.all('*', async (req, res) => {
+  
         try {
+
+
             // Be sure to pass `true` as the second argument to `url.parse`.
             // This tells it to parse the query portion of the URL.
             const parsedUrl = parse(req.url, true)
-            const { pathname, query } = parsedUrl
+            const { pathname, query } = parsedUrl;
+
+
+            // extract URL path
+            // by limiting the path to current directory only
+            const sanitizePath = path.normalize(parsedUrl.pathname).replace(/^(\.\.[\/\\])+/, '');
+            let fileDirectory = path.join(__dirname, sanitizePath);
+
 
             // Get current router
             // such as: `/`, `/path1/path2`
             const curRoute = req.headers.referer !== undefined ? req.headers.referer.split( req.headers.host )[1] : '';
+
+            
        
             // Generate statistics data
             if (curRoute === '/') {
@@ -47,18 +72,26 @@ app.prepare().then(() => {
             res.statusCode = 500
             res.end('internal server error')
         }
-    }).listen(port, (err) => {
-        if (err) throw err
-        console.log(`> Ready on http://${hostname}:${port}`)
-    })
+
+    });
+
+    server.listen(port, (err) => {
+      if (err) throw err
+      console.log(`> Ready on http://${hostname}:${port}`)
+    });
+
 })
 
 
 
 
+/**
+ * ----------------------------------------------------------------
+ * Supprt HTTPS (Using https.createServer())
+ * ----------------------------------------------------------------
+ */
 /*
 
-// Supprt HTTPS
 const fs = require('fs');
 const path = require('path');
 const https = require('https');

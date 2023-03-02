@@ -34,9 +34,14 @@ const config = {
 	 TYPE: Downlaod remote file
 	 ------------------------------------------
 	*/
-    "DOWNLOAD_REMOTE_FILE": `http://localhost:3000/api/extract-file?sourceurl={sourceurl}`
+    "DOWNLOAD_REMOTE_FILE": `http://localhost:3000/api/extract-file?sourceurl={sourceurl}`,
 
-
+	/*
+	 TYPE: Dynamic Routes
+	 ------------------------------------------
+	*/
+    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
+    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page2`
 };
 
 
@@ -84,7 +89,14 @@ const localConfig = {
 	 TYPE: Downlaod remote file
 	 ------------------------------------------
 	*/
-    "DOWNLOAD_REMOTE_FILE": `http://localhost:3000/api/extract-file?sourceurl={sourceurl}`
+    "DOWNLOAD_REMOTE_FILE": `http://localhost:3000/api/extract-file?sourceurl={sourceurl}`,
+
+	/*
+	 TYPE: Dynamic Routes
+	 ------------------------------------------
+	*/
+    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
+    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page2`
 
 	
 };
