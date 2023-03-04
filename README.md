@@ -70,6 +70,7 @@ fullstack-nextjs-app-template/
 ├── .dockerignore
 ├── Dockerfile
 ├── out/  
+├── backend/  
 ├── scripts/  
 ├── public/  
 ├── pages/ 
@@ -79,7 +80,6 @@ fullstack-nextjs-app-template/
 │   ├── config/
 │   └── components/
 │   └── styles/
-│   └── server/
 │   └── utils/
 └──
 ```
@@ -134,7 +134,7 @@ $ npm run start
 ```sh
 $ npm run phpserver
 ```
-Please use a PHP server environment with a local port of 4000, check the file at `./src/server/php-runner.js`
+Please use a PHP server environment with a local port of 4000, check the file at `./backend/php-runner.js`
 
 
 

@@ -1,5 +1,9 @@
 # Changelog
 
+#### = 0.4.4 (March 4, 2022) =
+
+* Tweak: Some updates using nodejs as server side.
+
 
 #### = 0.4.3 (March 2, 2022) =
 

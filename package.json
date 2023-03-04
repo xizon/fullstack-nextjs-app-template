@@ -2,7 +2,7 @@
   "author": "UIUX Lab",
   "email": "uiuxlab@gmail.com",
   "name": "fullstack-nextjs-app-template",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "A full-stack sample web application based on Next.js that creates a simple whole-website architecture.",
   "main": "next.config.js",
   "repository": {
@@ -23,7 +23,7 @@
     "next"
   ],
   "scripts": {
-    "dev": "next dev & node src/server/php-runner.js",
+    "dev": "next dev & node backend/php-runner.js",
     "build": "cross-env SKIP_BUILD_STATIC_GENERATION=true NODE_ENV=production node scripts/download-remote-files-from-API.js & cross-env SKIP_BUILD_STATIC_GENERATION=true NODE_ENV=production next build",
     "build:static": "cross-env NODE_ENV=production node scripts/download-remote-files-from-API.js & cross-env NODE_ENV=production next build",
     "start": "NODE_ENV=production node server.js",
@@ -31,8 +31,8 @@
     "export:fix": "node scripts/paths-static-page.js",
     "export:test": "node scripts/paths-static-page.js && node scripts/server-generated-static-site.js",
     "lint": "next lint",
-    "phpserver": "node src/server/php-runner.js",
-    "deploy:dev": "cross-env NODE_ENV=development pm2 start server.js & node src/server/php-runner.js",
+    "phpserver": "node backend/php-runner.js",
+    "deploy:dev": "cross-env NODE_ENV=development pm2 start server.js & node backend/php-runner.js",
     "deploy:prod": "cross-env NODE_ENV=production pm2 start server.js",
     "destroy": "pm2 stop server.js & pm2 delete server.js"
   },
