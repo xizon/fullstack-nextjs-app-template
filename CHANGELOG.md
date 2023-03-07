@@ -1,11 +1,17 @@
 # Changelog
 
-#### = 0.4.4 (March 4, 2022) =
+
+#### = 0.4.5 (March 7, 2023) =
+
+* New: Added some small tools for parsing HTML source code.
+
+
+#### = 0.4.4 (March 4, 2023) =
 
 * Tweak: Some updates using nodejs as server side.
 
 
-#### = 0.4.3 (March 2, 2022) =
+#### = 0.4.3 (March 2, 2023) =
 
 * New: Added configuration for deploying with Docker.
   - change `next.config.js`

@@ -6,7 +6,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const json = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json')));
+const configPath = path.resolve(__dirname, '../../package.json');
+const json = JSON.parse(fs.readFileSync(configPath));
 const AdmZip = require("adm-zip");
 
 const currPath = path.resolve(__dirname, '../../my-package/');
@@ -33,12 +34,12 @@ async function createZipArchive() {
 
     // delete unnecessary files and folders
     fs.rmSync(newPath, { recursive: true });
-    console.log('\x1b[36m%s\x1b[0m', `--> Deleted ${newPath} successfully`);
+    console.log('\x1b[36m%s\x1b[0m', `--> (Step 2)  Deleted "${json.name}" successfully`);
     fs.rmSync(oldpackPath, { recursive: true });
-    console.log('\x1b[36m%s\x1b[0m', `--> Deleted ${oldpackPath} successfully`);
+    console.log('\x1b[36m%s\x1b[0m', `--> (Step 2)  Deleted "${json.name}.zip" successfully`);
 
 
-    console.log('\x1b[36m%s\x1b[0m', `--> Created "my-package/${outputFile}" successfully`);
+    console.log('\x1b[36m%s\x1b[0m', `--> (Step 2)  Created "my-package/${outputFile}" successfully`);
     
 }
 
@@ -47,7 +48,7 @@ async function createZipArchive() {
 // ----------------------------------
 if (fs.existsSync(currPath)) {
     fs.renameSync(currPath, newPath);
-    console.log('\x1b[36m%s\x1b[0m', `--> Successfully renamed the directory to "${json.name}"`);
+    console.log('\x1b[36m%s\x1b[0m', `--> (Step 2)  Successfully renamed the directory "my-package" to "${json.name}"`);
     
     //package folder
     createZipArchive();

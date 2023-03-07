@@ -78,8 +78,8 @@ fullstack-nextjs-app-template/
 │   └── *.tsx
 ├── src/
 │   ├── config/
-│   └── components/
-│   └── styles/
+│   ├── components/
+│   ├── styles/
 │   └── utils/
 └──
 ```
