@@ -1,9 +1,11 @@
 # Changelog
 
 
-#### = 0.4.5 (March 7, 2023) =
+#### = 0.4.6 (March 7, 2023) =
 
 * New: Added some small tools for parsing HTML source code.
+* Tweak: Updated some Node scripts.
+* Tweak: Adjusted some dependencies.
 
 
 #### = 0.4.4 (March 4, 2023) =

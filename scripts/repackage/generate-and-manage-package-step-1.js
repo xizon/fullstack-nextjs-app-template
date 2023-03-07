@@ -65,8 +65,8 @@ if (fs.existsSync(currPath)) {
             fs.readFile(file, 'utf8', function (err, data) {
                 if (err) return console.log(err);
 
-                const result = data.replace(/\/static\//g, `/plugins/${json.name}/static/`)
-                                     .replace(/\/assets\//g, `/plugins/${json.name}/assets/`);
+                const result = data.replace(/\/static\//g, `/plugins/${json.name}/${json.version}/static/`)
+                                     .replace(/\/assets\//g, `/plugins/${json.name}/${json.version}/assets/`);
 
                 fs.writeFile(file, result, 'utf8', function (err) {
                     if (err) return console.log(err);

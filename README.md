@@ -641,14 +641,25 @@ COPY --from=builder --chown=nextjs:nodejs /fullstack-nextjs-app-template/.next/s
 
 USER nextjs
 
+# run node script (deploy custom server configuration)
+# Execute a single file, please use the following command
 # Declare port 3000, just tell the mirror user the default port, the actual mapping will be informed below
 EXPOSE 3000
-
 ENV PORT 3000
-
 # run node script (deploy custom server configuration)
 CMD ["node", "server.js"]
 
+
+
+# # Execute multiple files using node (write entry point)
+# RUN printf "node server.js\nnode backend/server-core.js\n" > entrypoint.sh
+# # Declare 3000 and 4001 ports, just tell the mirror user the default port, the actual mapping will be informed below
+# EXPOSE 3000
+# ENV PORT 3000
+# EXPOSE 4001
+# ENV PORT 4001
+# # Execute bash file
+# CMD ["/bin/sh", "entrypoint.sh"]
 ```
 
 …

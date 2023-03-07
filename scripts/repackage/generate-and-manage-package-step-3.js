@@ -11,11 +11,12 @@ const AdmZip = require("adm-zip");
 const configPath = path.resolve(__dirname, '../../package.json');
 const json = JSON.parse(fs.readFileSync(configPath));
 
-const targetPath = path.resolve(__dirname, `../../public/${json.name}/`);
-const filePath = path.resolve(__dirname, `../../my-package/${json.name}.zip`);
+const outputFile = `${json.name}@${json.version}.zip`;
+const targetPath = path.resolve(__dirname, `../../public/${json.name}/${json.version}/`);
+const filePath = path.resolve(__dirname, `../../my-package/${outputFile}`);
 
 // Unzip file
 // ----------------------------------
 const zip = new AdmZip(filePath);
 zip.extractAllTo(targetPath, /*overwrite*/ true);
-console.log('\x1b[36m%s\x1b[0m', `--> (Step 3)  Extracted "my-package/${json.name}.zip" to "public/${json.name}/" successfully`);
+console.log('\x1b[36m%s\x1b[0m', `--> (Step 3)  Extracted "my-package/${outputFile}" to "public/${json.name}/${json.version}/*" successfully`);

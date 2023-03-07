@@ -13,12 +13,13 @@ const AdmZip = require("adm-zip");
 const currPath = path.resolve(__dirname, '../../my-package/');
 const newPath = path.resolve(__dirname, `../../${json.name}/`);
 
+
 // create an independent plug-in zip package, 
 // which will be used for independent installation and use of the main program
 // ----------------------------------
 async function createZipArchive() {
     const zip = new AdmZip();
-    const outputFile = `${json.name}.zip`;
+    const outputFile = `${json.name}@${json.version}.zip`;
     zip.addLocalFolder(newPath);
     zip.writeZip(outputFile);
 
@@ -27,16 +28,17 @@ async function createZipArchive() {
         fs.mkdirSync(currPath, { recursive: true });
     }
     
+
     // move the package
-    const oldpackPath = path.resolve(__dirname, `../../${json.name}.zip`);
-    const newpackPath = path.resolve(__dirname, `../../my-package/${json.name}.zip`);
+    const oldpackPath = path.resolve(__dirname, `../../${outputFile}`);
+    const newpackPath = path.resolve(__dirname, `../../my-package/${outputFile}`);
     fs.copyFileSync(oldpackPath, newpackPath);
 
     // delete unnecessary files and folders
     fs.rmSync(newPath, { recursive: true });
     console.log('\x1b[36m%s\x1b[0m', `--> (Step 2)  Deleted "${json.name}" successfully`);
     fs.rmSync(oldpackPath, { recursive: true });
-    console.log('\x1b[36m%s\x1b[0m', `--> (Step 2)  Deleted "${json.name}.zip" successfully`);
+    console.log('\x1b[36m%s\x1b[0m', `--> (Step 2)  Deleted "${outputFile}" successfully`);
 
 
     console.log('\x1b[36m%s\x1b[0m', `--> (Step 2)  Created "my-package/${outputFile}" successfully`);
