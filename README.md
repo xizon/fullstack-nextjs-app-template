@@ -755,6 +755,55 @@ $ docker save fullstack-nextjs-app-template:v1 -o ./fullstack-nextjs-app-templat
 ```
 
 
+### ⚠️ Installation Error or Unable To Run:
+
+
+a) Has `node_modules` folder, just do it directly.
+
+If running `npm run <script>` fails because Node has been upgraded, use `npx -p node@<version> <your_script>` to run:
+
+such as
+
+```sh
+$ npx -p node@15.14.0 npm run dev
+$ npx -p node@14.21.3 npm run start
+```
+
+
+
+b) If there is no `node_modules` folder, using `npm install --legacy-peer-deps` is still unsuccessful. After deleting the dependencies of **package.json** and remove file **package-lock.json**, use the following command to reinstall:
+
+```sh
+$ npm install <package1> <package2> --legacy-peer-deps
+$ npm install --save-dev <package1> <package2> --legacy-peer-deps
+```
+
+
+c) NPM or NPX cache error
+
+View the location of the local npm cache:
+```sh
+$ npm config get cache
+```
+
+Clear cache (npm and npx)
+```sh
+$ npm cache clean --force
+```
+
+or
+
+```sh
+$ rm -rf ~/.npm
+```
+
+Check cache
+```sh
+$ npm cache verify
+```
+
+
+
 ## Contributing
 
 - [React](https://reactjs.org/)
