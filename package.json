@@ -2,7 +2,7 @@
   "author": "UIUX Lab",
   "email": "uiuxlab@gmail.com",
   "name": "fullstack-nextjs-app-template",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "A full-stack sample web application based on Next.js that creates a simple whole-website architecture.",
   "main": "next.config.js",
   "repository": {
@@ -32,6 +32,7 @@
     "export:test": "node scripts/paths-static-page.js && node scripts/server-generated-static-site.js",
     "lint": "next lint",
     "phpserver": "node backend/php-runner.js",
+    "config:rootdir": "node scripts/config-rootdir-of-publishing-source.js",
     "deploy:dev": "cross-env NODE_ENV=development pm2 start server.js & node backend/php-runner.js",
     "deploy:prod": "cross-env NODE_ENV=production pm2 start server.js",
     "destroy": "pm2 stop server.js & pm2 delete server.js"

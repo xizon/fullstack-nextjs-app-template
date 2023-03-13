@@ -1,5 +1,9 @@
 # Changelog
 
+#### = 0.4.8 (March 13, 2023) =
+
+* New: Added new script that allows configuring the root directory of publishing source.
+
 
 #### = 0.4.6 (March 7, 2023) =
 
