@@ -80,7 +80,7 @@ CMD ["node", "server.js"]
 
 
 # # Execute multiple files using node (write entry point)
-# RUN printf "node server.js\nnode backend/server-core.js\n" > entrypoint.sh
+# RUN printf "node server.js\nnode backend/php-runner.js\n" > entrypoint.sh
 # # Declare 3000 and 4001 ports, just tell the mirror user the default port, the actual mapping will be informed below
 # EXPOSE 3000
 # ENV PORT 3000

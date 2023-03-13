@@ -1,8 +1,9 @@
 # Changelog
 
-#### = 0.4.8 (March 13, 2023) =
+#### = 0.4.9 (March 13, 2023) =
 
 * New: Added new script that allows configuring the root directory of publishing source.
+* New: Added the file `ecosystem.config.js` and modified the PM2 script.
 
 
 #### = 0.4.6 (March 7, 2023) =

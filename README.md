@@ -63,6 +63,7 @@ fullstack-nextjs-app-template/
 ├── LICENSE
 ├── next.config.js
 ├── server.js
+├── ecosystem.config.js
 ├── middleware.ts
 ├── tsconfig.json
 ├── package-lock.json
@@ -132,7 +133,7 @@ $ npm run start
 ### Start the PHP server independently:
 
 ```sh
-$ npm run phpserver
+$ npm run action:phpserver
 ```
 Please use a PHP server environment with a local port of 4000, check the file at `./backend/php-runner.js`
 
@@ -313,12 +314,12 @@ $ cd /{your_directory}/fullstack-nextjs-app-template
 
 
 #run app
-$ pm2 start xxxx.js
+$ pm2 start ecosystem.config.js
 
 #other commands
-$ pm2 restart xxxx.js
-$ pm2 stop xxxx.js
-$ pm2 delete xxxx.js
+$ pm2 restart ecosystem.config.js
+$ pm2 stop ecosystem.config.js
+$ pm2 delete ecosystem.config.js
 $ pm2 list
 $ pm2 logs
 ```
@@ -341,7 +342,7 @@ $ pm2 stop "fullstack-nextjs-app-template" & pm2 delete "fullstack-nextjs-app-te
 ```sh
 $ pm2 startup
 $ systemctl status pm2-root
-$ pm2 start /{your_directory}/fullstack-nextjs-app-template/server.js --restart-delay=3000
+$ pm2 start /{your_directory}/fullstack-nextjs-app-template/ecosystem.config.js --restart-delay=3000
 $ pm2 save
 ```
 
@@ -358,7 +359,7 @@ When on an M1 Mac and switching from a Node.js version without M1 support to one
 $ npm i --force  # This can be ignored if you can build
 $ rm -rf /{your_directory}/fullstack-nextjs-app-template/.next  # Delete the. Next folder
 $ npm run build
-$ pm2 start server.js
+$ pm2 start ecosystem.config.js
 ```
 
 *Make sure your server has directory and file permissions to run the project*
@@ -652,7 +653,7 @@ CMD ["node", "server.js"]
 
 
 # # Execute multiple files using node (write entry point)
-# RUN printf "node server.js\nnode backend/server-core.js\n" > entrypoint.sh
+# RUN printf "node server.js\nnode backend/php-runner.js\n" > entrypoint.sh
 # # Declare 3000 and 4001 ports, just tell the mirror user the default port, the actual mapping will be informed below
 # EXPOSE 3000
 # ENV PORT 3000
