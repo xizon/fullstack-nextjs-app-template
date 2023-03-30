@@ -132,6 +132,8 @@ $ npm run start
 
 ### Start the PHP server independently:
 
+Please install php on your computer first.
+
 ```sh
 $ npm run action:phpserver
 ```

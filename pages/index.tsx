@@ -7,7 +7,7 @@ import SocialMetadata from '@/components/SocialMetadata';
 
 
 import SvgIcon from "../public//assets/images/icon.svg";
-import CRUDService from "@/utils/dataservice-crud";
+import CRUDService from "@/utils/data-service/crud";
 import { useEffect } from 'react';
 
 import appData from "@/data/app.json";

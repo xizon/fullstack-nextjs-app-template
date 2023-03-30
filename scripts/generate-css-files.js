@@ -22,8 +22,13 @@ const cssProd = compressed.css;
 //
 
 const out = [
-    { path: path.resolve(__dirname, '../public/static-dist/css/theme.css'), str: cssDev },
-    { path: path.resolve(__dirname, '../public/static-dist/css/theme.min.css'), str: cssProd }
+    { path: path.resolve(__dirname, '../public/static-dist/css/theme.css'), str: `
+/*------------------------------------------------------------------
+!!!!! GENERATED CODE -- DO NOT EDIT!
+------------------------------------------------------------------*/
+${cssDev}
+` },
+    { path: path.resolve(__dirname, '../public/static-dist/css/theme.min.css'), str: `${cssProd}` }
 ];
 out.forEach( function(file) {
     fs.writeFile(file.path, file.str, 'utf8', function (err) {

@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 
 import { useEffect, useState, useRef } from 'react';
 
-import AuthService from "@/utils/dataservice-auth";
+import AuthService from "@/utils/data-service/auth";
 
 
 // Authority 

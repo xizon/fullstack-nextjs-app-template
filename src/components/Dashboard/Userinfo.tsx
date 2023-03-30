@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import UserService from "@/utils/dataservice-user";
+import UserService from "@/utils/data-service/user";
 
 const Userinfo = () => {
 

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import CRUDService from "@/utils/dataservice-crud";
+import CRUDService from "@/utils/data-service/crud";
 
 import Modal from '@/components/Modal';
 
