@@ -1,27 +1,31 @@
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
+
 
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 import Pagination from '@/components/Pagination';
-import { useEffect, useState } from 'react';
-
 //page
 import pageData from "@/data/page.json";
+
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
+
+
 
 /** Render data
  * ---------------------------------
 */
 function PostsPagination({ currentData, page, perPage }) {
 
+
     const [currentPage, setCurrentPage] = useState<number>(parseFloat(page));
 
 
     //
-    //---------
     const posts = currentData ? currentData.data : [];
-
     function handleGotoPageNumber(number) {
 
         //`number` comes from the public parameter thrown by the component `<Pagination />`
@@ -32,82 +36,91 @@ function PostsPagination({ currentData, page, perPage }) {
     }
 
 
-    //
-    //
+
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+    
+
+
+
     useEffect(() => {
 
         // page changed
         //-----
         setCurrentPage(parseFloat(page));
 
-
-    }, [page]);
-
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch, page]); 
 
     return currentData === null ? null : (
         <>
             <Head>
-                <title>{`Posts Pagination(page ${page})`}</title>
+                <title>{`Pagination(page ${page})`}</title>
             </Head>
 
-            <main>
-                <div className="page">
-                    <Header />
 
+            <Layout
+                pageTitle={`Pagination(page ${page})`}
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<>
+            <ul>
 
-                    <section className="intro intro-subpage">
-                        <div className="container">
-                            <h2>Posts Pagination</h2>
-                            <ul>
+{!posts ? <>Loading...</> : posts.map((item: any, i: number) => {
+    return (
+        <li key={i}>
+            {item.name} - (email: {item.email})
+        </li>
+    );
+})}
+</ul>
 
-                                {!posts ? <>Loading...</> : posts.map((item: any, i: number) => {
-                                    return (
-                                        <li key={i}>
-                                            {item.name} - (email: {item.email})
-                                        </li>
-                                    );
-                                })}
-                            </ul>
+<div>
+<Pagination
+    apiUrl={`/pagination/{page}.html`}
+    gotoPageClickEvent={handleGotoPageNumber}
+    pageRangeDisplayed={2}
+    activePage={currentPage}
+    totalPages={currentData ? currentData.total_pages : 1}
+    previousLabel={<>Prev</>}
+    nextLabel={<>Next</>}
+    firstLabel={<>First</>}
+    lastLabel={<>Last</>}
+    align="center"
+    symmetry={true}
+    breakLabel="..."
+/>
+</div>
 
-                            <div>
-                                <Pagination
-                                    apiUrl={`/posts-pagination/{page}.html`}
-                                    gotoPageClickEvent={handleGotoPageNumber}
-                                    pageRangeDisplayed={2}
-                                    activePage={currentPage}
-                                    totalPages={currentData ? currentData.total_pages : 1}
-                                    previousLabel={<>Prev</>}
-                                    nextLabel={<>Next</>}
-                                    firstLabel={<>First</>}
-                                    lastLabel={<>Last</>}
-                                    align="center"
-                                    symmetry={true}
-                                    breakLabel="..."
-                                />
-                            </div>
+                </>}
+            />
 
-
-                        </div>
-                    </section>
-
-                </div>
-
-
-            </main>
-
-            <Footer />
 
         </>
     )
-}
+};
+
 
 
 /** This gets called on every request 
  * ---------------------------------
 */
 
-// pages/posts-pagination/[page].tsx
-// Generates `/posts-pagination/1.html` and `/posts-pagination/2.html`
+// pages/pagination/[page].tsx
+// Generates `/pagination/1.html` and `/pagination/2.html`
 export async function getStaticPaths() {
 
     if (process.env.SKIP_BUILD_STATIC_GENERATION) {
@@ -173,7 +186,7 @@ export default PostsPagination;
 import toSlug from '@/utils/to-slug';
 
 // pages/discoveries/color/[color]/[page].tsx
-// Generates `/posts-pagination/color/black/1` and `/posts-pagination/color/black/2`
+// Generates `/pagination/color/black/1` and `/pagination/color/black/2`
 export async function getStaticPaths() {
 
     if (process.env.SKIP_BUILD_STATIC_GENERATION) {

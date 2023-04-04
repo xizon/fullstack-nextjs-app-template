@@ -9,7 +9,7 @@
 
 ```js
 import React from 'react';
-import Button from '@/components/Footer';
+import Footer from '@/components/Footer';
 
 
 export default () => {

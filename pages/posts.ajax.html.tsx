@@ -1,67 +1,104 @@
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
 
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
-import { useEffect, useState } from 'react';
 
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
+
+
+const MainContent = (props) => {
+    return (
+        <>
+            <ul>
+
+                {props.loading ? <>Loading...</> : props.data.map((post: any) => {
+                    return (
+                        <li key={post.name}>
+                            <Link href={`/posts/${post.name}.html`} dangerouslySetInnerHTML={{ __html: `${post.name} - (region: ${post.region})` }}></Link>
+
+
+                        </li>
+                    );
+                })}
+            </ul>
+
+        </>
+    )
+
+};
+
+
+/** Render data
+ * ---------------------------------
+*/
 const Posts = () => {
 
-  const [posts, setPosts] = useState<any[]>([]);
-  const [loaded, setLoaded] = useState<boolean>(false);
 
-  useEffect(() => {
+    const [posts, setPosts] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
-    const fetchPost = async () => {
-      try {
-         let response = await axios.get( apiUrls.RECEIVE_DEMO_LIST );
-         setLoaded(true);
-         setPosts(response.data);
-         
-      } catch (error) {
-         console.log(error);
-      }
-   };
-   fetchPost();
-
- }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  return (
-    <>
-      <Head>
-        <title>Posts</title>
-      </Head>
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
 
 
-      <main>
-        <div className="page">
-          <Header />
+    useEffect(() => {
+
+        // Get posts
+        //-----
+        const fetchPost = async () => {
+            try {
+                let response = await axios.get(apiUrls.RECEIVE_DEMO_LIST);
+                setLoading(false);
+                setPosts(response.data);
+
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchPost();
+
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if (!dispatchUpdate) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
 
 
-          <section className="intro intro-subpage">
-            <div className="container">
-              <h2>Posts</h2>
-              <ul>
+        fetchStoreMenu();
 
-              {!loaded ? <>Loading...</> : posts.map((post: any) => {
-                return (
-                    <li key={post.name} dangerouslySetInnerHTML={{__html: `${post.name} - (region: ${post.region})` }}></li>
-                );
-              })}
-              </ul>
-            </div>
-          </section>
+    }, [dispatchUpdate, dispatch]);
 
-        </div>
+    return (
+        <>
+            <Head>
+                <title>Posts</title>
+            </Head>
 
 
-      </main>
+            <Layout
+                pageTitle="Posts"
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<><MainContent data={posts} loading={loading}/></>}
+            />
 
-      <Footer />
 
-    </>
-  )
+        </>
+    )
 };
+
 
 export default Posts;

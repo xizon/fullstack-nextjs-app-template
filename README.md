@@ -50,6 +50,7 @@ List my progress here:
 | Local PHP Service Association | ✔ |
 | Server Deployment | ✔ |
 | Deploy Using Docker | ✔ |
+| Redux Supplement (for navigation) | ✔ |
 
 
 
@@ -81,7 +82,8 @@ fullstack-nextjs-app-template/
 │   ├── config/
 │   ├── components/
 │   ├── styles/
-│   └── utils/
+│   ├── utils/
+│   └── store/
 └──
 ```
 

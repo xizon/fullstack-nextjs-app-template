@@ -1,45 +1,78 @@
-import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
+
+
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
+
+
+const MainContent = (props) => {
+    return (
+        <>
+            <h2>Nested Routes: {props.data.idShow}</h2>
+            <p>Comment: {props.data.comment} ...</p>
+
+        </>
+    )
+
+};
+
 
 /** Render data
  * ---------------------------------
 */
-export default function CommentPage() {
-  const router = useRouter();
-  const id = router.query.id as string;
-  const comment = router.query.comment as string;
+const Comment = () => {
 
-  const idShow = id.replace('.html', '')
+    const router = useRouter();
+    const id = router.query.id as string;
+    const comment = router.query.comment as string;
+  
+    const idShow = id.replace('.html', '')
 
-  return (
-    <>
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+    
 
-      <Head>
-        <title>{idShow}</title>
-      </Head>
+
+    useEffect(() => {
+
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
+
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch]); 
+
+    return (
+        <>
+            <Head>
+                <title>{idShow}</title>
+            </Head>
+
+            <Layout
+                pageTitle={idShow}
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<><MainContent data={{idShow, comment}} /></>}
+            />
 
 
-      <main>
-        <div className="page">
-          <Header />
-
-          <section className="intro intro-subpage">
-           <div className="container">
-            <h2>Nested Routes: {idShow}</h2>
-            <p>Comment: {comment} ...</p>
-            </div>
-          </section>
-          
-        </div>
-
-      </main>
-
-      <Footer />
-    </>
-  )
-}
+        </>
+    )
+};
 
 
 
@@ -80,3 +113,7 @@ export async function getStaticProps() {
         revalidate: 10, // In seconds 
     }  
 }
+
+
+export default Comment;
+

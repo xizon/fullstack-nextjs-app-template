@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
 
 
 // Dynamically import components
@@ -9,6 +9,21 @@ import dynamic from 'next/dynamic';
 const MyButton = dynamic(() => import('@/components/Buttons'), { ssr: false });
 
 
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
+
+
+const MainContent = () => {
+    return (
+        <>
+            <p>This is a dynamically imported button, which will delay loading to improve performance.</p>
+            <MyButton btnName={'Submit'} bgColor={'success'} />
+
+        </>
+    )
+
+};
 
 
 /** Render data
@@ -16,36 +31,47 @@ const MyButton = dynamic(() => import('@/components/Buttons'), { ssr: false });
 */
 const About = () => {
 
-  return (
-    <>
-      <Head>
-        <title>About</title>
-        <meta name="description" content="Out of nothing, something." /> 
-      </Head>
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+    
 
 
-      <main>
-        <div className="page">
-          <Header />
+    useEffect(() => {
 
-          <section className="intro intro-subpage">
-            <div className="container">
-              <h2>About</h2> 
-              <p>This is a dynamically imported button, which will delay loading to improve performance.</p>
-              <MyButton btnName={'Submit'} bgColor={'success'} />
-              
-            </div>
-          </section>
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
 
-        </div>
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch]); 
+
+    return (
+        <>
+            <Head>
+                <title>About</title>
+            </Head>
 
 
-      </main>
+            <Layout
+                pageTitle="About"
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<><MainContent /></>}
+            />
 
-      <Footer />
 
-    </>
-  )
+        </>
+    )
 };
 
 

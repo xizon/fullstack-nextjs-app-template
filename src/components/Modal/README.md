@@ -28,7 +28,7 @@ import Modal from '@/components/Modal';
 ```js
 import React, { useState } from 'react';
 import axios from 'axios';
-import DashboardModal from '@/components/DashboardModal/index.tsx';
+import DashboardModal from '@/components/DashboardModal';
 
 
 export default () => {

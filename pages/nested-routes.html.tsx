@@ -1,24 +1,17 @@
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
-const NestedRoutes = () => {
-
-  return (
-    <>
-      <Head>
-        <title>Nested Routes</title>
-      </Head>
+import Layout from '@/components/Layout';
 
 
-      <main>
-        <div className="page">
-          <Header />
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
 
-          <section className="intro intro-subpage">
-            <div className="container">
-              <h2>Nested Routes</h2>
+
+const MainContent = () => {
+    return (
+        <>
               <ul>
                 <li>
                   <Link href="/nested-routes/first.html">
@@ -31,18 +24,60 @@ const NestedRoutes = () => {
                   </Link>
                 </li>
               </ul>
-            </div>
-          </section>
 
-        </div>
+        </>
+    )
 
-
-      </main>
-
-      <Footer />
-
-    </>
-  )
 };
+
+
+/** Render data
+ * ---------------------------------
+*/
+const NestedRoutes = () => {
+
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+    
+
+
+
+    useEffect(() => {
+
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch]); 
+
+    return (
+        <>
+            <Head>
+                <title>Nested Routes</title>
+            </Head>
+
+
+            <Layout
+                pageTitle="Nested Routes"
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<><MainContent /></>}
+            />
+
+
+        </>
+    )
+};
+
 
 export default NestedRoutes;

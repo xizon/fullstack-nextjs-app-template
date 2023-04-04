@@ -1,16 +1,28 @@
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
+
 import Userinfo from '@/components/Dashboard/Userinfo';
 import DataList from '@/components/Dashboard/Datalist';
-
 import cookies from 'next-cookies';
-
-
-import { useEffect } from 'react';
 
 // Authority 
 import isAdmin from '@/utils/is-admin';
+
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
+
+
+const MainContent = () => {
+    return (
+        <>
+            <Userinfo />
+            <DataList />
+        </>
+    )
+
+};
 
 
 /** Render data
@@ -18,14 +30,34 @@ import isAdmin from '@/utils/is-admin';
 */
 const Dashboard = () => {
 
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+
+
     useEffect(() => {
+
 
         //Authority
         //-----
         const __IS_ADMIN = isAdmin();
 
 
-    }, []); // Empty array ensures that effect is only run on mount and unmount
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch]); 
 
     return (
         <>
@@ -34,30 +66,18 @@ const Dashboard = () => {
             </Head>
 
 
-            <main>
-                <div className="page">
-                    <Header />
+            <Layout
+                pageTitle="AbDashboardut"
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<><MainContent /></>}
+            />
 
-                    <section className="intro intro-subpage">
-                        <div className="container">
-
-                            <h2>Dashboard</h2>
-                            <Userinfo />
-                            <DataList />
-
-                        </div>
-                    </section>
-
-                </div>
-
-
-            </main>
-
-            <Footer />
 
         </>
     )
 };
+
+
 
 /** This gets called on every request 
  * ---------------------------------

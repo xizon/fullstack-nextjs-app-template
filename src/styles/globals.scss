@@ -1,238 +1,258 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .clearfix {
-  &:before {
-    content: " ";
-    display: table;
-  }
+    &:before {
+        content: " ";
+        display: table;
+    }
 
-  &:after {
-    content: " ";
-    display: table;
-    clear: both;
-  }
+    &:after {
+        content: " ";
+        display: table;
+        clear: both;
+    }
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 .container {
-  width: 1040px;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 15px;
+    width: 1040px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #f9f9f9;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background-color: #f9f9f9;
 }
 
 a {
-  transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
 }
 
 hr {
-  border: none;
-  border-bottom: 1px solid #dee;
+    border: none;
+    border-bottom: 1px solid #dee;
 }
 
 .page {
-  background-color: #0d8d99;
-  background-image: -webkit-linear-gradient(#0d8d99, #0d7299 60%, #0d5b99);
-  background-image: linear-gradient(#0d8d99, #0d7299 60%, #0d5b99);
-  margin-bottom: 1.5rem;
+    background-color: #0d8d99;
+    background-image: -webkit-linear-gradient(#0d8d99, #0d7299 60%, #0d5b99);
+    background-image: linear-gradient(#0d8d99, #0d7299 60%, #0d5b99);
+    margin-bottom: 1.5rem;
 
-  header {
-    font-size: 0.75rem;
-    padding: .7em 0;
-    border-bottom: 1px solid #2395a2;
+    header {
+        font-size: 0.75rem;
+        padding: .7em 0;
+        border-bottom: 1px solid #2395a2;
 
-    .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-
-    a {
-      font-size: 1.1em;
-      color: #82c4ca;
-      text-decoration: none;
-    }
-
-    .brand {
-      a {
-        font-family: arial;
-        font-weight: bold;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-
-        span {
-          display: inline-block;
-          width: 40px;
-          height: 40px;
-          line-height: 40px;
-          font-weight: 400;
-          margin-right: 1em;
-          text-align: center;
-
-          img {
-            max-width: 100%;
-            vertical-align: middle;
-            opacity: .7;
-          }
-
-
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        &:hover img {
-          opacity: 1;
-        }
-
-      }
-    }
-
-    .menu {
-      a {
-        display: inline-block;
-        margin-left: 25px;
-        font-weight: 600;
-        font-weight: 400;
-
-        &:hover {
-          color: #fff;
-        }
-
-        &.active {
-            color: #fff;
-            font-weight: bold;
-        }
-      }
-    }
-  }
-
-  .intro {
-    text-align: center;
-    color: #fff;
-    min-height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &:not(.intro-subpage) {
-
-      p {
-        width: 700px;
-        margin: 0 auto;
-        max-width: 70%;
-        line-height: 1.5;
-        font-size: 1.1em;
-        font-weight: 300;
-        color: #c4e4db;
-        padding: .4em 0 2em 0;
-      }
-    }
-
-    &.intro-subpage {
-      display: block;
-      padding: 50px;
-      text-align: left;
-      background-color: #fff;
-      color: #333;
-
-    }
-
-    h1 {
-      font-size: 2.5em;
-      margin: .3em 0;
-    }
-
-
-    ul {
-      font-size: 1rem;
-
-      li {
-        margin-bottom: 10px;
-        border-bottom: 1px dotted #eee;
-        padding-bottom: 10px;
-
-        &::after {
-          content: '';
-          clear: both;
-          height: 0;
-        }
 
         a {
-          text-decoration: underline;
-          color: #333;
-
-          &:hover {
-            color: #f60;
-          }
+            font-size: 1.1em;
+            color: #82c4ca;
+            text-decoration: none;
         }
-      }
+
+        .brand {
+            a {
+                font-family: arial;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+
+                span {
+                    display: inline-block;
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    font-weight: 400;
+                    margin-right: 1em;
+                    text-align: center;
+
+                    img {
+                        max-width: 100%;
+                        vertical-align: middle;
+                        opacity: .7;
+                    }
+
+
+                }
+
+                &:hover img {
+                    opacity: 1;
+                }
+
+            }
+        }
+
+        .menu {
+
+
+            ul, li {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            > div > ul {
+                display: flex;
+                li {
+                    flex: 1; 
+                    white-space: nowrap;
+                }
+            }
+
+
+           
+            a {
+                margin-left: 25px;
+                font-weight: 600;
+                font-weight: 400;
+                color: rgba(255,255,255,.7) !important;
+                border-bottom: 1px solid rgba(255,255,255,0);
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+
+            li.is-active > a {
+                color: #fff !important;
+                font-weight: bold;
+                border-bottom: 1px solid #e5e5e5;
+            }
+        }
     }
 
-  }
+    .intro {
+        text-align: center;
+        color: #fff;
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:not(.intro-subpage) {
+
+            p {
+                width: 700px;
+                margin: 0 auto;
+                max-width: 70%;
+                line-height: 1.5;
+                font-size: 1.1em;
+                font-weight: 300;
+                color: #c4e4db;
+                padding: .4em 0 2em 0;
+            }
+        }
+
+        &.intro-subpage {
+            display: block;
+            padding: 50px;
+            text-align: left;
+            background-color: #fff;
+            color: #333;
+
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: .3em 0;
+        }
+
+
+        ul {
+            font-size: 1rem;
+
+            li {
+                margin-bottom: 10px;
+                border-bottom: 1px dotted #eee;
+                padding-bottom: 10px;
+
+                &::after {
+                    content: '';
+                    clear: both;
+                    height: 0;
+                }
+
+                a {
+                    text-decoration: underline;
+                    color: #333;
+
+                    &:hover {
+                        color: #f60;
+                    }
+                }
+            }
+        }
+
+    }
 }
 
 footer {
-  text-align: center;
-  color: #888;
-  margin: 1.5rem 0 1.5rem 0;
-
-  a {
+    text-align: center;
     color: #888;
-  }
+    margin: 1.5rem 0 1.5rem 0;
+
+    a {
+        color: #888;
+    }
 }
 
 
 code {
-  background-color: #f9f2f4;
-  border-radius: 3px;
-  color: #c7254e;
-  display: inline-block;
-  font-family: Inconsolata, Monaco, Consolas, Andale Mono, Bitstream Vera Sans Mono, Courier New, Courier, monospace;
-  margin: 0 0.2rem;
-  padding: 0 0.4rem;
-  white-space: nowrap;
-  word-wrap: break-word;
-  color: #e83e8c;
-  font-size: 87.5%;
+    background-color: #f9f2f4;
+    border-radius: 3px;
+    color: #c7254e;
+    display: inline-block;
+    font-family: Inconsolata, Monaco, Consolas, Andale Mono, Bitstream Vera Sans Mono, Courier New, Courier, monospace;
+    margin: 0 0.2rem;
+    padding: 0 0.4rem;
+    white-space: nowrap;
+    word-wrap: break-word;
+    color: #e83e8c;
+    font-size: 87.5%;
 }
 
 
 @media all and (max-width: 768px) {
 
-  .page {
-    header {
-      .brand {
-        a {
-          font-size: 0;
+    .page {
+        header {
+            .brand {
+                a {
+                    font-size: 0;
+                }
+            }
         }
-      }
-    }
 
-    .intro {
-      &:not(.intro-subpage) {
-        p {
-          display: block;
-          width: 90%;
+        .intro {
+            &:not(.intro-subpage) {
+                p {
+                    display: block;
+                    width: 90%;
+                }
+            }
+
         }
-      }
-
     }
-  }
 
 }

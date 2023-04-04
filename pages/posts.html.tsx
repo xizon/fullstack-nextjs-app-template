@@ -1,37 +1,25 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
+
 
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 
 
-/** Render data
- * ---------------------------------
-*/
-function Posts({ currentData }) {
-
-  const posts = currentData;
-
-  return (
-    <>
-      <Head>
-        <title>Posts</title>
-      </Head>
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
 
 
-      <main>
-        <div className="page">
-          <Header />
+const MainContent = (props) => {
 
-
-          <section className="intro intro-subpage">
-            <div className="container">
-              <h2>Posts</h2>
+    return (
+        <>
               <ul>
 
-                {!posts ? <>Loading...</> : posts.map((post: any) => {
+                {!props.data ? <>Loading...</> : props.data.map((post: any) => {
                   return (
                     <li key={post.name}>
                       <Link href={`/posts/${post.name}.html`} dangerouslySetInnerHTML={{__html: `${post.name} - (region: ${post.region})` }}></Link>
@@ -41,19 +29,61 @@ function Posts({ currentData }) {
                   );
                 })}
               </ul>
-            </div>
-          </section>
 
-        </div>
+        </>
+    )
+
+};
 
 
-      </main>
+/** Render data
+ * ---------------------------------
+*/
+function Posts({ currentData }) {
 
-      <Footer />
+    const posts = currentData;
 
-    </>
-  )
-}
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+
+
+    useEffect(() => {
+
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
+
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch]); 
+
+    return (
+        <>
+            <Head>
+                <title>Posts</title>
+            </Head>
+
+
+            <Layout
+                pageTitle="Posts"
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<><MainContent data={posts}/></>}
+            />
+
+
+        </>
+    )
+};
 
 
 /** This gets called on every request 
@@ -61,17 +91,18 @@ function Posts({ currentData }) {
 */
 export async function getStaticProps() {
   
-  const res: any = await axios.get(apiUrls.RECEIVE_DEMO_LIST);
-
-  // Pass data to the page via props
-  return {
-    props: { 
-        currentData: res.data 
-    },
-
-    // Incremental Static Regeneration. (Next.js will attempt to re-generate the page:)
-    revalidate: 10, // In seconds 
+    const res: any = await axios.get(apiUrls.RECEIVE_DEMO_LIST);
+  
+    // Pass data to the page via props
+    return {
+      props: { 
+          currentData: res.data 
+      },
+  
+      // Incremental Static Regeneration. (Next.js will attempt to re-generate the page:)
+      revalidate: 10, // In seconds 
+    }
   }
-}
-
-export default Posts;
+  
+  export default Posts;
+  

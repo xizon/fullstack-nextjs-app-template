@@ -1,60 +1,85 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import Layout from '@/components/Layout';
 
 
-/** Render data
- * ---------------------------------
-*/
-const NestedRoutesSub = () => {
-
-  const router = useRouter();
-  const id = router.query.id as string;
-  const idShow = id.replace('.html', '')
-
-  return (
-    <>
-
-      <Head>
-         <title>{idShow}</title>
-      </Head>
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
 
 
-      <main>
-        <div className="page">
-          <Header />
-
-          <section className="intro intro-subpage">
-            <div className="container">
-
-              <h2>Nested Routes: {idShow}</h2>
+const MainContent = (props) => {
+    return (
+        <>
               <ul>
                 <li>
-                  <Link href={`/nested-routes/${idShow}/first-comment.html`}>
+                  <Link href={`/nested-routes/${props.data}/first-comment.html`}>
                     First comment
                   </Link>
                 </li>
                 <li>
-                  <Link href={`/nested-routes/${idShow}/second-comment.html`}>
+                  <Link href={`/nested-routes/${props.data}/second-comment.html`}>
                      Second comment
                   </Link>
                 </li>
               </ul>
 
-            </div>
-          </section>
-          
-        </div>
+        </>
+    )
 
-      </main>
+};
 
-      <Footer />
-    </>
-  )
-}
+
+/** Render data
+ * ---------------------------------
+*/
+const NestedRoutesChild = () => {
+
+    const router = useRouter();
+    const id = router.query.id as string;
+    const idShow = id.replace('.html', '')
+
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+    
+    useEffect(() => {
+
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch]); 
+
+    return (
+        <>
+            <Head>
+                <title>{idShow}</title>
+            </Head>
+
+            <Layout
+                pageTitle={idShow}
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<><MainContent data={idShow} /></>}
+            />
+
+
+        </>
+    )
+};
+
 
 
 
@@ -95,4 +120,5 @@ export async function getStaticProps() {
 }
 
 
-export default NestedRoutesSub;
+export default NestedRoutesChild;
+

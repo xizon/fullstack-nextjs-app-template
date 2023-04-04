@@ -1,6 +1,8 @@
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
+
+
 import SocialMetadata from '@/components/SocialMetadata';
 
 import apiUrls from '@/config/apiUrls';
@@ -12,20 +14,64 @@ import { renameFile } from '@/utils/rename';
 import appData from "@/data/app.json";
 
 
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
+
+
+const MainContent = (props) => {
+
+    return (
+        <>
+            <div key={props.data.name}>
+                <img style={{ width: '220px', height: '150px' }} src={props.data.flag} />
+                <br />
+                <sub><strong>New path:</strong> {props.data.flag}</sub>
+            </div>
+        </>
+    )
+
+};
+
+
 /** Render data
  * ---------------------------------
 */
 function PostSingle({ currentData }) {
+
+
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+    
+    useEffect(() => {
+
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
+
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch]); 
+
 
     // no date
     //---------
     if (currentData === null) return null;
 
     //
-    //---------
+    //---------    
     return (
         <>
-
             <Head>
                 <title>{`${currentData.name} - Website Title`}</title>
 
@@ -41,30 +87,16 @@ function PostSingle({ currentData }) {
             </Head>
 
 
-            <main>
-                <div className="page">
-                    <Header />
+            <Layout
+                pageTitle={`${currentData.name}`}
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<><MainContent data={currentData}/></>}
+            />
 
-                    <section className="intro intro-subpage">
-                        <div className="container">
-                            <div key={currentData.name}>
-                                <h2 dangerouslySetInnerHTML={{__html: currentData.name }} />
-                                <img style={{ width: '220px', height: '150px' }} src={currentData.flag} />
-                                <br />
-                                <sub><strong>New path:</strong> {currentData.flag}</sub>
-                            </div>
-                        </div>
-                    </section>
 
-                </div>
-
-            </main>
-
-            <Footer />
         </>
     )
-
-}
+};
 
 
 /** This gets called on every request 

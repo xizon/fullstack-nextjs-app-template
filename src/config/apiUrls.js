@@ -1,6 +1,12 @@
 const config = {
 
 	/*
+	 TYPE: Site Configuration
+	 ------------------------------------------
+	*/
+	"MENU": "http://localhost:3000/api/navigation",
+
+	/*
 	 TYPE: Posts
 	 ------------------------------------------
 	*/
@@ -51,6 +57,13 @@ const config = {
  * (Please use a PHP server environment with a local port of 4000, check the file at `./backend/php-runner.js`)
  */
 const localConfig = {
+
+	/*
+	 TYPE: Site Configuration
+	 ------------------------------------------
+	*/
+	"MENU": "http://localhost:3000/api/navigation",
+
 
 	/*
 	 TYPE: Posts

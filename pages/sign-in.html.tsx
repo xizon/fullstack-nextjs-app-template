@@ -1,17 +1,27 @@
 import Head from 'next/head';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
+import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
+import Layout from '@/components/Layout';
+
 
 import AuthService from "@/utils/data-service/auth";
-
 
 // Authority 
 import isAdmin from '@/utils/is-admin';
 
 
+
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
+
+
+
+/** Render data
+ * ---------------------------------
+*/
 const SignIn = () => {
+
 
     const rootRef = useRef<any>(null);
     const usernameRef = useRef<any>(null);
@@ -155,6 +165,14 @@ const SignIn = () => {
     }
 
 
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+
+
     useEffect(() => {
 
         //Authority
@@ -166,8 +184,20 @@ const SignIn = () => {
             setLoginOk(true);
         }
 
-    }, [loginOk]);
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData();
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
+        fetchStoreMenu();
+        
+    }, [dispatchUpdate, dispatch, loginOk]); 
 
+    
     return (
         <>
             <Head>
@@ -175,69 +205,59 @@ const SignIn = () => {
             </Head>
 
 
-            <main>
-                <div className="page">
-                    <Header />
-
-                    <section className="intro intro-subpage">
-                        <div className="container">
-                            <h2>Sign In</h2>
-
-                            {
-                                (loginOk) ?
-                                    <div>
-                                        Welcome to this page!
-                                        | <a href="#" onClick={signOut}>Sign out</a>
-                                    </div>
-                                    :
-                                    <div ref={rootRef}>
-                                        <p>Test Account: <code>admin</code> Password: <code>admin</code></p>
-                                        <form onSubmit={handleSubmit.bind(this)}>
-
-
-                                            <div style={{ padding: "5px" }}>
-                                                <label style={{ padding: "10px", display: "inline-block", width: "100px" }}>Username</label>
-                                                <input ref={usernameRef} type="text" value={username} onChange={handleUserChange} />
-                                            </div>
-
-                                            <div style={{ padding: "5px" }}>
-                                                <label style={{ padding: "10px", display: "inline-block", width: "100px" }}>Password</label>
-                                                <input ref={passwordRef} type="password" value={password} onChange={handlePassChange} />
-                                            </div>
-
-                                            <div style={{ padding: "5px" }}>
-                                                <label style={{ padding: "10px", display: "inline-block", width: "100px" }}></label>
-                                                <input style={{ padding: "7px 25px", background: "#191919", outline: "none", color: "#fff", borderRadius: "30px", border: "none", fontSize: "14px" }} type="submit" value="Log In" />
-                                            </div>
-
-
-                                            <div style={{ padding: "5px" }}>
-                                                <label style={{ padding: "10px", display: "inline-block", width: "100px" }}></label>
-
-                                                {error &&
-                                                    <span onClick={dismissError}>
-                                                        {error}, <a href="#" onClick={dismissError}>back</a>
-                                                    </span>
-                                                }
-
-                                            </div>
-
-                                        </form>
-                                    </div>
-                            }
-
+            <Layout
+                pageTitle="Sign In"
+                nav={JSON.stringify(storeData.menuItems)}
+                contentComponent={<>
+{
+                    (loginOk) ?
+                        <div>
+                            <Link href="/dashboard/index.html">Go to dashboard</Link>  | <a href="#" onClick={signOut}>Sign out</a>
                         </div>
-                    </section>
+                        :
+                        <div ref={rootRef}>
+                            <p>Test Account: <code>admin</code> Password: <code>admin</code></p>
+                            <form onSubmit={handleSubmit.bind(this)}>
 
-                </div>
+
+                                <div style={{ padding: "5px" }}>
+                                    <label style={{ padding: "10px", display: "inline-block", width: "100px" }}>Username</label>
+                                    <input ref={usernameRef} type="text" value={username} onChange={handleUserChange} />
+                                </div>
+
+                                <div style={{ padding: "5px" }}>
+                                    <label style={{ padding: "10px", display: "inline-block", width: "100px" }}>Password</label>
+                                    <input ref={passwordRef} type="password" value={password} onChange={handlePassChange} />
+                                </div>
+
+                                <div style={{ padding: "5px" }}>
+                                    <label style={{ padding: "10px", display: "inline-block", width: "100px" }}></label>
+                                    <input style={{ padding: "7px 25px", background: "#191919", outline: "none", color: "#fff", borderRadius: "30px", border: "none", fontSize: "14px" }} type="submit" value="Log In" />
+                                </div>
 
 
-            </main>
+                                <div style={{ padding: "5px" }}>
+                                    <label style={{ padding: "10px", display: "inline-block", width: "100px" }}></label>
 
-            <Footer />
+                                    {error &&
+                                        <span onClick={dismissError}>
+                                            {error}, <a href="#" onClick={dismissError}>back</a>
+                                        </span>
+                                    }
+
+                                </div>
+
+                            </form>
+                        </div>
+                }
+                
+                </>}
+            />
+
 
         </>
     )
 };
+
 
 export default SignIn;
