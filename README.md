@@ -813,6 +813,7 @@ $ npm cache verify
 
 - [React](https://reactjs.org/)
 - [nextjs](https://nextjs.org/)
+- [redux](https://redux.js.org/)
 - [axios](https://github.com/axios/axios)
 - [Express](http://expressjs.com/)
 - [php-express](https://github.com/fnobi/php-express)
