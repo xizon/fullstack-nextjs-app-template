@@ -1,6 +1,6 @@
 # Changelog
 
-#### = 0.5.3 (April 4, 2023) =
+#### = 0.5.5 (April 4, 2023) =
 
 * New: Using Redux for navigation API.
   - The new dependencies include `redux`, `react-redux`, `redux-thunk`, `next-redux-wrapper`
