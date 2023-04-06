@@ -9,10 +9,6 @@ import Pagination from '@/components/Pagination';
 //page
 import pageData from "@/data/page.json";
 
-// store
-import { useDispatch, useSelector } from "react-redux";
-import getMenuData from "@/store/actions/demoMenuActions";
-
 
 
 /** Render data
@@ -35,36 +31,13 @@ function PostsPagination({ currentData, page, perPage }) {
         setCurrentPage(number);
     }
 
-
-
-    // Get store
-    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
-    const dispatch = useDispatch();
-    const storeData = useSelector((state: any) => {
-        return state.menuData;
-    });
-    
-
-
-
     useEffect(() => {
 
         // page changed
         //-----
         setCurrentPage(parseFloat(page));
-
-        // Get store
-        //-----
-        const fetchStoreMenu = async () => {
-            if ( !dispatchUpdate ) {
-                const res: any = await getMenuData();
-                setDispatchUpdate(true);
-                dispatch(res);
-            }
-        };
-        fetchStoreMenu();
         
-    }, [dispatchUpdate, dispatch, page]); 
+    }, [page]); 
 
     return currentData === null ? null : (
         <>
@@ -75,7 +48,6 @@ function PostsPagination({ currentData, page, perPage }) {
 
             <Layout
                 pageTitle={`Pagination(page ${page})`}
-                nav={JSON.stringify(storeData.menuItems)}
                 contentComponent={<>
             <ul>
 

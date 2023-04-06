@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Layout from '@/components/Layout';
 
 import Userinfo from '@/components/Dashboard/Userinfo';
@@ -8,10 +8,6 @@ import cookies from 'next-cookies';
 
 // Authority 
 import isAdmin from '@/utils/is-admin';
-
-// store
-import { useDispatch, useSelector } from "react-redux";
-import getMenuData from "@/store/actions/demoMenuActions";
 
 
 const MainContent = () => {
@@ -30,14 +26,6 @@ const MainContent = () => {
 */
 const Dashboard = () => {
 
-    // Get store
-    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
-    const dispatch = useDispatch();
-    const storeData = useSelector((state: any) => {
-        return state.menuData;
-    });
-
-
     useEffect(() => {
 
 
@@ -45,19 +33,7 @@ const Dashboard = () => {
         //-----
         const __IS_ADMIN = isAdmin();
 
-
-        // Get store
-        //-----
-        const fetchStoreMenu = async () => {
-            if ( !dispatchUpdate ) {
-                const res: any = await getMenuData();
-                setDispatchUpdate(true);
-                dispatch(res);
-            }
-        };
-        fetchStoreMenu();
-        
-    }, [dispatchUpdate, dispatch]); 
+    }, []); 
 
     return (
         <>
@@ -68,7 +44,6 @@ const Dashboard = () => {
 
             <Layout
                 pageTitle="AbDashboardut"
-                nav={JSON.stringify(storeData.menuItems)}
                 contentComponent={<><MainContent /></>}
             />
 

@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 
 
@@ -12,11 +11,6 @@ import { matchAllFilesUrls } from '@/utils/match-string';
 import { renameFile } from '@/utils/rename';
 
 import appData from "@/data/app.json";
-
-
-// store
-import { useDispatch, useSelector } from "react-redux";
-import getMenuData from "@/store/actions/demoMenuActions";
 
 
 const MainContent = (props) => {
@@ -38,30 +32,6 @@ const MainContent = (props) => {
  * ---------------------------------
 */
 function PostSingle({ currentData }) {
-
-
-    // Get store
-    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
-    const dispatch = useDispatch();
-    const storeData = useSelector((state: any) => {
-        return state.menuData;
-    });
-    
-    useEffect(() => {
-
-        // Get store
-        //-----
-        const fetchStoreMenu = async () => {
-            if ( !dispatchUpdate ) {
-                const res: any = await getMenuData();
-                setDispatchUpdate(true);
-                dispatch(res);
-            }
-        };
-
-        fetchStoreMenu();
-        
-    }, [dispatchUpdate, dispatch]); 
 
 
     // no date
@@ -89,7 +59,6 @@ function PostSingle({ currentData }) {
 
             <Layout
                 pageTitle={`${currentData.name}`}
-                nav={JSON.stringify(storeData.menuItems)}
                 contentComponent={<><MainContent data={currentData}/></>}
             />
 

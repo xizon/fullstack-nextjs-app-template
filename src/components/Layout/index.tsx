@@ -4,47 +4,67 @@
  *************************************
  */
 import { useEffect, useState, useMemo } from 'react';
-import { useRouter } from 'next/router';
+import Loader from '@/components/Loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
 import MultilevelDropdownMenu from '@/components/MultilevelDropdownMenu';
 
+// store
+import { useDispatch, useSelector } from "react-redux";
+import getMenuData from "@/store/actions/demoMenuActions";
+
+
+
+function PrimaryMenu(props: any) {
+    return useMemo(() => {
+        return <MultilevelDropdownMenu data={props.data} />
+    }, [props]);
+}
+
 
 export default function Layout(props) {
 
-    const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [primaryMenuData, setPrimaryMenuData] = useState<any[]>([]);
 
-    const primaryMenuData = useMemo(() => {
-        return JSON.parse(props.nav);
-    }, [props.nav]);
+    // Get store
+    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const storeData = useSelector((state: any) => {
+        return state.menuData;
+    });
+    
 
-
+    //
     useEffect(() => {
 
-        const handleStart = (url) => (url !== router.asPath) && setLoading(true);
-        const handleComplete = (url) => (url === router.asPath) && setTimeout(() => { setLoading(false) }, 2000);
+        // Get store
+        //-----
+        const fetchStoreMenu = async () => {
+            if ( !dispatchUpdate ) {
+                const res: any = await getMenuData(); // {type: 'RECEIVE_DEMO_MENU', payload: [...]}
+                setDispatchUpdate(true);
+                dispatch(res);
+            }
+        };
 
-        router.events.on('routeChangeStart', handleStart)
-        router.events.on('routeChangeComplete', handleComplete)
-        router.events.on('routeChangeError', handleComplete)
+        fetchStoreMenu();
+        setPrimaryMenuData(storeData.menuItems);
 
-        return () => {
-            router.events.off('routeChangeStart', handleStart)
-            router.events.off('routeChangeComplete', handleComplete)
-            router.events.off('routeChangeError', handleComplete)
-        }
-    });
+    }, [dispatchUpdate, dispatch]);
+
 
     return (
         <>
 
             <main>
 
+                <Loader />
+
                 {/*<!-- PAGE -->*/}
                 <div className="page">
-                    <Header loading={loading} menu={<MultilevelDropdownMenu data={primaryMenuData} />} />
+                    
+                    <Header menu={<PrimaryMenu data={props.ssrNav ? props.ssrNav : primaryMenuData} />} />
 
                     
                     <section className={props.isHome ? `intro` : `intro intro-subpage`}>

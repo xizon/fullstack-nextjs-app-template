@@ -6,10 +6,6 @@ import Layout from '@/components/Layout';
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 
-// store
-import { useDispatch, useSelector } from "react-redux";
-import getMenuData from "@/store/actions/demoMenuActions";
-
 
 const MainContent = (props) => {
     return (
@@ -42,14 +38,6 @@ const Posts = () => {
     const [posts, setPosts] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    // Get store
-    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
-    const dispatch = useDispatch();
-    const storeData = useSelector((state: any) => {
-        return state.menuData;
-    });
-
-
     useEffect(() => {
 
         // Get posts
@@ -67,20 +55,7 @@ const Posts = () => {
 
         fetchPost();
 
-        // Get store
-        //-----
-        const fetchStoreMenu = async () => {
-            if (!dispatchUpdate) {
-                const res: any = await getMenuData();
-                setDispatchUpdate(true);
-                dispatch(res);
-            }
-        };
-
-
-        fetchStoreMenu();
-
-    }, [dispatchUpdate, dispatch]);
+    }, []); 
 
     return (
         <>
@@ -91,7 +66,6 @@ const Posts = () => {
 
             <Layout
                 pageTitle="Posts"
-                nav={JSON.stringify(storeData.menuItems)}
                 contentComponent={<><MainContent data={posts} loading={loading}/></>}
             />
 

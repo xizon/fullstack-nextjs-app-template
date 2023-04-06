@@ -284,7 +284,7 @@ const DataList = () => {
 
     useEffect(() => {
         getAll();
-    }, []); // Empty array ensures that effect is only run on mount and unmount
+    }, []); 
 
 
     return (

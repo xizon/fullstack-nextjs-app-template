@@ -29,8 +29,14 @@ export default () => {
     <>
         <Layout
             isHome={true}
+            ssrNav={[...]}
             pageTitle="Page Title Here"
-            nav={JSON.stringify([...])}
+            contentComponent={<><MainContent /></>}
+        />
+
+
+        <Layout
+            pageTitle="Page Title Here"
             contentComponent={<><MainContent /></>}
         />
     </>

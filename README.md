@@ -51,7 +51,7 @@ List my progress here:
 | Server Deployment | ✔ |
 | Deploy Using Docker | ✔ |
 | Redux Supplement (for navigation) | ✔ |
-
+| Redux SSR (for homepage) | ✔ |
 
 
 ## File Structures

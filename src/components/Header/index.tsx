@@ -12,7 +12,7 @@ export default function Header(props) {
             <header>
                 <div className="container">
                     <div className="brand">
-                        <Link href="/"><span><img src="/assets/images/logo.png" /></span>Website Title<small style={{ fontSize: 10, paddingLeft: 20 }} id="loading">{props.loading ? 'loading...' : ''}</small></Link>
+                        <Link href="/"><span><img src="/assets/images/logo.png" /></span>Website Title</Link>
                     </div>
                     <nav className="menu">
                         {props.menu}

@@ -1,3 +1,5 @@
+/*===================  General =================*/
+
 * {
     box-sizing: border-box;
 }
@@ -47,6 +49,57 @@ hr {
     border-bottom: 1px solid #dee;
 }
 
+
+code {
+    background-color: #f9f2f4;
+    border-radius: 3px;
+    color: #c7254e;
+    display: inline-block;
+    font-family: Inconsolata, Monaco, Consolas, Andale Mono, Bitstream Vera Sans Mono, Courier New, Courier, monospace;
+    margin: 0 0.2rem;
+    padding: 0 0.4rem;
+    white-space: nowrap;
+    word-wrap: break-word;
+    color: #e83e8c;
+    font-size: 87.5%;
+}
+
+footer {
+    text-align: center;
+    color: #888;
+    margin: 1.5rem 0 1.5rem 0;
+
+    a {
+        color: #888;
+    }
+}
+
+
+/*===================  Loader =================*/
+#loader {
+    position: fixed;
+    z-index: 50000;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+    margin: 0 auto;
+    text-align: center;
+    top: calc(50% - 100px);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    circle {
+        stroke: rgba(0,0,0,.3);
+    }
+
+}
+
+/*===================  Page =================*/
 .page {
     background-color: #0d8d99;
     background-image: -webkit-linear-gradient(#0d8d99, #0d7299 60%, #0d5b99);
@@ -205,31 +258,6 @@ hr {
         }
 
     }
-}
-
-footer {
-    text-align: center;
-    color: #888;
-    margin: 1.5rem 0 1.5rem 0;
-
-    a {
-        color: #888;
-    }
-}
-
-
-code {
-    background-color: #f9f2f4;
-    border-radius: 3px;
-    color: #c7254e;
-    display: inline-block;
-    font-family: Inconsolata, Monaco, Consolas, Andale Mono, Bitstream Vera Sans Mono, Courier New, Courier, monospace;
-    margin: 0 0.2rem;
-    padding: 0 0.4rem;
-    white-space: nowrap;
-    word-wrap: break-word;
-    color: #e83e8c;
-    font-size: 87.5%;
 }
 
 

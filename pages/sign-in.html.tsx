@@ -10,13 +10,6 @@ import AuthService from "@/utils/data-service/auth";
 import isAdmin from '@/utils/is-admin';
 
 
-
-// store
-import { useDispatch, useSelector } from "react-redux";
-import getMenuData from "@/store/actions/demoMenuActions";
-
-
-
 /** Render data
  * ---------------------------------
 */
@@ -164,15 +157,6 @@ const SignIn = () => {
         setLoginOk(false);
     }
 
-
-    // Get store
-    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
-    const dispatch = useDispatch();
-    const storeData = useSelector((state: any) => {
-        return state.menuData;
-    });
-
-
     useEffect(() => {
 
         //Authority
@@ -184,18 +168,7 @@ const SignIn = () => {
             setLoginOk(true);
         }
 
-        // Get store
-        //-----
-        const fetchStoreMenu = async () => {
-            if ( !dispatchUpdate ) {
-                const res: any = await getMenuData();
-                setDispatchUpdate(true);
-                dispatch(res);
-            }
-        };
-        fetchStoreMenu();
-        
-    }, [dispatchUpdate, dispatch, loginOk]); 
+    }, [loginOk]); 
 
     
     return (
@@ -207,7 +180,6 @@ const SignIn = () => {
 
             <Layout
                 pageTitle="Sign In"
-                nav={JSON.stringify(storeData.menuItems)}
                 contentComponent={<>
 {
                     (loginOk) ?

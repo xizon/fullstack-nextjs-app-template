@@ -132,7 +132,7 @@ export default function MenuList(props: MenuListProps) {
 
         });
 
-    }, []);
+    }, []); 
 
 
     if ( props.menuListData ) {

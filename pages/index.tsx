@@ -1,6 +1,5 @@
-import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Button from '@/components/Buttons';
 import Layout from '@/components/Layout';
 import SocialMetadata from '@/components/SocialMetadata';
@@ -11,18 +10,9 @@ import CRUDService from "@/utils/data-service/crud";
 
 import appData from "@/data/app.json";
 
-
 // store
-import { useDispatch, useSelector } from "react-redux";
+import { store } from "@/store/createStore";
 import getMenuData from "@/store/actions/demoMenuActions";
-
-
-
-type Props = {
-    protocol: string | null;
-    host: string | null;
-    path: string | null;
-};
 
 
 const MainContent = () => {
@@ -41,38 +31,15 @@ const MainContent = () => {
 };
 
 
-const Home: NextPage<Props> = () => {
-
-
-    // Get store
-    const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
-    const dispatch = useDispatch();
-    const storeData = useSelector((state: any) => {
-        return state.menuData;
-    });
-    
-
+const Home = ({initialReduxState}) => {
 
     useEffect(() => {
-
-        // Get store
-        //-----
-        const fetchStoreMenu = async () => {
-            if ( !dispatchUpdate ) {
-                const res: any = await getMenuData(); // {type: 'RECEIVE_DEMO_MENU', payload: [...]}
-                setDispatchUpdate(true);
-                dispatch(res);
-            }
-        };
-
-        fetchStoreMenu();
-
 
         // init php data
         //-----
         CRUDService.initData();
         
-    }, [dispatchUpdate, dispatch]);
+    }, []); // Empty array ensures that effect is only run on mount and unmount
 
     return (
         <>
@@ -91,13 +58,52 @@ const Home: NextPage<Props> = () => {
 
             <Layout
                 isHome={true}
+                ssrNav={initialReduxState?.menuData.menuItems}
                 pageTitle="HomePage"
-                nav={JSON.stringify(storeData.menuItems)}
                 contentComponent={<><MainContent /></>}
             />
 
         </>
     )
+}
+
+
+
+/** This gets called on every request 
+ * ---------------------------------
+*/
+export async function getStaticProps() {
+
+    let res: any = null;
+
+    try {
+
+
+        // Get store
+        const action = await getMenuData(); // {type: 'RECEIVE_DEMO_MENU', payload: [...]}
+        store.dispatch(action);
+        res = store.getState();
+        /*
+        {
+        menuData: {
+            menuItems: [...]
+            }
+        }        
+        */
+
+    } catch (err) { };
+
+
+
+    // Pass data to the page via props
+    return {
+        props: {
+            initialReduxState: res
+        },
+
+        // Incremental Static Regeneration. (Next.js will attempt to re-generate the page:)
+        revalidate: 10, // In seconds 
+    }
 }
 
 export default Home;

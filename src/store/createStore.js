@@ -1,6 +1,5 @@
 import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
 import { createWrapper } from "next-redux-wrapper";
 import rootReducer from "./reducers";
 
@@ -11,11 +10,7 @@ const initalState = {};
 const middleware = [thunk];
 
 // creating store
-const store = createStore(
-    rootReducer,
-    initalState,
-    composeWithDevTools(applyMiddleware(...middleware))
-);
+const store = createStore( rootReducer, initalState, applyMiddleware(...middleware) );
 
 // assigning store to next wrapper
 const makeStore = () => store;

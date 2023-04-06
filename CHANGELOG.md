@@ -1,13 +1,13 @@
 # Changelog
 
-#### = 0.5.2 (April 4, 2023) =
+#### = 0.5.3 (April 4, 2023) =
 
 * New: Using Redux for navigation API.
-  - The new dependencies include `redux`, `react-redux`, `redux-devtools-extension`, `redux-thunk`, `next-redux-wrapper`
+  - The new dependencies include `redux`, `react-redux`, `redux-thunk`, `next-redux-wrapper`
   - Related pages include `src/store/`, `src/components/Header/`, `src/components/Layout/`, `pages/_app.tsx`, `pages/api/navigation.ts`
   - Related components include `<Header />`, `<Layout />`
 
-* New: Add new components `<MultilevelDropdownMenuProps />` and `<Layout />`.
+* New: Add new components `<MultilevelDropdownMenuProps />`, `<Loader />` and `<Layout />`.
 * Feat: All page code optimization and partial Layout refactoring
 
 
