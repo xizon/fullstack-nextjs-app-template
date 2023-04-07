@@ -12,8 +12,9 @@ function addScript(id, url, defer = false, async = false) {
 
 function removeScript(id) {
 
-    const scriptElem = document.getElementById(id); 
-    scriptElem.remove();
+    const el = document.getElementById(id); 
+    if ( el !== null ) el.remove();
+    
 }
 
 

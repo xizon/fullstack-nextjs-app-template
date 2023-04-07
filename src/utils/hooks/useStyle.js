@@ -13,8 +13,8 @@ function addStyle(id, url) {
 
 
 function removeStyle(id) {
-    const styleElem = document.getElementById(id);
-    styleElem.remove();
+    const el = document.getElementById(id);
+    if ( el !== null ) el.remove();
 }
 
 

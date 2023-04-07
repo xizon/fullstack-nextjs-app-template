@@ -152,7 +152,7 @@ export default function MenuList(props: MenuListProps) {
                         return (
                             <li key={i} className={ (router.asPath === item.link || router.asPath.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
                                 <a href={item.link === '#' ? `${item.link}-${i}` : item.link} aria-expanded="false" onClick={handleClick}>
-                                    {item.icon ? <><i className={item.icon}></i> </> : null}{item.title}
+                                    {item.icon ? item.icon.indexOf('</svg>') < 0 ? <><i className={item.icon}></i> </> : <var dangerouslySetInnerHTML={{__html: `${item.icon}`}} /> : null}{item.title}
                                     {item.children ? <span className={myStyles['vertical-menu__arrow']}></span> : ''}
                                 </a>
                                 {item.children && <MenuList menuListData={item.children}  />}
@@ -162,7 +162,7 @@ export default function MenuList(props: MenuListProps) {
                         return (
                             <li data-router="true" key={i} className={ (router.asPath === item.link || router.asPath.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
                                 <a href={item.link === '#' ? `${item.link}-${i}` : item.link} onClick={handleClick}>
-                                    {item.icon ? <><i className={item.icon}></i> </> : null}{item.title}
+                                   {item.icon ? item.icon.indexOf('</svg>') < 0 ? <><i className={item.icon}></i> </> : <var dangerouslySetInnerHTML={{__html: `${item.icon}`}} /> : null}{item.title}
                                     {item.children ? <span className={myStyles['vertical-menu__arrow']}></span> : ''}
                                 </a>
                                 {item.children && <MenuList menuListData={item.children}  />}
