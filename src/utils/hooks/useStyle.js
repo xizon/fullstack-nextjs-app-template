@@ -1,6 +1,9 @@
 // import the style inside the react component
 function addStyle(id, url) {
 
+    const el = document.getElementById(id); 
+    if ( el !== null ) return;
+
     const head = document.getElementsByTagName('head')[0];
     const link = document.createElement('link');
     link.id = id;
