@@ -24,6 +24,16 @@ const getPackageFilePath = (filename) => {
 };
 
 
+const deletePackageFile = (entryFilepath, entryFileIndex, filename) => {
+    if ( entryFilepath.indexOf( filename ) ) {
+        fs.rm( getPackageFilePath(filename), { force: true }, (err) => {
+            if (err) return console.log(err);
+        });  
+        if ( entryFileIndex === 0 ) console.log('\x1b[36m%s\x1b[0m', `--> (Step 1)  Deleted "my-package/${filename}" successfully`);
+    }
+};
+
+
 // delete package recursively
 // ----------------------------------
 if (fs.existsSync(newPath)) {
@@ -80,18 +90,8 @@ if (fs.existsSync(currPath)) {
                   
 
                 // delete some files
-                if ( file.indexOf( '404.html' ) ) {
-                    fs.rm( getPackageFilePath('404.html'), { force: true }, (err) => {
-                        if (err) return console.log(err);
-                    });  
-                    if ( index === 0 ) console.log('\x1b[36m%s\x1b[0m', `--> (Step 1)  Deleted "my-package/404.html" successfully`);
-                }
-                if ( file.indexOf( '.nojekyll' ) ) {
-                    fs.rm( getPackageFilePath('.nojekyll'), { force: true }, (err) => {
-                        if (err) return console.log(err);
-                    });  
-                    if ( index === 0 ) console.log('\x1b[36m%s\x1b[0m', `--> (Step 1)  Deleted "my-package/.nojekyll" successfully`);
-                }
+                deletePackageFile(file, index, '404.html');
+                deletePackageFile(file, index, '.nojekyll');
                 
 
             });
