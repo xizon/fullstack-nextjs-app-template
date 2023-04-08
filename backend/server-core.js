@@ -8,10 +8,6 @@ const path = require('path');
 const app = express();
 
 
-//make uploads directory static
-app.use('/plugins', express.static('plugins'));
-
-
 // enable files upload
 app.use(fileUpload({
     createParentPath: true,
@@ -27,6 +23,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
+
+//make uploads directory static
+// Note: `app.use(..., express.static(...))` cannot be placed before `app.use(cors())`
+app.use('/plugins', express.static('plugins'));
 
 const targetUploadPath = path.resolve(__dirname, '../plugins/');
 
@@ -82,6 +82,13 @@ app.post('/upload-plugin', async (req, res) => {
     } catch (err) {
         res.status(500).send(err);
     }
+});
+
+
+// get page (It is also possible not to write the following code)
+app.get('/plugins/*', async (req, res) => {
+    let pagePath = req.path;   // /plugins/xxx/yyy/
+    res.sendFile(path.join(__dirname, `../${pagePath}`));
 });
 
 

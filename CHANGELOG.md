@@ -1,5 +1,10 @@
 # Changelog
 
+#### = 0.5.6 (April 8, 2023) =
+
+Fix: Fixed cross domain issue in express service.
+
+
 #### = 0.5.5 (April 4, 2023) =
 
 * New: Using Redux for navigation API.
