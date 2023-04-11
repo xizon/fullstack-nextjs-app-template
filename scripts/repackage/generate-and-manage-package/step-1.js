@@ -7,22 +7,21 @@
 const glob = require('glob');
 const fs = require('fs');
 const path = require('path');
-const configPath = path.resolve(__dirname, '../../package.json');
+const configPath = path.resolve(__dirname, '../../../package.json');
 const json = JSON.parse(fs.readFileSync(configPath));
 
 // Document that .nojekyll file is required when publishing to GitHub Pages
 // ----------------------------------
-const outputDir = '../../out/';
+const outputDir = '../../../out/';
 const targetPath = path.resolve(__dirname, outputDir + '.nojekyll');
 const currPath = path.resolve(__dirname, outputDir);
-const newPath = path.resolve(__dirname, '../../my-package/');
-const iteratesPackagePath = path.resolve(__dirname, '../../my-package/**/**.+(html|js|css|json)');
+const newPath = path.resolve(__dirname, '../../../my-package/');
+const iteratesPackagePath = path.resolve(__dirname, '../../../my-package/**/**.+(html|js|css|json)');
 
 
 const getPackageFilePath = (filename) => {
-    return path.resolve(__dirname, '../../my-package/' + filename);
+    return path.resolve(__dirname, '../../../my-package/' + filename);
 };
-
 
 const deletePackageFile = (entryFilepath, entryFileIndex, filename) => {
     if ( entryFilepath.indexOf( filename ) ) {
@@ -92,7 +91,8 @@ if (fs.existsSync(currPath)) {
                 // delete some files
                 deletePackageFile(file, index, '404.html');
                 deletePackageFile(file, index, '.nojekyll');
-                
+                deletePackageFile(file, index, 'index.html');
+                deletePackageFile(file, index, 'asset-manifest.json');
 
             });
    
