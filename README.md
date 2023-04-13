@@ -25,33 +25,37 @@ List my progress here:
 
 | Function Block |  Supports  |
 | --- | --- |
-| Navigation | ✔ |
-| Parameter Acquisition | ✔ |
-| Pagination | ✔ |
-| Basic Components | ✔ |
-| Authorization | ✔ |
-| Login | ✔ |
-| Register | ✔ |
-| Network Requests | ✔ |
-| Routes Demo | ✔ |
-| API Demo | ✔ |
-| CURD Demo | ✔ |
-| JWT Demo | ✔ |
-| Dynamic Routes Demo | ✔ |
-| File Import | ✔ |
-| SEO Premium | ✔ |
-| Static Pages | ✔ |
-| Incremental Static Regeneration | ✔ |
-| Remote Download | ✔ |
-| Fully Static HTML Files Generation | ✔ |
-| Custom Server | ✔ |
-| Frontend Page Interacts With Node | ✔ |
-| Alias Support | ✔ |
-| Local PHP Service Association | ✔ |
-| Server Deployment | ✔ |
-| Deploy Using Docker | ✔ |
-| Redux Supplement (for navigation) | ✔ |
-| Redux SSR (for homepage) | ✔ |
+| Navigation | ✅ |
+| Parameter Acquisition | ✅ |
+| Pagination | ✅ |
+| Basic Components | ✅ |
+| Authorization | ✅ |
+| Login | ✅ |
+| Register | ✅ |
+| Network Requests | ✅ |
+| Routes Demo | ✅ |
+| API Demo | ✅ |
+| CURD Demo | ✅ |
+| JWT Demo | ✅ |
+| Dynamic Routes Demo | ✅ |
+| File Import | ✅ |
+| SEO Premium | ✅ |
+| Static Pages | ✅ |
+| Incremental Static Regeneration | ✅ |
+| Remote Download | ✅ |
+| Fully Static HTML Files Generation | ✅ |
+| Custom Server | ✅ |
+| Frontend Page Interacts With Node | ✅ |
+| Alias Support | ✅ |
+| Local PHP Service Association | ✅ |
+| Server Deployment | ✅ |
+| Deploy Using Docker | ✅ |
+| Redux Supplement (for navigation) | ✅ |
+| Redux SSR (for homepage) | ✅ |
+| End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
+| React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [React Pure Bootstrap](https://github.com/xizon/react-pure-bootstrap) |
+
+
 
 
 ## File Structures
