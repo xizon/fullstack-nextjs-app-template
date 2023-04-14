@@ -4,7 +4,7 @@
  */
 const path = require('path');
 const fs = require('fs');
-const componentPath = path.resolve(__dirname, '../../src/components/');
+const srcPath = path.resolve(__dirname, '../../src/');
 const pageNextPath = path.resolve(__dirname, '../../pages/');
 const potFileContent = {
     "////////// NOTE: Generated with \"node scripts/i18n/generate-translation-file.js\", you could change the language value you want.": "////////// 提示: 此文件由 \"node scripts/i18n/generate-translation-file.js\" 命令自动生成，您可以修改属性值为想要的语言",
@@ -46,7 +46,7 @@ const recursiveSync = (src, dest) => {
 };
 
 
-recursiveSync(componentPath, '');
+recursiveSync(srcPath, '');
 recursiveSync(pageNextPath, '');
 
 //
