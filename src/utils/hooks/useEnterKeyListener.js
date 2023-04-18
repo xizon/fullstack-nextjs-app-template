@@ -1,12 +1,25 @@
-// submit a form using Enter key
+/**
+ * Run a handle using Enter key
+ */
 import { useEffect } from "react";
 
-const useEnterKeyListener = ({ el }) => {
+const useEnterKeyListener = ({ el, ctrl = false }) => {
     useEffect(() => {
         const listener = (event) => {
-            if (event.code === "Enter" || event.code === "NumpadEnter") {
-                handlePressEnter();
+
+            // Do not use `stopImmediatePropagation()` here, 
+            // otherwise other hooks that listen for Enter key may not work
+
+            if ( ctrl ) {
+                if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.ctrlKey ) {
+                    handlePressEnter();
+                }
+            } else {
+                if (event.code === "Enter" || event.code === "NumpadEnter") {
+                    handlePressEnter();
+                }
             }
+
         };
 
         document.addEventListener("keydown", listener);
