@@ -9,8 +9,8 @@ const useEnterKeyDispatchTabListener = ({ el = 'a, button, input, textarea, sele
     useEffect(() => {
         const listener = (event) => {
 
-            // prevent event handler twice
-            event.stopImmediatePropagation();
+            // Do not use `stopImmediatePropagation()` here, 
+            // otherwise other hooks that listen for Enter key may not work
 
             if ( ctrl ) {
                 if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.ctrlKey ) {
@@ -48,7 +48,6 @@ const useEnterKeyDispatchTabListener = ({ el = 'a, button, input, textarea, sele
         
         const currentIndex = tabElements.findIndex((e) => e === document.activeElement);
 
-        console.log(currentIndex);
 
         // get the next element in the list, "%" will loop around to 0
         const nextIndex = (currentIndex + 1) % tabElements.length;
