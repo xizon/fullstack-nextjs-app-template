@@ -25,12 +25,26 @@ function MyApp({ Component, ...rest }: AppProps) {
             </Provider>
 
             {/*
-        <Script
-                strategy="beforeInteractive"
-                id="myjs-file"
-                src="/assets/js/xxxx.js"
-            ></Script>
-        */}
+            <Script
+                    strategy="beforeInteractive"
+                    id="myjs-file"
+                    src="/assets/js/xxxx.js"
+                ></Script>
+            */}
+
+
+            {/* Global variables can be used anywhere (plugins, subpages, etc.) */}
+            <Script
+            id="global-vars"
+            strategy="beforeInteractive"
+            dangerouslySetInnerHTML={{
+                __html: `
+                window['NODE_ENV'] = '${process.env.NODE_ENV}';
+                `,
+            }}
+            />
+
+
 
         </>
 
