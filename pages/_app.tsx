@@ -1,7 +1,7 @@
 import '@/styles/globals.scss';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Script from 'next/script';
+
 
 
 // store
@@ -23,27 +23,6 @@ function MyApp({ Component, ...rest }: AppProps) {
             <Provider store={store}>
                 <Component {...props.pageProps} />
             </Provider>
-
-            {/*
-            <Script
-                    strategy="beforeInteractive"
-                    id="myjs-file"
-                    src="/assets/js/xxxx.js"
-                ></Script>
-            */}
-
-
-            {/* Global variables can be used anywhere (plugins, subpages, etc.) */}
-            <Script
-            id="global-vars"
-            strategy="beforeInteractive"
-            dangerouslySetInnerHTML={{
-                __html: `
-                window['NODE_ENV'] = '${process.env.NODE_ENV}';
-                `,
-            }}
-            />
-
 
 
         </>

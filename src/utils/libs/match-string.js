@@ -17,7 +17,6 @@
 }
 
 
-// node & browser
 module.exports = {
     matchAllFilesUrls
 }

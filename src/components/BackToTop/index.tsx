@@ -8,8 +8,7 @@ import { useEffect, useState, useRef } from 'react';
 /*-- Apply this component styles --*/
 import myStyles from '@/components/BackToTop/styles/index.module.scss';
 
-import { throttle } from '@/utils/performance';
-import { easeLinear, easeInQuad, easeOutQuad, easeInOutQuad } from '@/utils/easing';
+import CoreUtils from '@/utils/CoreUtils';
 
 // Adapt the easing parameters of TweenMax
 enum EasingList {
@@ -42,7 +41,8 @@ export default function BackToTop(props: BackToTopProps) {
 
     const btnRef = useRef<any>(null);
     const [isAtRange, setIsAtRange] = useState<boolean>(false);
-    const windowScrollUpdate = throttle(handleScrollEvent, 5);
+    const windowScrollUpdate = CoreUtils.return('throttle', handleScrollEvent, 5);
+
 
     function handleScrollEvent() {
         const scrollTop = window.pageYOffset;
@@ -79,20 +79,20 @@ export default function BackToTop(props: BackToTopProps) {
 
                 switch (easeType) {
                     case "linear":
-                        val = easeLinear(time, from, to - from, duration);
+                        val = CoreUtils.return('easeLinear', time, from, to - from, duration);
                         break;
                     case "ease-in":
-                        val = easeInQuad(time, from, to - from, duration);
+                        val = CoreUtils.return('easeInQuad', time, from, to - from, duration);
                         break;
                     case "ease-out":
-                        val = easeOutQuad(time, from, to - from, duration);
+                        val = CoreUtils.return('easeOutQuad', time, from, to - from, duration);
                         break;
                     case "ease-in-out":
-                        val = easeInOutQuad(time, from, to - from, duration);
+                        val = CoreUtils.return('easeInOutQuad', time, from, to - from, duration);
                         break;
         
                     default:
-                        val = easeLinear(time, from, to - from, duration);
+                        val = CoreUtils.return('easeLinear', time, from, to - from, duration);
                 }
         
                 // Elapsed time in miliseconds

@@ -1,10 +1,10 @@
-import { getNextSiblings } from '@/utils/dom';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
 /*-- Apply this component styles --*/
 import myStyles from '@/components/MultilevelDropdownMenu/styles/index.module.scss';
 
+import CoreUtils from '@/utils/CoreUtils';
 
 
 /* Recursively nested components to traverse nodes
@@ -64,8 +64,8 @@ export default function MenuList(props: MenuListProps) {
         e.preventDefault();
         const hyperlink = e.target;
         const url = hyperlink.getAttribute('href');
-        const subElement = getNextSiblings(hyperlink, 'ul');
-
+        const subElement = CoreUtils.return('getNextSiblings', hyperlink, 'ul');
+        
         // route switching
         //=====================
         if ( typeof hyperlink.parentNode.dataset.router !== 'undefined' ) {
@@ -86,8 +86,8 @@ export default function MenuList(props: MenuListProps) {
                 const _li = li.firstChild;
                 activeClass(_li, 'remove');
                 _li.setAttribute('aria-expanded', false);
-    
-                [].slice.call(getNextSiblings(_li, 'ul')).forEach(function(element: any){
+                
+                [].slice.call(CoreUtils.return('getNextSiblings', _li, 'ul')).forEach(function(element: any){
                     element.style.maxHeight = 0;
                 });
             });

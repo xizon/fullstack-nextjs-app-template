@@ -4,7 +4,7 @@
  * @param {string} str Any string.
  * @return {string} An integer
  */
- export default function strToNumId(str) {
+function strToNumId(str) {
 
     if (typeof str !== 'string') return 0;
 
@@ -69,3 +69,6 @@ function md5(str) {
     }
     return rh(a) + rh(b) + rh(c) + rh(d);
 }
+
+
+module.exports = strToNumId;

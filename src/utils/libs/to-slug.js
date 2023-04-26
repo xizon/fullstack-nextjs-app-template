@@ -4,7 +4,7 @@
  * @param {string} str Input text
  * @return {string} Converted text
  */
-export default function toSlug(str) {
+function toSlug(str) {
 
     return str
         .toString()
@@ -14,3 +14,5 @@ export default function toSlug(str) {
         .replace(/\-\s*$/, '')
         .toLowerCase();
 };
+
+module.exports = toSlug;

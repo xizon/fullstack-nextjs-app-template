@@ -12,7 +12,7 @@ const GrpcService = multipleClasses(ExtensionOne, ExtensionTwo)(BaseClass);
 export default new GrpcService;
 
 */
-export function multipleClasses(...mixins) {
+function multipleClasses(...mixins) {
     return function (Base) {
         const copyProps = (target, source) => {
             Object.getOwnPropertyNames(source)
@@ -30,4 +30,8 @@ export function multipleClasses(...mixins) {
         });
         return Base;
     }
+}
+
+module.exports = {
+    multipleClasses
 }

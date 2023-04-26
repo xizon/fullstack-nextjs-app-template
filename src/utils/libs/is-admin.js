@@ -1,8 +1,8 @@
 // Authority 
-import authHeader from '@/utils/auth-header';
-import { getCookie } from '@/utils/cookies-tool';
+const authHeader = require('./auth-header');
+const { getCookie } = require('./cookies-tool');
 
-export default function isAdmin() {
+function isAdmin() {
 
     //destroy cookie & localStorage
     const expiration = getCookie('SITE_DATA_LOGIN_COOKIE');
@@ -13,3 +13,6 @@ export default function isAdmin() {
     //check localStorage
 	return !(JSON.stringify(authHeader()) === '{}');
 }
+
+
+module.exports = isAdmin;

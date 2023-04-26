@@ -7,9 +7,7 @@ const apiUrls = require('../src/config/apiUrls');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-
-const { matchAllFilesUrls } = require('../src/utils/match-string.js');
-const { renameFile } = require('../src/utils/rename.js');
+const CoreUtils = require('../src/utils/CoreUtils');
 
 const mkdirsSync = function (dirname) {
     if (fs.existsSync(dirname)) {
@@ -25,14 +23,14 @@ const mkdirsSync = function (dirname) {
 console.log('\x1b[36m%s\x1b[0m', `--> Downloading remote files from API... `);
 
 axios.get(apiUrls.RECEIVE_DEMO_LIST).then((response) => {
-
+    
     const posts = response.data;
-    const allFiles = matchAllFilesUrls(JSON.stringify(posts));
+    const allFiles = CoreUtils.return('matchAllFilesUrls', JSON.stringify(posts));
     allFiles.forEach((filepath) => {
 
         //
         const publicDir = '../public/';
-        const newFilename = renameFile(filepath);
+        const newFilename = CoreUtils.return('renameFile', filepath);
         const targetPath = path.resolve(__dirname, publicDir + 'static-remote/files/' + newFilename);
 
         if (!fs.existsSync(targetPath)) {

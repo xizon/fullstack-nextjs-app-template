@@ -5,6 +5,26 @@ import { useEffect } from "react";
 
 const useEnterKeyListener = ({ el, ctrl = false }) => {
     useEffect(() => {
+
+        const handlePressEnter = () => {
+            const mouseClickEvents = ["mousedown", "click", "mouseup"];
+            function simulateMouseClick(element) {
+                mouseClickEvents.forEach((mouseEventType) =>
+                    element.dispatchEvent(
+                        new MouseEvent(mouseEventType, {
+                            view: window,
+                            bubbles: true,
+                            cancelable: true,
+                            buttons: 1
+                        })
+                    )
+                );
+            }
+
+            const element = document.querySelector(el);
+            simulateMouseClick(element);
+        };
+
         const listener = (event) => {
 
             // Do not use `stopImmediatePropagation()` here, 
@@ -27,26 +47,8 @@ const useEnterKeyListener = ({ el, ctrl = false }) => {
         return () => {
             document.removeEventListener("keydown", listener);
         };
-    }, []);
+    }, [el, ctrl]);
 
-    const handlePressEnter = () => {
-        const mouseClickEvents = ["mousedown", "click", "mouseup"];
-        function simulateMouseClick(element) {
-            mouseClickEvents.forEach((mouseEventType) =>
-                element.dispatchEvent(
-                    new MouseEvent(mouseEventType, {
-                        view: window,
-                        bubbles: true,
-                        cancelable: true,
-                        buttons: 1
-                    })
-                )
-            );
-        }
-
-        const element = document.querySelector(el);
-        simulateMouseClick(element);
-    };
 };
 
 export default useEnterKeyListener;

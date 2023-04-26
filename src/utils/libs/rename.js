@@ -15,7 +15,6 @@ function renameFile(filepath) {
     
 }
 
-// node & browser
 module.exports = {
     renameFile
 }

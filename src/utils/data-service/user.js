@@ -2,8 +2,7 @@ import axios from 'axios';
 import apiUrls from '@/config/apiUrls';
 
 // Authority 
-import isAdmin from '@/utils/is-admin';
-import authHeader from '@/utils/auth-header';
+import CoreUtils from '@/utils/CoreUtils';
 
 
 class UserService {
@@ -20,7 +19,7 @@ class UserService {
          */
 		if (process.env.NODE_ENV !== "production") {
 			curUrl += '?';
-			curUrl += `token=${authHeader().Authorization.replace('Bearer ', '')}`;
+			curUrl += `token=${CoreUtils.return('authHeader').Authorization.replace('Bearer ', '')}`;
 			curConfig = {};
 		}
         /**
@@ -40,11 +39,11 @@ class UserService {
      * Get User Name
      */
 	getUserName() {
-		if ( !isAdmin() ) return null;
+		if ( !CoreUtils.return('isAdmin') ) return null;
 
 		this.config = { 
 			headers: { 
-				...authHeader(), 
+				...CoreUtils.return('authHeader'), 
 				'Content-Type': 'application/json'  
 			}
 		};

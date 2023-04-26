@@ -1,6 +1,6 @@
 import axios from 'axios';
 import apiUrls from '@/config/apiUrls';
-import { setCookie, delCookie } from '@/utils/cookies-tool';
+import CoreUtils from '@/utils/CoreUtils';
 
 class AuthService {
 	
@@ -50,9 +50,9 @@ class AuthService {
                         // ( --> It could be used for different domain request)
                         const rememberme = true;
                         if ( rememberme == true ) {
-                            setCookie('SITE_DATA_LOGIN_COOKIE', jsonData.data.token, '/', 14);
+                            CoreUtils.call('setCookie', 'SITE_DATA_LOGIN_COOKIE', jsonData.data.token, '/', 14);
                         } else {
-                            setCookie('SITE_DATA_LOGIN_COOKIE', jsonData.data.token, '/', 'Session');
+                            CoreUtils.call('setCookie', 'SITE_DATA_LOGIN_COOKIE', jsonData.data.token, '/', 'Session');
                         }
                         
 
@@ -115,10 +115,11 @@ class AuthService {
                         // ( --> It could be used for different domain request)
                         const rememberme = true;
                         if ( rememberme == true ) {
-                            setCookie('SITE_DATA_LOGIN_COOKIE', jsonData.data.token, '/', 14);
+                            CoreUtils.call('setCookie', 'SITE_DATA_LOGIN_COOKIE', jsonData.data.token, '/', 14);
                         } else {
-                            setCookie('SITE_DATA_LOGIN_COOKIE', jsonData.data.token, '/', 'Session');
+                            CoreUtils.call('setCookie', 'SITE_DATA_LOGIN_COOKIE', jsonData.data.token, '/', 'Session');
                         }
+                        
                         
 						
 					}
@@ -188,7 +189,7 @@ class AuthService {
 	logout() {
 
 		localStorage.removeItem('SITE_DATA_AUTH');
-        delCookie('SITE_DATA_LOGIN_COOKIE', '/');
+        CoreUtils.call('delCookie', 'SITE_DATA_LOGIN_COOKIE', '/');
 
 	}
 

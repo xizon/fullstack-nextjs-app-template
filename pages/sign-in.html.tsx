@@ -7,7 +7,7 @@ import Layout from '@/components/Layout';
 import AuthService from "@/utils/data-service/auth";
 
 // Authority 
-import isAdmin from '@/utils/is-admin';
+import CoreUtils from '@/utils/CoreUtils';
 
 
 /** Render data
@@ -161,7 +161,7 @@ const SignIn = () => {
 
         //Authority
         //-----
-        const __IS_ADMIN = isAdmin();
+        const __IS_ADMIN = CoreUtils.return('isAdmin');
         if ( !__IS_ADMIN ) {
             setLoginOk(false);
         } else {

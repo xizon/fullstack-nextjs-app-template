@@ -5,7 +5,7 @@
  * @param {string} str Input text
  * @return {string} Filtered text
  */
- export function htmlEncode(str) {
+ function htmlEncode(str) {
 
     return str.replace(/[&<>'"]/g, tag => ({
         '&': '&amp;',
@@ -24,7 +24,7 @@
  * @param {string} str Input text
  * @return {string} Filtered text
  */
-export function htmlDecode(str) {
+function htmlDecode(str) {
 
     let res = '';
     const entities = [
@@ -51,3 +51,9 @@ export function htmlDecode(str) {
 
 }
 
+
+
+module.exports = {
+    htmlEncode,
+    htmlDecode
+}

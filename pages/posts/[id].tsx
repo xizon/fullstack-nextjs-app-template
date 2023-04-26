@@ -7,9 +7,7 @@ import SocialMetadata from '@/components/SocialMetadata';
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 
-import { matchAllFilesUrls } from '@/utils/match-string';
-import { renameFile } from '@/utils/rename';
-
+import CoreUtils from '@/utils/CoreUtils';
 import appData from "@/data/app.json";
 
 
@@ -118,10 +116,10 @@ export async function getStaticProps(context) {
         //---------
         odata = res.data[0];
         let orginData = JSON.stringify(odata);
-        const allImages = matchAllFilesUrls(orginData);
+        const allImages = CoreUtils.return('matchAllFilesUrls', orginData);
         allImages.forEach((filepath) => {
-
-            const newFilename = renameFile(filepath);
+            
+            const newFilename = CoreUtils.return('renameFile', filepath);
 
             //
             const re = new RegExp(filepath, "g");

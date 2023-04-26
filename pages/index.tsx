@@ -30,7 +30,6 @@ const MainContent = () => {
 
 };
 
-
 const Home = ({initialReduxState}) => {
 
     useEffect(() => {

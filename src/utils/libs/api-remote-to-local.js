@@ -1,5 +1,6 @@
-import apiUrls from '@/config/apiUrls';
-import axios from "axios";
+
+const apiUrls = require('../../config/apiUrls');
+const axios = require('axios');
 
 /**
  * Store remote resources as local
@@ -13,12 +14,11 @@ import axios from "axios";
 
 
 import { useState, useEffect } from 'react';
-import apiRemoteToLocal from '@/utils/api-remote-to-local';
-import { matchAllFilesUrls } from '@/utils/match-string';
+import CoreUtils from '@/utils/CoreUtils';
 
 function Example() {
 
-    const [odata, setOdata] = useState<any>({a:1,flag:"https://path.jpg"});
+    const [odata, setOdata] = useState({a:1,flag:"https://path.jpg"});
     useEffect(() => {
 
         // Download and update image URLs from remote server
@@ -29,8 +29,9 @@ function Example() {
 
             if ( odata === null ) return;
 
-            const allImages = matchAllFilesUrls(orginData);
-            const newData = await apiRemoteToLocal(odata, allImages);
+            let orginData = JSON.stringify(odata);
+            const allImages = CoreUtils.return('matchAllFilesUrls', orginData);
+            const newData = await CoreUtils.return('apiRemoteToLocal', odata, allImages);
             setOdata( newData );       
         };
 
@@ -44,7 +45,7 @@ function Example() {
 
 
 */
-export default async function apiRemoteToLocal(orginData, remoteSources) {
+async function apiRemoteToLocal(orginData, remoteSources) {
 
     let _res = JSON.stringify(orginData);
 
@@ -87,3 +88,6 @@ export default async function apiRemoteToLocal(orginData, remoteSources) {
     return JSON.parse(_res);
 
 }
+
+
+module.exports = apiRemoteToLocal;

@@ -1,4 +1,4 @@
-export default () => {
+const authHeader = () => {
     // return authorization header with JWT(JSON Web Token) token
     let user = JSON.parse(localStorage.getItem('SITE_DATA_AUTH'));
 
@@ -8,6 +8,8 @@ export default () => {
         return {};
     }
 }
+
+module.exports = authHeader;
 
 /*
 Example:

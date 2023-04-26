@@ -6,7 +6,7 @@
 * @param  {Number} limit   - Waiting time.
 * @return {Function}       - Returns a new function.
 */  
-export function debounce( fn, limit = 300 ) {
+function debounce( fn, limit = 300 ) {
     let timer;
     return function() {
     
@@ -32,7 +32,7 @@ export function debounce( fn, limit = 300 ) {
 * @param  {Number} limit   - Waiting time.
 * @return {Function}       - Returns a new function.
 */  
-export function throttle( fn, limit = 300 ) {
+function throttle( fn, limit = 300 ) {
 	let waiting = false;                     
 	return function () {                     
 		if (!waiting) {                 
@@ -43,4 +43,10 @@ export function throttle( fn, limit = 300 ) {
 			}, limit);
 		}
 	}
+}
+
+
+module.exports = {
+    debounce,
+    throttle
 }

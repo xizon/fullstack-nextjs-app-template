@@ -41,7 +41,7 @@ function getBodyCode(str) {
 }
 
 
-export {
+module.exports = {
     getFilesFromHead,
     getBodyCode
 }

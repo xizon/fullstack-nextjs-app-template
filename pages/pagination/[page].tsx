@@ -155,7 +155,7 @@ export default PostsPagination;
 #########################################################
 
 
-import toSlug from '@/utils/to-slug';
+import CoreUtils from '@/utils/CoreUtils';
 
 // pages/discoveries/color/[color]/[page].tsx
 // Generates `/pagination/color/black/1` and `/pagination/color/black/2`
@@ -177,7 +177,7 @@ export async function getStaticPaths() {
 
         const res = await axios.get(`https://api/colorlist`);
         res.data.data.forEach( (item: any) => {
-            const sortName = toSlug(item.name);   // Please do not use `encodeURI` string
+            const sortName = CoreUtils.return('toSlug', item.name);   // Please do not use `encodeURI` string
             const pageTotal = res !== null ? Math.ceil(parseInt(item.postcount) / pageData.perPage) : 1;
             const pages = new Array(pageTotal).fill(0);
     

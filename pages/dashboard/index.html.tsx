@@ -7,7 +7,7 @@ import DataList from '@/components/Dashboard/Datalist';
 import cookies from 'next-cookies';
 
 // Authority 
-import isAdmin from '@/utils/is-admin';
+import CoreUtils from '@/utils/CoreUtils';
 
 
 const MainContent = () => {
@@ -31,7 +31,7 @@ const Dashboard = () => {
 
         //Authority
         //-----
-        const __IS_ADMIN = isAdmin();
+        const __IS_ADMIN = CoreUtils.return('isAdmin');
 
     }, []); 
 

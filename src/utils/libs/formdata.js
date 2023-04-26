@@ -3,7 +3,7 @@
  * @param {HTMLFormElement} form      - Element
  * @returns Array
  */
-export function serializeArray(form) {
+function serializeArray(form) {
 
     const objects = [];
     if (typeof form == 'object' && form.nodeName.toLowerCase() == "form") {
@@ -37,3 +37,7 @@ export function serializeArray(form) {
     return objects;
 }
 
+
+module.exports = {
+    serializeArray
+}

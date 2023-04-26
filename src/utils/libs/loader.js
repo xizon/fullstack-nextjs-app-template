@@ -34,7 +34,7 @@
 
 
 */   
-export default function loadTextures(arr, perLoadedCallback) {
+function loadTextures(arr, perLoadedCallback) {
     let promises = [];
     if (typeof (perLoadedCallback) === 'undefined') perLoadedCallback = function (url) { console.log(url) };
 
@@ -105,3 +105,7 @@ export default function loadTextures(arr, perLoadedCallback) {
     return Promise.all(promises);
 }
 
+
+module.exports = {
+    loadTextures
+}
