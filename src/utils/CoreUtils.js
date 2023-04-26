@@ -5,7 +5,7 @@
  * 
  
 const windowScrollUpdate = CoreUtils.return('throttle', handleScrollEvent, 5);
-CoreUtils.call('delCookie', 'SITE_DATA_LOGIN_COOKIE', '/')
+CoreUtils.call('delCookie', 'DATA_NAME', '/')
 
  */
 const CoreUtils = require('./UtilsHook');
@@ -138,7 +138,7 @@ CoreUtils.add('authHeader', (...attrs) => authHeader(...attrs));
 CoreUtils.add('getCookie', (...attrs) => getCookie(...attrs));
 CoreUtils.add('setCookie', (...attrs) => setCookie(...attrs));
 CoreUtils.add('delCookie', (...attrs) => delCookie(...attrs));
-CoreUtils.add('browser', (...attrs) => browser(...attrs));
+CoreUtils.add('browser', () => browser);
 CoreUtils.add('matchAllFilesUrls', (...attrs) => matchAllFilesUrls(...attrs));
 CoreUtils.add('renameFile', (...attrs) => renameFile(...attrs));
 CoreUtils.add('apiRemoteToLocal', (...attrs) => apiRemoteToLocal(...attrs));

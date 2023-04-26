@@ -23,7 +23,12 @@ const Hooks = {
     },
 
     return: function (name, ...params) {
-        return this.queue[name][0](...params);
+        if ( typeof this.queue[name][0] !== 'function' ) {
+            return this.queue[name][0];
+        } else {
+            return this.queue[name][0](...params);
+        }
+        
     }
 };
 
