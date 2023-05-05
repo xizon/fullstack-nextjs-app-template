@@ -19,7 +19,10 @@ const useEnterKeyDispatchTabListener = ({ el = 'a:not([tabindex="-1"]), button:n
                         : [prev[0], [...prev[1], next]];
                 }, [[], []])
                 .reduce((prev, next) => ([...prev, ...next.sort((a, b) => a.tabIndex === 0 ? -1 : a.tabIndex > b.tabIndex ? -1 : 1)]), [])
-                .reverse();
+                .reverse()
+                .filter( el => {
+                    return el.tabIndex >= 0 && el.type !== 'hidden';
+                });
 
             const currentIndex = tabElements.findIndex((e) => e === document.activeElement);
 

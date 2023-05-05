@@ -1,30 +1,47 @@
 /**
  * Serialize form values
+ * @param  {Array} types   - An array of field strings.
  * @param {HTMLFormElement} form      - Element
  * @returns Array
  */
-function serializeArray(form) {
+function serializeArray(form, types = ['input', 'textarea', 'select', 'checkbox', 'progress', 'datalist']) {
 
     const objects = [];
     if (typeof form == 'object' && form.nodeName.toLowerCase() == "form") {
 
-        const fieldsTypes = ['input', 'textarea', 'select', 'checkbox', 'progress', 'datalist'];
+        const fieldsTypes = types;
         fieldsTypes.map((item, index) => {
             const fields = form.getElementsByTagName(item);
             for (let i = 0; i < fields.length; i++) {
 
+                const _name = fields[i].getAttribute("name");
+                let _value = fields[i].value;
+
+                // if field is Array
+                if ( _name !== null && _name.match(/(\[.*?\])/gi) ) {
+                    const inputs = form.querySelectorAll("[name='"+_name+"']");
+                    const _arrFieldValue = [];
+                    for (let j = 0; j < inputs.length; j++) {
+                        const _arrField = inputs[j];
+                        _arrFieldValue.push(_arrField.value);
+                    }
+
+                    _value = _arrFieldValue;
+                }
+
+                
                 //if checkbox or radio
                 if ( fields[i].type === 'radio' || fields[i].type === 'checkbox' ) {
                     if ( fields[i].checked === true ) {
                         objects[objects.length] = {
-                            name: fields[i].getAttribute("name"),
-                            value: fields[i].value
+                            name: _name,
+                            value: _value
                         };
                     }
                 } else {
                     objects[objects.length] = {
-                        name: fields[i].getAttribute("name"),
-                        value: fields[i].value
+                        name: _name,
+                        value: _value
                     };
                 }
            
@@ -33,8 +50,11 @@ function serializeArray(form) {
         });
 
     }
+    
+    // remove Duplicate objects from JSON Array
+    const clean = objects.filter((item, index, self) => index === self.findIndex((t) => (t.name === item.name)));
 
-    return objects;
+    return clean;
 }
 
 

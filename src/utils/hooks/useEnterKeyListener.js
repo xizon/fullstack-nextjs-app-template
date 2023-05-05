@@ -9,6 +9,8 @@ const useEnterKeyListener = ({ el, ctrl = false }) => {
         const handlePressEnter = () => {
             const mouseClickEvents = ["mousedown", "click", "mouseup"];
             function simulateMouseClick(element) {
+                if ( element === null ) return;
+
                 mouseClickEvents.forEach((mouseEventType) =>
                     element.dispatchEvent(
                         new MouseEvent(mouseEventType, {
