@@ -108,13 +108,13 @@ CMD ["node", "server.js"]
 
 # # "COPY" should be followed immediately before the command to install dependencies
 # # Copy the folders outside the "next.js" separately
-# RUN mkdir -p /app-his/plugins
-# COPY plugins/ /app-his/plugins
+# RUN mkdir -p /fullstack-nextjs-app-template/plugins
+# COPY plugins/ /fullstack-nextjs-app-template/plugins
 
 # # execute the ls command inside the image's shell to recursively list all subdirectories' content of the "WORKDIR" folder
-# RUN ls -la /app-his/plugins
+# RUN ls -la /fullstack-nextjs-app-template/plugins
 
-# COPY --from=deps /app-his/node_modules ./node_modules
+# COPY --from=deps /fullstack-nextjs-app-template/node_modules ./node_modules
 
 # # create a `.sh` file
 # RUN printf "node server.js& node ./backend/server-core.js&\nwait\necho \"--> All is ending\"" > entrypoint.sh
