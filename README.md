@@ -700,7 +700,7 @@ $ docker build -t fullstack-nextjs-app-template:v1 .
 
 **Step 5.** Run your application. Based on the tags you gave your Dockerfile, you can now run them with the docker run command.
 
-The -p flag exposes the container's ports to services outside of docker (the first port is the port exposed to the outside).
+The -p flag exposes the container's ports to services outside of docker (the first port is the port exposed to the outside). Use of multiple ports: `docker run -p <host_port1>:<container_port1> -p <host_port2>:<container_port2>`
 
 Run your container:
 

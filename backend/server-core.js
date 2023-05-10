@@ -26,7 +26,10 @@ app.use(morgan('dev'));
 
 //make uploads directory static
 // Note: `app.use(..., express.static(...))` cannot be placed before `app.use(cors())`
-app.use('/plugins', express.static('plugins'));
+
+// Static resources in plugins can be used dynamically (no need to redeploy)
+// you can visit the static URL like this: http://localhost:4001/vars/custom-page/
+app.use('/vars', express.static('plugins'));
 
 const targetUploadPath = path.resolve(__dirname, '../plugins/');
 
