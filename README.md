@@ -620,6 +620,27 @@ $ docker run -p 3000:3000 fullstack-nextjs-app-template:v1
 ```
 
 
+> 
+> **NOTE**:
+>
+> If **Ctrl+C** does not work to terminate the container, please add the following code in the server file such as Express, and use the following command to temporarily run the container
+> 
+> ```js
+> // Stop running node in docker with Ctrl+C sends the SIGINT signal.
+> // Usage: docker run --init -p <host_port>:<container_port> <image_name:version>
+> const process = require('process');
+> process.on('SIGINT', () => {
+>     console.info("Interrupted")
+>     process.exit(0);
+> });
+> ```
+> 
+> ```bash
+> $ docker run --init -p <host_port>:<container_port> <image_name:version>
+> ```
+> 
+
+
 
 **Step 6.** Persistence running (exit the command panel is still executed, add a parameter -d)
 
