@@ -3,7 +3,7 @@
  */
 import { useEffect } from "react";
 
-const useEnterKeyListener = ({ el, ctrl = false }) => {
+const useEnterKeyListener = ({ el, ctrl = false, alt= false }) => {
     useEffect(() => {
 
         const handlePressEnter = () => {
@@ -36,6 +36,10 @@ const useEnterKeyListener = ({ el, ctrl = false }) => {
                 if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.ctrlKey ) {
                     handlePressEnter();
                 }
+            } else if ( alt ) {
+                if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.altKey ) {
+                    handlePressEnter();
+                } 
             } else {
                 if (event.code === "Enter" || event.code === "NumpadEnter") {
                     handlePressEnter();
@@ -49,7 +53,7 @@ const useEnterKeyListener = ({ el, ctrl = false }) => {
         return () => {
             document.removeEventListener("keydown", listener);
         };
-    }, [el, ctrl]);
+    }, [el, ctrl, alt]);
 
 };
 
