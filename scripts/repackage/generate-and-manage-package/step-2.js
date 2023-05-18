@@ -1,7 +1,7 @@
 /**
  *  File adaptation
  * 
- *  (Step 2) Modify the main js and css files to fit the main program
+ *  (Step 2) Modify the main js and css files to fit the CORE PROGRAM
  */
 
 const fs = require('fs');

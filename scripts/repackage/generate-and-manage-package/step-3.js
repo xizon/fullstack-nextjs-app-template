@@ -15,7 +15,7 @@ const newPath = path.resolve(__dirname, `../../../${json.name}/`);
 
 
 // create an independent plug-in zip package, 
-// which will be used for independent installation and use of the main program
+// which will be used for independent installation and use of the CORE PROGRAM
 // ----------------------------------
 async function createZipArchive() {
     const zip = new AdmZip();

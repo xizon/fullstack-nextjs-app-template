@@ -24,6 +24,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 
+
+/*
+ ================================================
+  SERVICE 1: upload .zip file
+ ================================================
+ */
 //make uploads directory static
 // Note: `app.use(..., express.static(...))` cannot be placed before `app.use(cors())`
 
@@ -31,9 +37,7 @@ app.use(morgan('dev'));
 // you can visit the static URL like this: http://localhost:4001/vars/custom-page/
 app.use('/vars', express.static('plugins'));
 
-const targetUploadPath = path.resolve(__dirname, '../plugins/');
 
-// upoad single file
 app.post('/upload-plugin', async (req, res) => {
 
 
@@ -44,7 +48,6 @@ app.post('/upload-plugin', async (req, res) => {
                 message: 'No file uploaded'
             });
         } else {
-
 
 
             const currentFilesData = req.files.clientFiles;
@@ -95,7 +98,29 @@ app.get('/plugins/*', async (req, res) => {
 });
 
 
-//start app 
+
+/*
+ ================================================
+  SERVICE 2: XXXXXXX
+ ================================================
+ */
+
+
+
+/*
+ ================================================
+  SERVICE 3: XXXXXXX
+ ================================================
+ */
+
+
+
+
+ /*
+ ================================================
+  START APP
+ ================================================
+ */
 const hostname = 'localhost';
 const port = 4001;
 

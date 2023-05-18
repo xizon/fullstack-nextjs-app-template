@@ -103,7 +103,7 @@ CMD ["node", "server.js"]
 # USER root
 # RUN mkdir -p /fullstack-nextjs-app-template/backend
 # RUN mkdir -p /fullstack-nextjs-app-template/backend/libs
-# COPY ./backend/server-core.js ./backend/
+# COPY ./backend/server-upload.js ./backend/
 # COPY ./backend/libs/* ./backend/libs/
 
 # # "COPY" should be followed immediately before the command to install dependencies
@@ -117,7 +117,7 @@ CMD ["node", "server.js"]
 # COPY --from=deps /fullstack-nextjs-app-template/node_modules ./node_modules
 
 # # create a `.sh` file
-# RUN printf "node server.js& node ./backend/server-core.js&\nwait\necho \"--> All is ending\"" > entrypoint.sh
+# RUN printf "node server.js& node ./backend/server-upload.js&\nwait\necho \"--> All is ending\"" > entrypoint.sh
 
 # # Declare 3000 and 4001 ports, just tell the mirror user the default port, the actual mapping will be informed below
 # EXPOSE 3000

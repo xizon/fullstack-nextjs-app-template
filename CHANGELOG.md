@@ -1,8 +1,25 @@
 # Changelog
 
+
+#### = 0.6.3 (May 18, 2023) =
+
+* Tweak: update Node scripts for server-side.
+
+
+#### = 0.6.0 (May 15, 2023) =
+
+* Tweak: update repackage scripts
+* New: Add a new tool script to bind the Enter key
+* New: Add language generated scripts
+* Tweak: update translation script
+* Tweak: Modify the tool that listens to the Enter key
+* Tweak: Modify the architecture of CoreUtils
+* Fix:fix a bug for CoreUtils
+
+
 #### = 0.5.6 (April 8, 2023) =
 
-Fix: Fixed cross domain issue in express service.
+* Fix: Fixed cross domain issue in express service.
 
 
 #### = 0.5.5 (April 4, 2023) =
