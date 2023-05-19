@@ -68,6 +68,8 @@ app.post('/upload-plugin', async (req, res) => {
 
                 // Or use a synchronous method to write to <Buffer....>
                 //fs.writeFileSync(uploadPath, f.data);
+
+                
             };
 
             if (currentFilesData instanceof Array) {
@@ -80,6 +82,9 @@ app.post('/upload-plugin', async (req, res) => {
                 mvFun(currentFilesData);
             }
 
+
+            // Other asynchronous operations
+            //const myPromise = await muFunc();
             
             res.send({
                 status: true,
