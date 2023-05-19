@@ -97,7 +97,11 @@ const {
     htmlDecode
 } = require('./libs/sanitize');
 const toSlug = require('./libs/to-slug');
-
+const {
+    RGBToHSL,
+    HSLToRGB,
+    generateGradient
+} = require('./libs/color');
 
 
 
@@ -174,7 +178,9 @@ CoreUtils.add('strToNumId', (...attrs) => strToNumId(...attrs));
 CoreUtils.add('htmlEncode', (...attrs) => htmlEncode(...attrs));
 CoreUtils.add('htmlDecode', (...attrs) => htmlDecode(...attrs));
 CoreUtils.add('toSlug', (...attrs) => toSlug(...attrs));
-
+CoreUtils.add('RGBToHSL', (...attrs) => RGBToHSL(...attrs));
+CoreUtils.add('HSLToRGB', (...attrs) => HSLToRGB(...attrs));
+CoreUtils.add('generateGradient', (...attrs) => generateGradient(...attrs));
 
 
 // node & browser

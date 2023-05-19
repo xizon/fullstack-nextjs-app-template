@@ -5,8 +5,11 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 
+const port = 4001;
 const app = express();
 
+//parse image
+const ColorThief = require('colorthief');
 
 // enable files upload
 app.use(fileUpload({
@@ -107,11 +110,70 @@ app.get('/plugins/*', async (req, res) => {
 
 
 
+
 /*
  ================================================
-  SERVICE 2: XXXXXXX
+  SERVICE 2: parase image
  ================================================
  */
+ app.post('/upload-image', async (req, res) => {
+
+    try {
+        if (!req.files) {
+            res.send({
+                "message": "No file uploaded",
+                "code": 1000
+            });
+        } else {
+            
+            // Use the mv() method to place the file in upload directory (i.e. "'./uploads/'")
+            // Note: if `mv()` uses a callback, ` res.send()` should be written in the callback function
+
+            const currentFilesData = req.files.clientFiles;
+
+            // for single file
+            const f = currentFilesData;
+            if ( /\.(jpg|jpeg|png|gif|webp)$/i.test(f.name) ) {
+
+                const tempPath = path.join(__dirname, '..', '/plugins/_temp/');
+                const uploadPath = path.join(__dirname, '..', '/plugins/_temp/', f.name);
+                if (!fs.existsSync(tempPath)){
+                    fs.mkdirSync(tempPath, { recursive: true });
+                }
+                
+                // move file
+                fs.writeFileSync(uploadPath, f.data);
+
+                // parse image
+                const imgPath = `http://${hostname}:${port}/plugins/_temp/${f.name}`;
+                const paletteDataPromise = await ColorThief.getPalette(imgPath, 5, 10); // Promise
+            
+
+                // delete unnecessary files and folders
+                fs.rmSync(tempPath, { recursive: true });
+                console.log('\x1b[36m%s\x1b[0m', `--> Deleted "plugins/_temp/" successfully`);
+
+                
+                //
+                res.send({
+                    "data": { "uploadedInfo": {
+                        paletteData: paletteDataPromise,
+                        imgData: `data:${f.mimetype};base64, ${Buffer.from(f.data, 'binary').toString('base64')}`
+                    } },
+                    "message": "OK",
+                    "code": 200
+                });      
+
+            }  
+
+                
+        }
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
 
 
 
@@ -130,7 +192,6 @@ app.get('/plugins/*', async (req, res) => {
  ================================================
  */
 const hostname = 'localhost';
-const port = 4001;
 
 app.listen(port, () =>
     console.log(`> Server on http://${hostname}:${port}`)

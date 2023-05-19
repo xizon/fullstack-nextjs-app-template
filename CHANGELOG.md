@@ -1,10 +1,10 @@
 # Changelog
 
 
-#### = 0.6.3 (May 18, 2023) =
+#### = 0.6.4 (May 19, 2023) =
 
 * Tweak: update Node scripts for server-side.
-
+* New: add a new utility of color.
 
 #### = 0.6.0 (May 15, 2023) =
 
