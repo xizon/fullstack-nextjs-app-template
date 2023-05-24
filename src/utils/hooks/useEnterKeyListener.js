@@ -28,30 +28,29 @@ const useEnterKeyListener = ({ el, ctrl = false, alt= false, system = '__useEnte
         };
 
        
-        let listener = () => void(0);
+        const listener = (event) => {
 
+            // Do not use `stopImmediatePropagation()` here, 
+            // otherwise other hooks that listen for Enter key may not work
+            if ( ctrl ) {
+                if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.ctrlKey ) {
+                    handlePressEnter();
+                }
+            } else if ( alt ) {
+                if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.altKey ) {
+                    handlePressEnter();
+                } 
+            } else {
+                if (event.code === "Enter" || event.code === "NumpadEnter") {
+                    handlePressEnter();
+                }
+            }
+
+        };
 
         // Using "window" object to prevent duplicate keyboard events
         if ( ! window[system] ) {
-            listener = (event) => {
-
-                // Do not use `stopImmediatePropagation()` here, 
-                // otherwise other hooks that listen for Enter key may not work
-                if ( ctrl ) {
-                    if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.ctrlKey ) {
-                        handlePressEnter();
-                    }
-                } else if ( alt ) {
-                    if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.altKey ) {
-                        handlePressEnter();
-                    } 
-                } else {
-                    if (event.code === "Enter" || event.code === "NumpadEnter") {
-                        handlePressEnter();
-                    }
-                }
-
-            };
+            document.removeEventListener("keydown", listener);
             document.addEventListener("keydown", listener);
             window[system] = true;
         }

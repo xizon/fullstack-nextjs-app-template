@@ -27,26 +27,25 @@ const useSpaceKeyListener = ({ el, alt = false, system = '__useSpaceKeyListener'
             simulateMouseClick(element);
         };
 
-        let listener = () => void(0);
+        const listener = (event) => {
 
+            // Do not use `stopImmediatePropagation()` here, 
+            // otherwise other hooks that listen for Enter key may not work
+            if ( alt ) {
+                if ( (event.code === "Space") && event.altKey ) {
+                    handlePressSpace();
+                }
+            } else {
+                if (event.code === "Space") {
+                    handlePressSpace();
+                }
+            }
+
+        };
 
         // Using "window" object to prevent duplicate keyboard events
         if ( ! window[system] ) {
-            listener = (event) => {
-
-                // Do not use `stopImmediatePropagation()` here, 
-                // otherwise other hooks that listen for Enter key may not work
-                if ( alt ) {
-                    if ( (event.code === "Space") && event.altKey ) {
-                        handlePressSpace();
-                    }
-                } else {
-                    if (event.code === "Space") {
-                        handlePressSpace();
-                    }
-                }
-
-            };
+            document.removeEventListener("keydown", listener);
             document.addEventListener("keydown", listener);
             window[system] = true;
         }

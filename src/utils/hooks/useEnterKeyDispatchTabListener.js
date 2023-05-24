@@ -53,6 +53,7 @@ const useEnterKeyDispatchTabListener = ({ el = 'a:not([tabindex="-1"]), button:n
 
         // Using "window" object to prevent duplicate keyboard events
         if ( ! window[system] ) {
+            document.removeEventListener("keydown", listener);
             document.addEventListener("keydown", listener);
             window[system] = true;
         }
