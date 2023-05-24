@@ -1,12 +1,12 @@
 /**
- * Run a handle using Enter key
+ * Run a handle using Space key
  */
 import { useEffect } from "react";
 
-const useEnterKeyListener = ({ el, ctrl = false, alt= false, system = '__useEnterKeyListener' }) => {
+const useSpaceKeyListener = ({ el, alt = false, system = '__useSpaceKeyListener' }) => {
     useEffect(() => {
 
-        const handlePressEnter = () => {
+        const handlePressSpace = () => {
             const mouseClickEvents = ["mousedown", "click", "mouseup"];
             function simulateMouseClick(element) {
                 if ( element === null ) return;
@@ -27,7 +27,6 @@ const useEnterKeyListener = ({ el, ctrl = false, alt= false, system = '__useEnte
             simulateMouseClick(element);
         };
 
-       
         let listener = () => void(0);
 
 
@@ -37,17 +36,13 @@ const useEnterKeyListener = ({ el, ctrl = false, alt= false, system = '__useEnte
 
                 // Do not use `stopImmediatePropagation()` here, 
                 // otherwise other hooks that listen for Enter key may not work
-                if ( ctrl ) {
-                    if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.ctrlKey ) {
-                        handlePressEnter();
+                if ( alt ) {
+                    if ( (event.code === "Space") && event.altKey ) {
+                        handlePressSpace();
                     }
-                } else if ( alt ) {
-                    if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.altKey ) {
-                        handlePressEnter();
-                    } 
                 } else {
-                    if (event.code === "Enter" || event.code === "NumpadEnter") {
-                        handlePressEnter();
+                    if (event.code === "Space") {
+                        handlePressSpace();
                     }
                 }
 
@@ -59,7 +54,6 @@ const useEnterKeyListener = ({ el, ctrl = false, alt= false, system = '__useEnte
 
         return () => {
 
-
             // When using the ".js" file of custom page to mount the CORE PROGRAM, 
             // it is necessary to prevent repeated keyboard events
             if ( ! window['CORE_PROGRAM'] ) window[system] = undefined;
@@ -67,10 +61,10 @@ const useEnterKeyListener = ({ el, ctrl = false, alt= false, system = '__useEnte
             //
             document.removeEventListener("keydown", listener);
         };
-    }, [el, ctrl, alt]);
+    }, [el, alt]);
 
 };
 
-export default useEnterKeyListener;
+export default useSpaceKeyListener;
 
 

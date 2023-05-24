@@ -3,7 +3,7 @@
  */
 import { useEffect } from "react";
 
-const useEnterKeyDispatchTabListener = ({ el = 'a:not([tabindex="-1"]), button:not([tabindex="-1"]), input, textarea, select, details,[tabindex]:not([tabindex="-1"])', ctrl = false }) => {
+const useEnterKeyDispatchTabListener = ({ el = 'a:not([tabindex="-1"]), button:not([tabindex="-1"]), input, textarea, select, details,[tabindex]:not([tabindex="-1"])', ctrl = false, system = '__useEnterKeyDispatchTabListener' }) => {
 
 
     useEffect(() => {
@@ -37,7 +37,6 @@ const useEnterKeyDispatchTabListener = ({ el = 'a:not([tabindex="-1"]), button:n
 
             // Do not use `stopImmediatePropagation()` here, 
             // otherwise other hooks that listen for Enter key may not work
-
             if ( ctrl ) {
                 if ( (event.code === "Enter" || event.code === "NumpadEnter") && event.ctrlKey ) {
                     handleDispatchTab();
@@ -51,9 +50,21 @@ const useEnterKeyDispatchTabListener = ({ el = 'a:not([tabindex="-1"]), button:n
 
         };
 
-        document.addEventListener("keydown", listener);
+
+        // Using "window" object to prevent duplicate keyboard events
+        if ( ! window[system] ) {
+            document.addEventListener("keydown", listener);
+            window[system] = true;
+        }
+        
 
         return () => {
+
+            // When using the ".js" file of custom page to mount the CORE PROGRAM, 
+            // it is necessary to prevent repeated keyboard events
+            if ( ! window['CORE_PROGRAM'] ) window[system] = undefined;
+
+            //
             document.removeEventListener("keydown", listener);
         };
     }, [el, ctrl]);
