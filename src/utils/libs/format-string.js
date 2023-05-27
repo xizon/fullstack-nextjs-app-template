@@ -30,11 +30,24 @@ function multiSpacesToSingle(input) {
     return input.replace(/\s+(\W)/g, ' ');
 }
 
+//convert HTML text to plain text
+function htmlToPlain(input) {
+    return input.replace(/(<([^>]+)>)/ig, '');
+}
+
+//strip tags and content
+function stripTagsAndContent(input) {
+    return input.replace(/<\/?[^>]+(>|$)(.*?)<\/?[^>]+(>|$)/ig, '');
+}
+
+
 // node & browser
 module.exports = {
     rmSpec,
     onlyNumAndLetter,
     rmAllSpace,
     trimAll,
-    multiSpacesToSingle
+    multiSpacesToSingle,
+    htmlToPlain,
+    stripTagsAndContent
 }

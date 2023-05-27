@@ -73,7 +73,9 @@ const {
     onlyNumAndLetter, 
     rmAllSpace, 
     trimAll, 
-    multiSpacesToSingle 
+    multiSpacesToSingle,
+    htmlToPlain,
+    stripTagsAndContent
 } = require('./libs/format-string');
 const { 
     getTransitionDuration, 
@@ -162,6 +164,8 @@ CoreUtils.add('onlyNumAndLetter', (...attrs) => onlyNumAndLetter(...attrs));
 CoreUtils.add('rmAllSpace', (...attrs) => rmAllSpace(...attrs));
 CoreUtils.add('trimAll', (...attrs) => trimAll(...attrs));
 CoreUtils.add('multiSpacesToSingle', (...attrs) => multiSpacesToSingle(...attrs));
+CoreUtils.add('htmlToPlain', (...attrs) => htmlToPlain(...attrs));
+CoreUtils.add('stripTagsAndContent', (...attrs) => stripTagsAndContent(...attrs));
 CoreUtils.add('getTransitionDuration', (...attrs) => getTransitionDuration(...attrs));
 CoreUtils.add('getAbsoluteCoordinates', (...attrs) => getAbsoluteCoordinates(...attrs));
 CoreUtils.add('getOffset', (...attrs) => getOffset(...attrs));
