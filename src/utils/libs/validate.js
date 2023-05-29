@@ -47,8 +47,13 @@ function isJSON(input){
  */
 
 function isEmpty(input) {
-    return !input.replace(/\s/g, '').length === true;
+    if ( Array.isArray(input) ) {
+        return input.some((str) => !str.replace(/\s/g, '').length === true )
+    } else {
+        return !input.replace(/\s/g, '').length === true;
+    }
 }
+
 function isNumber(input) {
     const reg = /^[\d|\.|,]+$/;
     return reg.test(input);
