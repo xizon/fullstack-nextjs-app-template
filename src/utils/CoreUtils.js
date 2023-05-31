@@ -105,6 +105,9 @@ const {
     generateGradient
 } = require('./libs/color');
 
+const shuffle = require('./libs/shuffle');
+
+
 
 
 // use these methods
@@ -185,6 +188,7 @@ CoreUtils.add('toSlug', (...attrs) => toSlug(...attrs));
 CoreUtils.add('RGBToHSL', (...attrs) => RGBToHSL(...attrs));
 CoreUtils.add('HSLToRGB', (...attrs) => HSLToRGB(...attrs));
 CoreUtils.add('generateGradient', (...attrs) => generateGradient(...attrs));
+CoreUtils.add('shuffle', (...attrs) => shuffle(...attrs));
 
 
 // node & browser

@@ -1,6 +1,16 @@
 # Changelog
 
 
+#### = 0.6.6 (May 30, 2023) =
+
+* New: Let custom server support socket.io.
+  - custom server file of nextjs `server.js`
+  - socket server file `backend/server-socket.js`
+
+* New: add a new utility of shuffle.
+* Fix: fixed some minor issues for utilities
+
+
 #### = 0.6.4 (May 19, 2023) =
 
 * Tweak: update Node scripts for server-side.

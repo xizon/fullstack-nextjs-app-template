@@ -4,8 +4,7 @@ const path = require('path');
 
 const express = require('express')
 
-let dev = process.env.NODE_ENV !== 'production';
-dev = false;  // need run `npm run build` first
+let dev = process.env.NODE_ENV !== 'production'; // if "production", need run `npm run build` first
 const hostname = 'localhost';
 const port = 3000;
 // when using middleware `hostname` and `port` must be provided below
@@ -75,10 +74,33 @@ app.prepare().then(() => {
 
     });
 
+    
     server.listen(port, (err) => {
       if (err) throw err
       console.log(`> Ready on http://${hostname}:${port}`)
     });
+
+
+    /*
+    // socket.io
+    const http = require('http').Server(server, {
+        cors: {
+            origin: '*'
+        }
+    });
+    const io = require('socket.io')(http);
+
+    io.on('connection', (socket) => {
+        socket.on('chat message', msg => {
+            io.emit('chat message', msg);
+        });
+    });
+    
+    http.listen(port, (err) => {
+        if (err) throw err
+        console.log(`> Ready on http://${hostname}:${port}`)
+    });
+    */
 
 })
 

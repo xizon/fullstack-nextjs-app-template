@@ -52,6 +52,7 @@ List my progress here:
 | Deploy Using Docker | ✅ |
 | Redux Supplement (for navigation) | ✅ |
 | Redux SSR (for homepage) | ✅ |
+| Custom Server Support `socket.io` | ✅ |
 | End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [React Pure Bootstrap](https://github.com/xizon/react-pure-bootstrap) |
 
