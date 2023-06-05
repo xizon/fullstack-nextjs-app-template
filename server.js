@@ -24,6 +24,7 @@ app.prepare().then(() => {
 
     // Static resources in plugins can be used dynamically (no need to redeploy)
     // you can visit the static URL like this: http://localhost:3000/vars/custom-page/
+    // !!! If using docker, http://localhost:3000/vars may not be accessible
     server.use("/vars", express.static(__dirname + "/plugins"));
   
     server.all('*', async (req, res) => {
