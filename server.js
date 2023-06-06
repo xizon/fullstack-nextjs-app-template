@@ -83,13 +83,20 @@ app.prepare().then(() => {
 
 
     /*
+    !!!!Note: 
+    If you use a "Docker container", please use the WebSocket service on port 5001 (check out `backend/server-socket.js`). 
+    Using port 3000 will not work. You can’t run multiple services on the same port.
+
+    ===========================
+    Method 1
+    ===========================
     // socket.io
-    const http = require('http').Server(server, {
+    const http = require('http').createServer(app);
+    const io = require('socket.io')(http, {
         cors: {
             origin: '*'
         }
     });
-    const io = require('socket.io')(http);
 
     io.on('connection', (socket) => {
         socket.on('chat message', msg => {
@@ -101,6 +108,33 @@ app.prepare().then(() => {
         if (err) throw err
         console.log(`> Ready on http://${hostname}:${port}`)
     });
+
+    ===========================
+    Method 2
+    ===========================
+    // create `pages/api/socket.ts:`
+  
+    import { Server } from 'socket.io';
+
+    export default function handler(req, res) {
+        if (res.socket.server.io) {
+            console.log("Already set up");
+            res.end();
+            return;
+        }
+
+        const io = new Server(res.socket.server);
+        res.socket.server.io = io;
+
+        io.on('connection', (socket) => {
+            socket.on('BRIDGE_ALERT', msg => {
+                io.emit('BRIDGE_ALERT', msg);
+            });
+        });
+
+        console.log("Setting up socket");
+        res.end();
+    }
     */
 
 })

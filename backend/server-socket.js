@@ -5,19 +5,19 @@ const cors = require('cors');
 const port = 5001;
 const app = express();
 
-const http = require('http').Server(app, {
+const http = require('http').createServer(app);
+const io = require('socket.io')(http, {
     cors: {
         origin: '*'
     }
 });
-const io = require('socket.io')(http);
 
 
 app.use(cors());
 
 // Static resources in plugins can be used dynamically (no need to redeploy)
-// you can visit the static URL like this: http://localhost:5001/consts/custom-page/
-app.use('/consts', express.static('plugins'));
+// you can visit the static URL like this: http://localhost:5001/my/custom-page/
+app.use('/my', express.static('plugins'));
 
 app.get('/plugins/*', async (req, res) => {
     let pagePath = req.path;   // /plugins/xxx/yyy/
@@ -43,8 +43,10 @@ http.listen(port, () =>
 Usage for client:
 
 <script id="socket.io" src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+or
+import { io } from "socket.io-client";
 
-const socket = io();
+const socket = io('ws://localhost:5001');
 document.getElementById('button').addEventListener('click', function (e) {
     e.preventDefault();
     socket.emit('chat message', 'test string');
