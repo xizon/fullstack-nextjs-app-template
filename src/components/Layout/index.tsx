@@ -31,25 +31,47 @@ export default function Layout(props) {
     const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
     const dispatch = useDispatch();
     const storeData = useSelector((state: any) => {
-        return state.menuData;
+        const _menu = state.menuData.menuItems;
+
+        if ( _menu === null) {
+            return null;
+        } else {
+            return [..._menu];
+        }
     });
     
 
     //
     useEffect(() => {
 
-        // Get store
-        //-----
-        const fetchStoreMenu = async () => {
-            if ( !dispatchUpdate ) {
-                const res: any = await getMenuData(); // {type: 'RECEIVE_DEMO_MENU', payload: [...]}
-                setDispatchUpdate(true);
-                dispatch(res);
+         // Get store
+         //-----
+         const fetchStore = async () => {
+            if (!dispatchUpdate) {
+
+                // Support for using multiple actions
+                Promise.all([
+                    getMenuData(), // {type: 'RECEIVE_DEMO_MENU', payload: [...]}
+                ]).then((values) => {
+                    const resMenu = values[0];
+                    
+                    setDispatchUpdate(true);
+                    dispatch(resMenu);
+                });
+        
             }
         };
 
-        fetchStoreMenu();
-        setPrimaryMenuData(storeData.menuItems);
+        if (storeData === null) {
+            fetchStore();
+        } else {
+   
+            let menuAll = storeData;
+
+            //update menu data
+            //-----   
+            setPrimaryMenuData(menuAll);
+        }
 
     }, [dispatchUpdate, dispatch]);
 

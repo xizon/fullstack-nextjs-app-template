@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const app = express();
-const port = 5000;
+const port = 12345;
 
 app.use('/', express.static('out'));
 

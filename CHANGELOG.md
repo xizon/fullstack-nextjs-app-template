@@ -1,5 +1,9 @@
 # Changelog
 
+#### = 0.6.7 (June 13, 2023) =
+
+* Tweak: Enhanced usage of Redux's Store.
+
 
 #### = 0.6.6 (May 30, 2023) =
 

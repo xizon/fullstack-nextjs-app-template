@@ -183,7 +183,7 @@ $ npm run export:fix
 
 **Step 3. preview the static site**
 
-Then, test the generated static website (the HTML static website is located in the directory `.out/`). Access using the URL [http://localhost:5000](http://localhost:5000)
+Then, test the generated static website (the HTML static website is located in the directory `.out/`). Access using the URL [http://localhost:12345](http://localhost:12345)
 
 ```sh
 $ npm run export:test
