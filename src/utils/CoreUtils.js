@@ -106,6 +106,9 @@ const {
 } = require('./libs/color');
 
 const shuffle = require('./libs/shuffle');
+const convertTree = require('./libs/convert-tree');
+
+
 
 
 
@@ -189,6 +192,8 @@ CoreUtils.add('RGBToHSL', (...attrs) => RGBToHSL(...attrs));
 CoreUtils.add('HSLToRGB', (...attrs) => HSLToRGB(...attrs));
 CoreUtils.add('generateGradient', (...attrs) => generateGradient(...attrs));
 CoreUtils.add('shuffle', (...attrs) => shuffle(...attrs));
+CoreUtils.add('convertTree', (...attrs) => convertTree(...attrs));
+
 
 
 // node & browser
