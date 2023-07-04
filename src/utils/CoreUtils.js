@@ -54,6 +54,7 @@ const apiRemoteToLocal = require('./libs/api-remote-to-local');
 const { matchAllFilesUrls } = require('./libs/match-string');
 const { renameFile } = require('./libs/rename');
 const { multipleClasses } = require('./libs/multiple-inheritance');
+const { getClassesMethods } = require('./libs/get-classes-methods');
 const { serializeArray } = require('./libs/formdata');
 const { 
     getFilesFromHead, 
@@ -113,6 +114,7 @@ const convertTree = require('./libs/convert-tree');
 
 
 
+
 // use these methods
 CoreUtils.add('debounce', (...attrs) => debounce(...attrs));
 CoreUtils.add('throttle', (...attrs) => throttle(...attrs));
@@ -155,6 +157,7 @@ CoreUtils.add('matchAllFilesUrls', (...attrs) => matchAllFilesUrls(...attrs));
 CoreUtils.add('renameFile', (...attrs) => renameFile(...attrs));
 CoreUtils.add('apiRemoteToLocal', (...attrs) => apiRemoteToLocal(...attrs));
 CoreUtils.add('multipleClasses', (...attrs) => multipleClasses(...attrs));
+CoreUtils.add('getClassesMethods', (...attrs) => getClassesMethods(...attrs));
 CoreUtils.add('serializeArray', (...attrs) => serializeArray(...attrs));
 CoreUtils.add('getFilesFromHead', (...attrs) => getFilesFromHead(...attrs));
 CoreUtils.add('getBodyCode', (...attrs) => getBodyCode(...attrs));
