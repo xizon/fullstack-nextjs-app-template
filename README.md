@@ -555,6 +555,14 @@ If the file is in the root directory, you can leave it empty. If in another dire
 
 ### ⚙️ Deploy Using Docker:
 
+>
+> ⚠️ Tips: When running the `getServerSideProps` of Next.js, `Express` and `WebSocket` services of Node.js, the communication would be container to container. So for these requests, routes to localhost (`http://localhost:3000`) would not work. Instead it would need to be something like `http://localhost:7777` instead (when communicating from the frontend service to the backend service). The localhost domain would work as expected on the client side requests.
+> 
+> When you run this without docker everything works because all services are on localhost. When run via docker-compose they no longer are.
+> 
+
+
+
 **Step 1.** First download docker (version Intel chip, note. macOs10.14 and below versions use up to version 4.11.0)
 
 https://docs.docker.com/desktop/release-notes/#4110
