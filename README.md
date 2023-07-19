@@ -76,6 +76,7 @@ fullstack-nextjs-app-template/
 ├── package.json 
 ├── .dockerignore
 ├── Dockerfile
+├── docker-compose.yml
 ├── out/  
 ├── backend/  
 ├── scripts/  
@@ -553,10 +554,15 @@ If the file is in the root directory, you can leave it empty. If in another dire
 }
 ```
 
-### ⚙️ Deploy Using Docker:
+
+
+### ⚙️ Deploy Using Docker (build a single next.js program image):
 
 >
 > ⚠️ Tips: When running the `getServerSideProps` of Next.js, `Express` and `WebSocket` services of Node.js, the communication would be container to container. So for these requests, routes to localhost (`http://localhost:3000`) would not work. Instead it would need to be something like `http://localhost:7777` instead (when communicating from the frontend service to the backend service). The localhost domain would work as expected on the client side requests.
+>
+> ⚠️ Warning: Multiple micro-service containers cannot be opened on the server side at the same time, otherwise the upstream server will terminate the WebSocket connection.
+>
 > 
 > When you run this without docker everything works because all services are on localhost. When run via docker-compose they no longer are.
 > 
@@ -632,7 +638,7 @@ $ docker run -p 3000:3000 fullstack-nextjs-app-template:v1
 > 
 > **NOTE**:
 >
-> If **Ctrl+C** does not work to terminate the container, please add the following code in the server file such as Express, and use the following command to temporarily run the container
+> If **Ctrl+C** does not work to terminate the container, please add the following code in the server file such as Express, and use the following command to temporarily run the container. Access [Specify an init process](https://docs.docker.com/engine/reference/run/#specify-an-init-process)
 > 
 > ```js
 > // Stop running node in docker with Ctrl+C sends the SIGINT signal.
@@ -683,7 +689,91 @@ $ lsof -i tcp:3000
 $ kill -9 <PID>
 ```
 
-**Step 9.** Export the image
+
+
+**Step 9.** Push image to private server
+
+> Note: change the `192.168.1.140` to yours
+
+
+#### （1）First configure the shared folder
+
+Otherwise, an error will be reported:
+
+> docker: Error response from daemon: Mounts denied: 
+
+
+#### （2）Install and run [docker-registry](https://docs.docker.com/registry/)
+ 
+Sometimes it may be inconvenient to use a public repository like Docker Hub, and users can create a local repository for private use. For example, an image built based on a company's internal project.
+
+`docker-registry` is an official tool that can be used to build a private image.
+
+ 
+It can be run by obtaining the official **Registry**. By default, the repository will be created in the container's `/var/lib/registry` directory (for Linux or Mac), and now I reset it to a shared directory on my computer.
+ 
+```bash
+docker run --name registry -d  -p 5000:5000 --restart=always  -v /Users/changcheng/Desktop/share:/var/lib/registry registry
+```
+ 
+access：http://192.168.1.140:5000/v2/
+ 
+ 
+Indicates that port `5000` has been successfully proxied by docker.
+ 
+ 
+#### （3）Mark the image to point to your registry [IP is replaced with local LAN IP, or other IP]
+ 
+```bash
+$ docker tag fullstack-nextjs-app-template:v1 192.168.1.140:5000/fullstack-nextjs-app-template-v1
+```
+push it
+
+```bash
+$ docker push 192.168.1.140:5000/fullstack-nextjs-app-template-v1
+```
+ 
+#### （4）[Configure the Docker daemon](https://docs.docker.com/registry/recipes/mirror/)
+
+In case of error: 
+
+> http: server gave HTTP response to HTTPS client
+
+
+Please configure `registry-mirrors` image sources and `insecure-registries` private repositories in Docker Desktop
+ 
+Modify `daemon.json` (can be modified directly through the Docker Desktop)
+
+```bash
+$ cat ~/.docker/daemon.json
+```
+
+Add the following configuration:
+```json
+{
+    "registry-mirror":[
+        "http://hub-mirror.c.163.com"
+    ],
+    "insecure-registries":[
+        "192.168.1.140:5000"
+    ]
+}
+```
+
+ 
+restart docker
+
+
+#### （5）Pull the image [LAN can also use it]
+
+```bash
+$ docker pull 192.168.1.140:5000/fullstack-nextjs-app-template-v1
+```
+
+
+
+
+**Step 10.** Export the image (Optional)
 
 View the container that is running in the background (note that you need to run it first to find the id)
 
@@ -703,6 +793,44 @@ Next, save the newly packaged image as a tar file, run `docker save <image_name:
 ```sh
 $ docker save fullstack-nextjs-app-template:v1 -o ./fullstack-nextjs-app-template-v1.tar
 ```
+
+
+
+### ⚙️ Deploy Using Docker (Build composite image that include other custom images):
+
+**Step 1.** Create a file `docker-compose.yml`, the content as follows:
+
+```yml
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - my_node_service
+  my_node_service:
+    image: "my-node-server:v1"
+    ports:
+      - "4001:4001"
+```
+
+
+**Step 2.** Build another image, like this:
+
+```bash
+# build
+$ docker build -t my-node-server:v1 .
+# test
+$ docker run --init -p 4001:4001 my-node-server:v1
+```
+
+
+**Step 3.** Build a composite image, run:
+
+```bash
+$ docker-compose up
+```
+
 
 
 ### ⚠️ Installation Error or Unable To Run:

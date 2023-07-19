@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - my_node_service
+  my_node_service:
+    image: "my-node-server:v1"
+    ports:
+      - "4001:4001"

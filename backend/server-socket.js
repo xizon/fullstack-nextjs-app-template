@@ -1,3 +1,12 @@
+/*
+
+ !!! Warning: 
+ 
+ Multiple micro-service containers cannot be opened on the server side at the same time, 
+ otherwise the upstream server will terminate the WebSocket connection.
+
+*/
+
 const express = require('express');
 const cors = require('cors');
 

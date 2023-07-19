@@ -1,5 +1,11 @@
 # Changelog
 
+
+#### = 0.6.8 (July 19, 2023) =
+
+* Tweak: Update documentation of Docker deployment.
+
+
 #### = 0.6.7 (June 13, 2023) =
 
 * Tweak: Enhanced usage of Redux's Store.
