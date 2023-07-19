@@ -116,6 +116,11 @@ CMD ["node", "server.js"]
 
 # COPY --from=deps /fullstack-nextjs-app-template/node_modules ./node_modules
 
+
+
+# ==========================================
+# run node script (multiple)
+# ==========================================
 # # create a `.sh` file
 # RUN printf "node server.js& node ./backend/server-upload.js&\nwait\necho \"--> All is ending\"" > entrypoint.sh
 
