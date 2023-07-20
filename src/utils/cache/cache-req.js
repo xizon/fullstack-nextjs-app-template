@@ -17,13 +17,14 @@ todoFunc(param1, param2) {
         resolve(...)    
     })
 }
-async call(param1, param2) {
+async callOne(param1, param2) {
     
     const cacheData = Cache.memoize(todoFunc)(param1, param2);
     const [cacheName, cacheArgs] = cacheData.params;
     const res = await Cache.connect({
             autoClear: true,
-            clearDelay: null
+            clearDelay: null,
+            entry: 'callOne'
         }, async () => {
 
         const data = await cacheData.fn(...cacheArgs);
@@ -47,13 +48,14 @@ todoFunc2({param1, param2, param3}) {
         resolve(...)    
     })
 }
-async call2({...rest}) {
+async callTwo({...rest}) {
     
     const cacheData = Cache.memoize(todoFunc2)({...rest});
     const [cacheName, cacheArgs] = cacheData.params;
     const res = await Cache.connect({
             autoClear: true,
-            clearDelay: null
+            clearDelay: null,
+            entry: 'callTwo'
         }, async () => {
 
         const data = await cacheData.fn(...cacheArgs);
@@ -74,6 +76,8 @@ class CacheReq {
     
     constructor() {
         this.SPACE_NAME = 'CACHE_REQ__';
+        this.GLOBAL_CONFIG_PREFIX = 'CACHE_REQ_GLOBAL_CONFIG__';
+        
     }
   
     // destructuring parameters
@@ -88,13 +92,29 @@ class CacheReq {
 
 
     async connect(config, incomingData, ...rest) {
-        const {autoClear, clearDelay} = config;
+        const {autoClear, clearDelay, entry} = config;
 
+        // orginal configuation
+        let _autoClear = autoClear;
+        let _clearDelay = clearDelay;
+
+
+        //
         const fnName = rest[0];
-        const keyStr = fnName + '-' + md5(JSON.stringify(rest).replace(/\s/g, "_").replace(/[^a-zA-Z0-9 \u4E00-\u9FFF]/g, ""));
+        const incomingArgs = JSON.stringify(rest).replace(/\s/g, "_").replace(/[^a-zA-Z0-9 \u4E00-\u9FFF]/g, "");
+        const keyStr = fnName + '-' + md5(incomingArgs);
+        const keyGlobalStr = entry + '-' + JSON.stringify(rest[1]).replace(/\s/g, "_").replace(/[^a-zA-Z0-9 \u4E00-\u9FFF]/g, "");
         const executionStartTime = Date.now();
         const key = `${this.SPACE_NAME}${keyStr}`;
         const cache = sessionStorage.getItem(key);
+
+        // get global configuration
+        const globalConfig = sessionStorage.getItem(this.GLOBAL_CONFIG_PREFIX + keyGlobalStr);
+        if (globalConfig !== null) {
+            _autoClear = JSON.parse(globalConfig).autoClear;
+            _clearDelay = JSON.parse(globalConfig).clearDelay;
+        }
+
 
         // load the cache
         if (cache !== null && cache != 'undefined') {
@@ -112,10 +132,10 @@ class CacheReq {
         const debounceDuration = processingTime * 20;
 
         // auto clear
-        if ( autoClear === true ) {
+        if ( _autoClear === true ) {
             setTimeout(() => {
                 sessionStorage.removeItem(key);
-            }, clearDelay && !isNaN(clearDelay) ? clearDelay+processingTime : debounceDuration);
+            }, _clearDelay && !isNaN(_clearDelay) ? _clearDelay+processingTime : debounceDuration);
         }
 
 
