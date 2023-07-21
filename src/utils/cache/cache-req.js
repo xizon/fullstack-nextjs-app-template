@@ -77,6 +77,7 @@ class CacheReq {
     constructor() {
         this.SPACE_NAME = 'CACHE_REQ__';
         this.GLOBAL_CONFIG_PREFIX = 'CACHE_REQ_GLOBAL_CONFIG__';
+        this.CACHE_DURATION = 'CACHE_REQ_DURATION';
         
     }
   
@@ -97,6 +98,24 @@ class CacheReq {
         // orginal configuation
         let _autoClear = autoClear;
         let _clearDelay = clearDelay;
+
+        // check cache duration
+        const allCacheStartTime = sessionStorage.getItem(this.CACHE_DURATION);
+        if (allCacheStartTime === null) {
+            sessionStorage.setItem(this.CACHE_DURATION, Date.now());
+        } else {
+            const cacheDuration = Date.now() - parseFloat(allCacheStartTime);
+            const cacheDurationDate = new Date(cacheDuration - 8*60*60*1000);
+            const hours = cacheDurationDate.getHours();
+            const minutes = cacheDurationDate.getMinutes();
+            const seconds = cacheDurationDate.getSeconds();
+
+            // time pivot (minutes)
+            if (minutes > 10) {
+                this.clear();
+                sessionStorage.removeItem(this.CACHE_DURATION);
+            }
+        }
 
 
         //
