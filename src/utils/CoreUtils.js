@@ -50,6 +50,7 @@ const {
     delCookie 
 } = require('./libs/cookies-tool');
 const { browser } = require('./libs/browser');
+const { os } = require('./libs/os');
 const apiRemoteToLocal = require('./libs/api-remote-to-local');
 const { matchAllFilesUrls } = require('./libs/match-string');
 const { renameFile } = require('./libs/rename');
@@ -76,7 +77,10 @@ const {
     trimAll, 
     multiSpacesToSingle,
     htmlToPlain,
-    stripTagsAndContent
+    stripTagsAndContent,
+    removeFirstLastSlash,
+    removeTrailingSlash,
+    removeFirstSlash
 } = require('./libs/format-string');
 const { 
     getTransitionDuration, 
@@ -153,6 +157,7 @@ CoreUtils.add('getCookie', (...attrs) => getCookie(...attrs));
 CoreUtils.add('setCookie', (...attrs) => setCookie(...attrs));
 CoreUtils.add('delCookie', (...attrs) => delCookie(...attrs));
 CoreUtils.add('browser', () => browser);
+CoreUtils.add('os', () => os);
 CoreUtils.add('matchAllFilesUrls', (...attrs) => matchAllFilesUrls(...attrs));
 CoreUtils.add('renameFile', (...attrs) => renameFile(...attrs));
 CoreUtils.add('apiRemoteToLocal', (...attrs) => apiRemoteToLocal(...attrs));
@@ -175,6 +180,9 @@ CoreUtils.add('trimAll', (...attrs) => trimAll(...attrs));
 CoreUtils.add('multiSpacesToSingle', (...attrs) => multiSpacesToSingle(...attrs));
 CoreUtils.add('htmlToPlain', (...attrs) => htmlToPlain(...attrs));
 CoreUtils.add('stripTagsAndContent', (...attrs) => stripTagsAndContent(...attrs));
+CoreUtils.add('removeFirstLastSlash', (...attrs) => removeFirstLastSlash(...attrs));
+CoreUtils.add('removeTrailingSlash', (...attrs) => removeTrailingSlash(...attrs));
+CoreUtils.add('removeFirstSlash', (...attrs) => removeFirstSlash(...attrs));
 CoreUtils.add('getTransitionDuration', (...attrs) => getTransitionDuration(...attrs));
 CoreUtils.add('getAbsoluteCoordinates', (...attrs) => getAbsoluteCoordinates(...attrs));
 CoreUtils.add('getOffset', (...attrs) => getOffset(...attrs));

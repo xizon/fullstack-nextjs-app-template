@@ -40,6 +40,21 @@ function stripTagsAndContent(input) {
     return input.replace(/<\/?[^>]+(>|$)(.*?)<\/?[^>]+(>|$)/ig, '');
 }
 
+//remove first and last slash from specific url
+function removeFirstLastSlash(input) {
+    return input.replace(/^\/|\/$/g, '');
+}
+
+//remove trailing slash from specific url
+function removeTrailingSlash(input) {
+    return input.replace(/\/+$/, '');
+}
+
+//remove first slash from specific url
+function removeFirstSlash(input) {
+    return input.replace(/\//, '');
+}
+
 
 // node & browser
 module.exports = {
@@ -49,5 +64,8 @@ module.exports = {
     trimAll,
     multiSpacesToSingle,
     htmlToPlain,
-    stripTagsAndContent
+    stripTagsAndContent,
+    removeFirstLastSlash,
+    removeTrailingSlash,
+    removeFirstSlash
 }
