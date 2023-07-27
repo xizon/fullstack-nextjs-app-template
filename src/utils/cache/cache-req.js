@@ -1,6 +1,7 @@
 
 import md5 from 'md5';
 
+
 /**
  * Cache a promise request
  * @version 0.1.0
@@ -78,6 +79,7 @@ class CacheReq {
         this.SPACE_NAME = 'CACHE_REQ__';
         this.GLOBAL_CONFIG_PREFIX = 'CACHE_REQ_GLOBAL_CONFIG__';
         this.CACHE_DURATION = 'CACHE_REQ_DURATION';
+        this.RUN_TIME = null;
         
     }
   
@@ -115,8 +117,10 @@ class CacheReq {
                 this.clear();
                 sessionStorage.removeItem(this.CACHE_DURATION);
             }
+
         }
 
+      
 
         //
         const fnName = rest[0];
@@ -137,18 +141,29 @@ class CacheReq {
 
         // load the cache
         if (cache !== null && cache != 'undefined') {
-            return JSON.parse(cache);
+            return JSON.parse(cache).data;
         }
 
         // execute function
+        const _allCacheStartTime = Date.now();
         const cacheTuple = await incomingData();
-        sessionStorage.setItem(key, JSON.stringify(cacheTuple));
+
+        // run time
+        const _cacheDuration = Date.now() - _allCacheStartTime;
+        this.RUN_TIME = `${_cacheDuration}ms`;
+
+        // save data
+        sessionStorage.setItem(key, JSON.stringify({
+            runtime: this.RUN_TIME,
+            data: cacheTuple
+        }));
 
 
         // Calculate debounce time
         const executionEndTime = Date.now();
         const processingTime = executionEndTime - executionStartTime;  // ms
-        const debounceDuration = processingTime * 20;
+        let debounceDuration = processingTime * 20;
+        if ( debounceDuration > 5000 ) debounceDuration = 5000;
 
         // auto clear
         if ( _autoClear === true ) {
