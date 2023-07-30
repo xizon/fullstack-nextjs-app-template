@@ -36,6 +36,8 @@ function getCacheReqId(fn) {
 
 // Prevent request for this ID from automatically clearing the cache
 setCacheReqConfig(SysService.getDictList, {
+    enable: true, // default
+    maxTimeout: 10, // default (minutes)
     autoClear: false,
     clearDelay: null
 })('', 0, 'CV02.01.101');
