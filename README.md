@@ -53,6 +53,7 @@ List my progress here:
 | Redux Supplement (for navigation) | ✅ |
 | Redux SSR (for homepage) | ✅ |
 | Custom Server Support `socket.io` | ✅ |
+| Additional Node.js Services | ✅ |
 | End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [React Pure Bootstrap](https://github.com/xizon/react-pure-bootstrap) |
 
