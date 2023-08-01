@@ -3,7 +3,7 @@
  * <!-- Pagination -->
  *************************************
  */
-import { useRouter } from 'next/router';
+ import useRouterChange from '@/utils/hooks/useSafePush';
 
 /*-- Apply this component styles --*/
 import myStyles from '@/components/Pagination/styles/index.module.scss';
@@ -58,7 +58,7 @@ type PaginationProps = {
 
 export default function Pagination(props: PaginationProps) {
 
-    const router = useRouter();
+    const { safePush } = useRouterChange();
 
     const { 
         apiUrl,
@@ -93,23 +93,23 @@ export default function Pagination(props: PaginationProps) {
         switch (parameter) {
             case "prev":
                 gotoPageClickEvent(activePage - 1);
-                router.push(apiUrl.replace('{page}',(activePage - 1) as any));
+                safePush(apiUrl.replace('{page}',(activePage - 1) as any));
                 break;
             case "next":
                 gotoPageClickEvent(activePage + 1);
-                router.push(apiUrl.replace('{page}',(activePage + 1) as any));
+                safePush(apiUrl.replace('{page}',(activePage + 1) as any));
                 break;
             case "first":
                 gotoPageClickEvent(1);
-                router.push(apiUrl.replace('{page}','1'));
+                safePush(apiUrl.replace('{page}','1'));
                 break;
             case "last":
                 gotoPageClickEvent(totalPages);
-                router.push(apiUrl.replace('{page}',totalPages as any));
+                safePush(apiUrl.replace('{page}',totalPages as any));
                 break;
             default:
                 gotoPageClickEvent(1);
-                router.push(apiUrl.replace('{page}','1'));
+                safePush(apiUrl.replace('{page}','1'));
                 break;
         }
     }
@@ -167,7 +167,7 @@ export default function Pagination(props: PaginationProps) {
                         <a href={apiUrl.replace('{page}', item)} onClick={(e) => {
                             e.preventDefault(); 
                             gotoPageClickEvent(item);  
-                            router.push(apiUrl.replace('{page}',item as any));
+                            safePush(apiUrl.replace('{page}',item as any));
                         }}>{item}</a>
                     </li>
                 );
@@ -205,7 +205,7 @@ export default function Pagination(props: PaginationProps) {
                                     <a href={apiUrl.replace('{page}', item)} onClick={(e) => { 
                                         e.preventDefault(); 
                                         gotoPageClickEvent(item); 
-                                        router.push(apiUrl.replace('{page}',item as any));
+                                        safePush(apiUrl.replace('{page}',item as any));
                                     }}>{item}</a>
                                 </li>
                             );

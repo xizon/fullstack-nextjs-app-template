@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import myStyles from '@/components/MultilevelDropdownMenu/styles/index.module.scss';
 
 import CoreUtils from '@/utils/CoreUtils';
-
+import useRouterChange from '@/utils/hooks/useSafePush';
 
 /* Recursively nested components to traverse nodes
 -------------------------------------------------*/		
@@ -18,6 +18,7 @@ type MenuListProps = {
 export default function MenuList(props: MenuListProps) {
 
     const router = useRouter();
+    const { safePush } = useRouterChange();
     const vmenuRef = useRef<any>(null);
 
     
@@ -69,7 +70,7 @@ export default function MenuList(props: MenuListProps) {
         // route switching
         //=====================
         if ( typeof hyperlink.parentNode.dataset.router !== 'undefined' ) {
-            router.push(url);
+            safePush(url);
         }
 
         
