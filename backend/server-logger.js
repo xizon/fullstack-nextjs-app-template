@@ -19,25 +19,44 @@ app.use(cors());
 
     /* logger.js
 
+    const util = require('util');
+    const exec = util.promisify(require('child_process').exec);
+    async function run(file,filepath,arg) {
+        try {
+            const _filepath = `${filepath}${file}`;
+
+            const { stdout, stderr } = await exec(_filepath);
+            console.log('stdout:', stdout);
+            console.log('stderr:', stderr);
+        } catch (error) {
+            console.error(error);
+        };
+    };
+
+
     process.on('message', (message) => {
-        const { log_type,url } = message.data;
-        if (typeof log_type !== 'undefined') {
-            const url = `${url}?log_type=${log_type}`;
-            require("openurl").open(url);
+        console.log("message: ", message);  // { data: {...}, message: 'OK', code: 200 }
+    
+        const { file,filepath,arg } = message.data;
+        
+        if (typeof file !== 'undefined') {
+            run(file,filepath,arg);
+            //require("openurl").open(url);
         }
     });
 
     */
 
-    try {
-        const {log_type,url} = req.query;
 
-        const child = fork(path.resolve(__dirname, '../logger.js'));
+    try {
+        const {file,filepath,arg} = req.query;
+
+        const child = fork(path.resolve(__dirname, '../call/logger.js'));
         child.on('message', (message) => {
             console.log(message);
         });
         child.send({
-            "data": {log_type,url},
+            "data": {file,filepath,arg},
             "message": "OK",
             "code": 200
         });

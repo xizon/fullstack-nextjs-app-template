@@ -18,8 +18,6 @@ const useLocalStorage = (key, defaultValue) => {
     const [value, setValue] = useState(defaultValue);
 
     useEffect(() => {
-       
-        console.log(value);
 
         // storing input name
         const newVal = typeof value !== 'string' ?  JSON.stringify(value) : value;
