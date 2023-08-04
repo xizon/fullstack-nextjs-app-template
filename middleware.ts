@@ -11,6 +11,16 @@ export function middleware(req) {
     const { pathname } = req.nextUrl;
 
     // Determine whether you have permission to enter the dashboard
+
+    //----------------------------------------------------------------
+    // if (
+    //     pathname === '/' ||
+    //     /\/\d+\/(.*?)-management/.test(pathname)
+    // ) {
+       
+    // }
+
+
     //----------------------------------------------------------------
     if (pathname.startsWith('/dashboard')) {
         // If user is not logged in, return login component

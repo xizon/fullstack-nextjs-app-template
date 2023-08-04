@@ -6,6 +6,8 @@ import myStyles from '@/components/MultilevelDropdownMenu/styles/index.module.sc
 
 import CoreUtils from '@/utils/CoreUtils';
 import useRouterChange from '@/utils/hooks/useSafePush';
+import useDebounce from '@/utils/hooks/useDebounce';
+
 
 /* Recursively nested components to traverse nodes
 -------------------------------------------------*/		
@@ -60,13 +62,18 @@ export default function MenuList(props: MenuListProps) {
     };
 
 
+    //performance
+    const handleClickSafe = useDebounce((e) => {
+        handleClick(e);
+    }, 500, []);
+
+
 
     function handleClick(e) {
-        e.preventDefault();
-        const hyperlink = e.target;
+        const hyperlink = e.target.closest('li').querySelector('.m-item');
         const url = hyperlink.getAttribute('href');
         const subElement = CoreUtils.return('getNextSiblings', hyperlink, 'ul');
-        
+
         // route switching
         //=====================
         if ( typeof hyperlink.parentNode.dataset.router !== 'undefined' ) {
@@ -151,8 +158,11 @@ export default function MenuList(props: MenuListProps) {
                     );
                     if (item.link.indexOf('#') >= 0 || item.link.indexOf('http') >= 0 ) {
                         return (
-                            <li key={i} className={ (router.asPath === item.link || router.asPath.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
-                                <a href={item.link === '#' ? `${item.link}-${i}` : item.link} aria-expanded="false" onClick={handleClick}>
+                            <li key={'primaey-menu' + i} className={ (router.asPath === item.link || router.asPath.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
+                                <a className="m-item" tabIndex={-1} href={item.link === '#' ? `${item.link}-${i}` : item.link} aria-expanded="false" onClick={(e) => {
+                                    e.preventDefault();
+                                    handleClickSafe(e);
+                                }}>
                                     {item.icon ? item.icon.indexOf('</svg>') < 0 ? <><i className={item.icon}></i> </> : <var dangerouslySetInnerHTML={{__html: `${item.icon}`}} /> : null}{item.title}
                                     {item.children ? <span className={myStyles['vertical-menu__arrow']}></span> : ''}
                                 </a>
@@ -161,8 +171,11 @@ export default function MenuList(props: MenuListProps) {
                             );
                     } else {
                         return (
-                            <li data-router="true" key={i} className={ (router.asPath === item.link || router.asPath.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
-                                <a href={item.link === '#' ? `${item.link}-${i}` : item.link} onClick={handleClick}>
+                            <li data-router="true" key={'primaey-menu' + i} className={ (router.asPath === item.link || router.asPath.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
+                                <a className="m-item" tabIndex={-1} href={item.link === '#' ? `${item.link}-${i}` : item.link} onClick={(e) => {
+                                    e.preventDefault();
+                                    handleClickSafe(e);
+                                }}>
                                    {item.icon ? item.icon.indexOf('</svg>') < 0 ? <><i className={item.icon}></i> </> : <var dangerouslySetInnerHTML={{__html: `${item.icon}`}} /> : null}{item.title}
                                     {item.children ? <span className={myStyles['vertical-menu__arrow']}></span> : ''}
                                 </a>

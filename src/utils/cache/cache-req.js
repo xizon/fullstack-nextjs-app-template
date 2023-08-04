@@ -151,7 +151,7 @@ class CacheReq {
         const cache = sessionStorage.getItem(key);
 
         // load the cache
-        if (cache !== null && cache != 'undefined') {
+        if (cache !== null && cache != 'undefined' && _enable) {
             const _data = JSON.parse(cache);
             return _data.data;
         }
