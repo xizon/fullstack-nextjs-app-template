@@ -113,8 +113,14 @@ const {
 const shuffle = require('./libs/shuffle');
 const convertTree = require('./libs/convert-tree');
 
-
-
+const {
+    addScript,
+    removeScript
+} = require('./libs/use-script');
+const {
+    addStyle,
+    removeStyle
+} = require('./libs//use-style');
 
 
 
@@ -204,7 +210,10 @@ CoreUtils.add('HSLToRGB', (...attrs) => HSLToRGB(...attrs));
 CoreUtils.add('generateGradient', (...attrs) => generateGradient(...attrs));
 CoreUtils.add('shuffle', (...attrs) => shuffle(...attrs));
 CoreUtils.add('convertTree', (...attrs) => convertTree(...attrs));
-
+CoreUtils.add('addScript', (...attrs) => addScript(...attrs));
+CoreUtils.add('removeScript', (...attrs) => removeScript(...attrs));
+CoreUtils.add('addStyle', (...attrs) => addStyle(...attrs));
+CoreUtils.add('removeStyle', (...attrs) => removeStyle(...attrs));
 
 
 // node & browser

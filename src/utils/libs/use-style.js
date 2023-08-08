@@ -1,4 +1,9 @@
-// import the style inside the react component
+/**
+ * Import the style inside
+ * @param {String} id 
+ * @param {String} url 
+ * @returns 
+ */
 function addStyle(id, url) {
 
     const el = document.getElementById(id); 
@@ -21,7 +26,7 @@ function removeStyle(id) {
 }
 
 
-export {
+module.exports = {
     addStyle,
     removeStyle
 }

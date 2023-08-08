@@ -1,4 +1,11 @@
-// import the script inside the react component
+/**
+ * Import the script inside
+ * @param {String} id 
+ * @param {String} url 
+ * @param {Boolean} defer 
+ * @param {Boolean} async 
+ * @returns 
+ */
 function addScript(id, url, defer = false, async = false) {
 
     const el = document.getElementById(id); 
@@ -21,7 +28,7 @@ function removeScript(id) {
 }
 
 
-export {
+module.exports = {
     addScript,
     removeScript
 }
