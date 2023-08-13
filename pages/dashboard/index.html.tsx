@@ -59,7 +59,7 @@ const Dashboard = () => {
 */
 export async function getServerSideProps(context) {
 
-    console.log('Local Url: ', `${context.req.protocol}://${context.req.get('Host')}`);
+    console.log('Local Url: ', `//${context.req.headers.host}`);
 
     // Authorize the page and manage permissions by `middleware`
     const token = cookies(context).SITE_DATA_LOGIN_COOKIE;

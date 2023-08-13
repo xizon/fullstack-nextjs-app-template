@@ -1,3 +1,13 @@
+
+const prodUrl = (myProtocol, myHostname, myPort, specifiedPort = '') => {
+    if ( typeof window !== 'undefined' ) {
+        return window.location.hostname === 'localhost' ? `${myProtocol}://${myHostname}:${myPort}` : `${window.location.protocol}//${window.location.hostname}:${specifiedPort === '' ? window.location.port : specifiedPort}`;
+    } else {
+        return specifiedPort === '' ? '{reqUrl}' : `{reqUrl}:${specifiedPort}`;
+    }
+};
+
+
 const config = {
 
 	/*
