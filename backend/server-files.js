@@ -12,6 +12,12 @@ app.use(cors());
 
 // api
 app.use('/api', express.static('api'));
+// app.use('/api', express.static(path.join(__dirname, '..', '/uploads/api')));
+
+
+// utilities
+const remainingElements = require('./libs/remaining-elements');
+
 
 
 /*
@@ -19,7 +25,7 @@ app.use('/api', express.static('api'));
   SERVICE: Merge and Manage all `api/*.js`
  ================================================
  */
- const mergeApiFiles = (files, targatPath) => {
+const mergeApiFiles = (files, targatPath) => {
 
     if (files.length === 0) {
         fs.writeFileSync(targatPath, '/* No API Files! */');
@@ -45,7 +51,7 @@ ${fileContent}
 
         });
 
-        fs.writeFileSync(targatPath, allContent);   
+        fs.writeFileSync(targatPath, allContent);
     }
 
 };
@@ -65,7 +71,7 @@ app.post('/upload-merge-api', async (req, res) => {
 
         mergeApiFiles(allApiFiles, allApiFilePath);
 
-      
+
         //
         res.send({
             "data": { "mergeInfo": "OK", "newData": getApiFileNames() },
@@ -87,7 +93,7 @@ app.post('/get-merge-api-files', async (req, res) => {
             "data": { files: getApiFileNames() },
             "message": "OK",
             "code": 200
-        });      
+        });
     } catch (err) {
         res.status(500).send(err);
     }
@@ -99,18 +105,28 @@ app.post('/delete-merge-api-files', async (req, res) => {
 
     try {
 
+        const oldFileNames = getApiFileNames();
+
         // Get all the API files
         const allApiFilePath = path.resolve(__dirname, '../api/index/all.js');
-        const allApiFiles = glob.sync( path.resolve(__dirname, '../api/*.js') );
-        
-        if ( allApiFiles.length > 0 ) {
+        const allApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
+
+        if (allApiFiles.length > 0) {
 
             allApiFiles.forEach((file) => {
-  
+
+                const _file = file.split('/').at(-1);
+
                 inputFiles.forEach(name => {
-                    if (file.indexOf(name) >= 0) {
-                        fs.rmSync(file, { recursive: true });
-                        console.log('\x1b[36m%s\x1b[0m', `--> Deleted "api/${file}" successfully`);
+                    if (_file === name) {
+
+                        // DO NOT use `rmSync()`, There will be a request end 500 error caused by incomplete processing of the file
+                        fs.rm(file, { recursive: true }, (err) => {
+                            if (err) return console.log(err);
+                            console.log('\x1b[36m%s\x1b[0m', `--> Deleted "api/${file}" successfully`);
+                        });
+
+
                     }
                 });
 
@@ -118,26 +134,28 @@ app.post('/delete-merge-api-files', async (req, res) => {
 
         }
 
-        const latestAllApiFiles = glob.sync( path.resolve(__dirname, '../api/*.js') );
+        const latestAllApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
         mergeApiFiles(latestAllApiFiles, allApiFilePath);
-            
+
+        const newFileNames = remainingElements(oldFileNames, inputFiles);
+
         //
         res.send({
-            "data": { "deleteInfo": 'OK', "newData": getApiFileNames() },
+            "data": { "deleteInfo": 'OK', "newData": newFileNames },
             "message": "OK",
             "code": 200
-        });      
+        });
     } catch (err) {
         res.status(500).send(err);
     }
 });
 
 
- /*
- ================================================
-  START APP
- ================================================
- */
+/*
+================================================
+ START APP
+================================================
+*/
 const hostname = 'localhost';
 
 app.listen(port, () =>

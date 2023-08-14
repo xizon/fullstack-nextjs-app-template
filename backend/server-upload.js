@@ -39,6 +39,8 @@ app.use(morgan('dev'));
 // Static resources in plugins can be used dynamically (no need to redeploy)
 // you can visit the static URL like this: http://localhost:4001/vars/custom-page/
 app.use('/vars', express.static('plugins'));
+// app.use('/vars', express.static(path.join(__dirname, '..', '/uploads/vars')));
+
 
 
 app.post('/upload-plugin', async (req, res) => {
