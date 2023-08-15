@@ -91,8 +91,8 @@ app.prepare().then(() => {
     Method 1
     ===========================
     // socket.io
-    const http = require('http').createServer(app);
-    const io = require('socket.io')(http, {
+    const httpServer = require('http').createServer(app);
+    const io = require('socket.io')(httpServer, {
         cors: {
             origin: '*'
         }
@@ -113,7 +113,7 @@ app.prepare().then(() => {
     });
 
     
-    http.listen(port, (err) => {
+    httpServer.listen(port, (err) => {
         if (err) throw err
         console.log(`> Ready on http://${hostname}:${port}`)
     });

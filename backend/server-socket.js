@@ -1,9 +1,31 @@
 /*
 
- !!! Warning: 
- 
- Multiple micro-service containers cannot be opened on the server side at the same time, 
- otherwise the upstream server will terminate the WebSocket connection.
+ !!! Common Load-balancing Solutions: 
+
+
+1. [Socket.io issue with multiple Kubernetes pods]
+
+Solution 1:
+
+Using k8s with load balancing, without nginx. Config the sessionAffinity on service:
+
+```yml
+service.spec.sessionAffinity = "ClientIP"
+```
+
+
+Solution 2:
+
+Adding transports: ['websocket'] to socketIOClient options in our multi-pod Kubernetes environment:
+
+```yml
+socketIOClient(someUrl, {transports: ['websocket']});
+```
+
+
+2. [Other platforms]
+
+Refer to: https://socket.io/docs/v4/using-multiple-nodes/
 
 */
 

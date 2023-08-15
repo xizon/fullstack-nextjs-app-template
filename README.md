@@ -52,7 +52,7 @@ List my progress here:
 | Deploy Using Docker | ✅ |
 | Redux Supplement (for navigation) | ✅ |
 | Redux SSR (for homepage) | ✅ |
-| Custom Server Support `socket.io` | ✅ |
+| WebSocket Support via `socket.io` | ✅ |
 | Additional Node.js Services | ✅ |
 | End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [React Pure Bootstrap](https://github.com/xizon/react-pure-bootstrap) |
@@ -831,6 +831,37 @@ $ docker run --init -p 4001:4001 my-node-server:v1
 ```bash
 $ docker-compose up
 ```
+
+
+
+
+### ⚙️ Deploy Using Docker (Common Load-balancing Solutions of Socket.io Issue):
+
+
+#### 1. Multiple Kubernetes pods
+
+**Solution 1:**
+
+Using k8s with load balancing, without nginx. Config the sessionAffinity on service:
+
+```yml
+service.spec.sessionAffinity = "ClientIP"
+```
+
+
+**Solution 2:**
+
+Adding transports: ['websocket'] to socketIOClient options in our multi-pod Kubernetes environment:
+
+```yml
+socketIOClient(someUrl, {transports: ['websocket']});
+```
+
+
+#### 2. Other platforms
+
+Refer to: [Using multiple nodes](https://socket.io/docs/v4/using-multiple-nodes/)
+
 
 
 
