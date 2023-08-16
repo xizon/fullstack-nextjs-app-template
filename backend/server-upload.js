@@ -27,13 +27,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 
-
-/*
- ================================================
-  SERVICE 1: upload .zip file
- ================================================
- */
-//make uploads directory static
 // Note: `app.use(..., express.static(...))` cannot be placed before `app.use(cors())`
 
 // Static resources in plugins can be used dynamically (no need to redeploy)
@@ -41,6 +34,13 @@ app.use(morgan('dev'));
 app.use('/vars', express.static('plugins'));
 // app.use('/vars', express.static(path.join(__dirname, '..', '/uploads/vars')));
 
+
+
+/*
+ ================================================
+  SERVICE 1: upload .zip file
+ ================================================
+ */
 
 
 app.post('/upload-plugin', async (req, res) => {

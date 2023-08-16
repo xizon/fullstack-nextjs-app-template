@@ -25,6 +25,32 @@ const remainingElements = require('./libs/remaining-elements');
   SERVICE: Merge and Manage all `api/*.js`
  ================================================
  */
+/** Usage:
+
+axios({
+    method: 'post',
+    url: 'http://localhost:7001/delete-merge-api-files',
+    data: {
+        files: ['file1.ext','file2.ext']
+    }
+})
+.then(function (response: any) {
+    console.log('restore response: ', response);
+    if (response.status === 200) {
+        if (response.data.code === 1000) {
+            console.log(response.data.message);
+        } else {
+            console.log('oparation successfully');
+        }
+    }
+    
+})
+.catch(function (error: any) {
+    console.log('restore error: ', error);
+});
+
+*/
+
 const mergeApiFiles = (files, targatPath) => {
 
     if (files.length === 0) {
@@ -105,46 +131,58 @@ app.post('/delete-merge-api-files', async (req, res) => {
 
     try {
 
-        const oldFileNames = getApiFileNames();
 
-        // Get all the API files
-        const allApiFilePath = path.resolve(__dirname, '../api/index/all.js');
-        const allApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
+        if (!inputFiles || inputFiles.length === 0) {
+            res.send({
+                "message": "No file selected",
+                "code": 1000
+            });
+        } else {
 
-        if (allApiFiles.length > 0) {
+            const oldFileNames = getApiFileNames();
 
-            allApiFiles.forEach((file) => {
+            // Get all the API files
+            const allApiFilePath = path.resolve(__dirname, '../api/index/all.js');
+            const allApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
 
-                const _file = file.split('/').at(-1);
+            if (allApiFiles.length > 0) {
 
-                inputFiles.forEach(name => {
-                    if (_file === name) {
+                allApiFiles.forEach((file) => {
 
-                        // DO NOT use `rmSync()`, There will be a request end 500 error caused by incomplete processing of the file
-                        fs.rm(file, { recursive: true }, (err) => {
-                            if (err) return console.log(err);
-                            console.log('\x1b[36m%s\x1b[0m', `--> Deleted "api/${file}" successfully`);
-                        });
+                    const _file = file.split('/').at(-1);
+
+                    inputFiles.forEach(name => {
+                        if (_file === name) {
+
+                            // DO NOT use `rmSync()`, There will be a request end 500 error caused by incomplete processing of the file
+                            fs.rm(file, { recursive: true }, (err) => {
+                                if (err) return console.log(err);
+                                console.log('\x1b[36m%s\x1b[0m', `--> Deleted "api/${file}" successfully`);
+                            });
 
 
-                    }
+                        }
+                    });
+
                 });
 
+            }
+
+            const latestAllApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
+            mergeApiFiles(latestAllApiFiles, allApiFilePath);
+
+            const newFileNames = remainingElements(oldFileNames, inputFiles);
+
+            //
+            res.send({
+                "data": { "deleteInfo": 'OK', "newData": newFileNames },
+                "message": "OK",
+                "code": 200
             });
 
         }
 
-        const latestAllApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
-        mergeApiFiles(latestAllApiFiles, allApiFilePath);
 
-        const newFileNames = remainingElements(oldFileNames, inputFiles);
-
-        //
-        res.send({
-            "data": { "deleteInfo": 'OK', "newData": newFileNames },
-            "message": "OK",
-            "code": 200
-        });
     } catch (err) {
         res.status(500).send(err);
     }
