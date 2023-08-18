@@ -186,9 +186,6 @@ app.post('/download-files-backup', async (req, res) => {
                     });
                 }
                 
-
-
-                "binary"
             });
 
             //
