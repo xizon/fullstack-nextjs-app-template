@@ -1,5 +1,5 @@
 
-import md5 from 'md5';
+//import md5 from 'md5';
 
 
 /**
@@ -110,7 +110,8 @@ class CacheReq {
 
         const fnName = rest[0];
         const incomingArgs = JSON.stringify(rest).replace(/\s/g, "_").replace(/[^a-zA-Z0-9 \u4E00-\u9FFF]/g, "");
-        const keyStr = fnName + '-' + md5(incomingArgs);
+        //const keyStr = fnName + '-' + md5(incomingArgs);
+        const keyStr = fnName + '-' + incomingArgs;
         const keyGlobalStr = entry + '-' + JSON.stringify(rest[1]).replace(/\s/g, "_").replace(/[^a-zA-Z0-9 \u4E00-\u9FFF]/g, "");
         const executionStartTime = Date.now();
         const key = `${this.SPACE_NAME}${keyStr}`;        
@@ -153,6 +154,8 @@ class CacheReq {
         // load the cache
         if (cache !== null && cache != 'undefined' && _enable) {
             const _data = JSON.parse(cache);
+
+            console.log(`cache (${_data.runtime}): `, key);
             return _data.data;
         }
 

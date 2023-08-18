@@ -6,6 +6,8 @@ import Layout from '@/components/Layout';
 import apiUrls from '@/config/apiUrls';
 import axios from "axios";
 
+import Cache from '@/utils/cache/cache-req';
+
 
 const MainContent = (props) => {
     return (
@@ -29,6 +31,40 @@ const MainContent = (props) => {
 };
 
 
+/** Cache
+ * ---------------------------------
+*/
+const todoGetList = () => {
+    return new Promise((resolve, reject) => {
+        axios.get(apiUrls.RECEIVE_DEMO_LIST).then((response) => {
+            resolve(response)    
+        });
+    })
+};
+
+const getList = async () => {
+
+    //
+    const cacheData = Cache.memoize(todoGetList)();
+    const [cacheName, cacheArgs] = cacheData.params;
+    const res = await Cache.connect({
+        autoClear: false,
+        clearDelay: null,
+        entry: 'getList'
+    }, async () => {
+        const data = await cacheData.fn(...cacheArgs);
+
+        //############## return ###############
+        return data;
+        //############## /return ###############
+
+
+    }, cacheName, cacheArgs);
+    return res;
+
+
+};
+
 /** Render data
  * ---------------------------------
 */
@@ -44,7 +80,7 @@ const Posts = () => {
         //-----
         const fetchPost = async () => {
             try {
-                let response = await axios.get(apiUrls.RECEIVE_DEMO_LIST);
+                let response = await getList();
                 setLoading(false);
                 setPosts(response.data);
 

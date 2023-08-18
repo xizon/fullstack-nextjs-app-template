@@ -1,6 +1,14 @@
 # Changelog
 
 
+#### = 0.8.0 (August 18, 2023) =
+
+* New: Add some node services.
+* New: Add Request Cache demo.
+* Tweak: Code optimization and performance fixes.
+* Tweak: Upgrade next.js to 13.4.x.
+
+
 #### = 0.6.8 (July 19, 2023) =
 
 * Tweak: Update documentation of Docker deployment.

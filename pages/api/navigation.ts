@@ -28,6 +28,11 @@ export default function handler(
                 link: "/posts.html"
             },
             {
+                title: "Request Cache",
+                icon: false,
+                link: "/request.ajax.html"
+            },
+            {
                 title: "Pagination",
                 icon: false,
                 link: "/pagination/1.html"

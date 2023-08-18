@@ -54,6 +54,7 @@ List my progress here:
 | Redux SSR (for homepage) | ✅ |
 | WebSocket Support via `socket.io` | ✅ |
 | Additional Node.js Services | ✅ |
+| Request Cache Demo | ✅ |
 | End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [React Pure Bootstrap](https://github.com/xizon/react-pure-bootstrap) |
 
@@ -930,7 +931,7 @@ $ npm cache verify
 
 ## Supported development environment
 
-- Next.js 13.x + 
+- Next.js 13.4 + 
 - React 18 +
 - TypeScript 4.x.x + 
 - Express 4.x.x

@@ -30,6 +30,11 @@ $res = array(
             'link' => '/posts.html',
         ),
         array(
+            'title' => 'Request Cache',
+            'icon' => false,
+            'link' => '/request.ajax.html',
+        ),
+        array(
             'title' => 'Pagination',
             'icon' => false,
             'link' => '/pagination/1.html',
