@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
+const fs = require('fs');
 
 const port = 4001;
 const app = express();
@@ -22,8 +23,12 @@ app.use(fileUpload({
 //add other middleware
 // HTTP request logger middleware for node.js
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+// "limit" is to avoid request errors: PayloadTooLargeError: request entity too large
+app.use(bodyParser.json({limit: '200mb'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '200mb' }));
+
+// HTTP request logger middleware for node.js
 app.use(morgan('dev'));
 
 

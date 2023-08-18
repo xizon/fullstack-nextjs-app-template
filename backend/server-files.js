@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const glob = require('glob');
+const fs = require('fs');
+
 
 const port = 7001;
 const app = express();
@@ -168,8 +171,10 @@ app.post('/delete-merge-api-files', async (req, res) => {
 
             }
 
-            const latestAllApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
-            mergeApiFiles(latestAllApiFiles, allApiFilePath);
+            setTimeout(() => {
+                const latestAllApiFiles = glob.sync( path.resolve(__dirname, '../api/*.js') );
+                mergeApiFiles(latestAllApiFiles, allApiFilePath);
+            }, 500);
 
             const newFileNames = remainingElements(oldFileNames, inputFiles);
 
