@@ -32,8 +32,14 @@ Refer to: https://socket.io/docs/v4/using-multiple-nodes/
 const express = require('express');
 const cors = require('cors');
 
+const { 
+    LANG,
+    PORT
+} = require('./core/socket/constants');
+
+
 //
-const port = 5001;
+const port = PORT;
 const app = express();
 
 const http = require('http').createServer(app);
@@ -45,15 +51,6 @@ const io = require('socket.io')(http, {
 
 
 app.use(cors());
-
-// Static resources in plugins can be used dynamically (no need to redeploy)
-// you can visit the static URL like this: http://localhost:5001/my/custom-page/
-app.use('/my', express.static('plugins'));
-
-app.get('/plugins/*', async (req, res) => {
-    let pagePath = req.path;   // /plugins/xxx/yyy/
-    res.sendFile(path.join(__dirname, `../${pagePath}`));
-});
 
 
 io.on('connection', (socket) => {
@@ -68,7 +65,7 @@ io.on('connection', (socket) => {
 // Usage: docker run --init -p <host_port>:<container_port<image_name:version>
 const process = require('process');
 process.on('SIGINT', () => {
-    console.info("Interrupted")
+    console.info(LANG.en.interrupted)
     process.exit(0);
 });
 
@@ -76,10 +73,13 @@ process.on('SIGINT', () => {
 
 
 //
-const hostname = 'localhost';
-http.listen(port, () =>
-    console.log(`> Server on http://${hostname}:${port}`)
-);
+const server = http.listen(port, () => {
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log(LANG.en.serverRun, host, port);
+});
+
+
 
 
 /*

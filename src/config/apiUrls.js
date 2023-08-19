@@ -64,7 +64,7 @@ const config = {
 /**
  * API for Test on Localhost
  * 
- * (Please use a PHP server environment with a local port of 4000, check the file at `./backend/php-runner.js`)
+ * (Please use a PHP server environment with a local port of 4000, check the file at `./backend/server-php.js`)
  */
 const localConfig = {
 

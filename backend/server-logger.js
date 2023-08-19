@@ -2,7 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
-const port = 6001;
+const { 
+    LANG,
+    PORT
+} = require('./core/logger/constants');
+
+
+const port = PORT;
 const app = express();
 
 //add other middleware
@@ -57,12 +63,12 @@ app.use(cors());
         });
         child.send({
             "data": {file,filepath,arg},
-            "message": "OK",
+            "message": LANG.en.sendOk,
             "code": 200
         });
 
         res.send({
-            "message": "OK",
+            "message": LANG.en.sendOk,
             "code": 200
         });      
     } catch (err) {
@@ -71,13 +77,13 @@ app.use(cors());
 });
 
 
- /*
- ================================================
-  START APP
- ================================================
- */
-const hostname = 'localhost';
-
-app.listen(port, () =>
-    console.log(`> Server on http://${hostname}:${port}`)
-);
+/*
+================================================
+ START APP
+================================================
+*/
+const server = app.listen(port, () => {
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log(LANG.en.serverRun, host, port);
+});

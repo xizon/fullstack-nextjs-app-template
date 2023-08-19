@@ -9,7 +9,7 @@ module.exports = {
         },
         {
             name: "phpserver",
-            script: "node backend/php-runner.js",
+            script: "node backend/server-php.js",
             env: {
                 NODE_ENV: "production"
             }

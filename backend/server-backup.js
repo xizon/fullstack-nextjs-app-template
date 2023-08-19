@@ -10,7 +10,35 @@ const fs = require('fs');
 const AdmZip = require("adm-zip");
 const mime = require('mime');
 
-const port = 8001;
+
+const { 
+    LANG,
+    PORT, 
+    STATIC_FILES_DIR,
+    SAVE_TO_DIR,
+    ARCHIVE_FILE_NAME
+} = require('./core/backup/constants');
+
+
+const { 
+    imgTypes,
+    textTypes
+} = require('./core/backup/match');
+
+const { 
+    base64StrToBuffer,
+    uint8arrayToBuffer,
+    fileDate,
+    simpleDate
+} = require('./core/backup/helpers');
+
+const { 
+    bytesConvertToMegabytes 
+} = require('./core/backup/computeds');
+
+
+
+const port = PORT;
 const app = express();
 
 //add other middleware
@@ -18,16 +46,16 @@ const app = express();
 app.use(cors());
 
 // "limit" is to avoid request errors: PayloadTooLargeError: request entity too large
-app.use(bodyParser.json({limit: '200mb'}));
-app.use(bodyParser.urlencoded({ extended: true, limit: '200mb' }));
+app.use(bodyParser.json({limit: REQUEST_MAX_LIMIT}));
+app.use(bodyParser.urlencoded({ extended: true, limit: REQUEST_MAX_LIMIT }));
 
 
 // api
-app.use('/backup', express.static('backup'));
+app.use('/backup', express.static(STATIC_FILES_DIR));
 
 
 // utilities
-const remainingElements = require('./libs/remaining-elements');
+const remainingElements = require('./utils/remaining-elements');
 
 
 
@@ -90,17 +118,17 @@ axios({
 
 
 const getBackupNames = () => {
-    return glob.sync(path.resolve(__dirname, '../backup/*')).map(item => item.split('/').at(-1));
+    return glob.sync(path.resolve(__dirname, `../${STATIC_FILES_DIR}/*`)).map(item => item.split('/').at(-1));
 };
 
 const getFileStats = () => {
     return getBackupNames().map((item) => {
-        const _file = path.resolve(__dirname, `../backup/${item}`);
+        const _file = path.resolve(__dirname, `../${STATIC_FILES_DIR}/${item}`);
 
         const fileStats = fs.statSync(_file)
         const fileSizeInBytes = fileStats.size;
         // Convert the file size to megabytes (optional)
-        const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
+        const fileSizeInMegabytes = bytesConvertToMegabytes(fileSizeInBytes);
         const mimeType = mime.getType(_file);
      
         return {
@@ -110,13 +138,13 @@ const getFileStats = () => {
             createTime: fileStats.ctime,
             mimeType: mimeType,
             port: port,
-            path: 'backup/'
+            path: `${STATIC_FILES_DIR}/`
         }
     })
 };
 
 const getExistStats = () => {
-    const jsonPath = path.resolve(__dirname, '../backup/archive.json');
+    const jsonPath = path.resolve(__dirname, `../${STATIC_FILES_DIR}/${ARCHIVE_FILE_NAME}`);
     if (!fs.existsSync(jsonPath)) return [];
 
     const json = JSON.parse(fs.readFileSync(jsonPath));
@@ -126,7 +154,7 @@ const getExistStats = () => {
 
 const generateArchiveFile = () => {
     // generate the catelog archive
-    const archivePath = path.resolve(__dirname, `../backup/archive.json`);
+    const archivePath = path.resolve(__dirname, `../${STATIC_FILES_DIR}/${ARCHIVE_FILE_NAME}`);
     fs.writeFileSync(archivePath, JSON.stringify(getFileStats()));
 };
 
@@ -141,7 +169,7 @@ app.post('/download-files-backup', async (req, res) => {
 
         if (!inputFiles || inputFiles.length === 0) {
             res.send({
-                "message": "No file selected",
+                "message": LANG.en.noFile,
                 "code": 1000
             });
         } else {
@@ -149,30 +177,30 @@ app.post('/download-files-backup', async (req, res) => {
             inputFiles.forEach(item => {
               
                 const ext = path.extname(item.name);
-                const output = path.resolve(__dirname, `../backup/${item.name}`);
-                let buffer = Buffer.from(Uint8Array.from(item.rawData));  // for "Uint8Array()"
-  
-                if (Object.prototype.toString.call(item.rawData) === '[object String]') {
-                    if ( /(json|xml|text)$/i.test(ext) ) {
+                const output = path.resolve(__dirname, `../${STATIC_FILES_DIR}/${item.name}`);
+                let buffer = uint8arrayToBuffer(item.rawData);  // for "Uint8Array()"
+                
+                if (dataIsString(item.rawData)) {
+                    if ( textTypes.test(ext) ) {
                         fs.writeFile(output, item.rawData, (err) => {
                             if (err) return console.log(err);
-                            console.log('\x1b[36m%s\x1b[0m', `--> Downloaded "${item.name}" completed`);
+                            console.log('\x1b[36m%s\x1b[0m', LANG.en.download, `${item.name}`);
                         });
 
-                    } else if ( /(jpg|jpeg|png|svg|gif|webp)$/i.test(ext) ) {
-                        buffer = item.rawData.replace(/^data:image\/\w+;base64,/, "");
-                        buffer = Buffer.from(buffer, 'base64');
-
+                    } else if ( imgTypes.test(ext) ) {
+                        const _str = item.rawData.replace(/^data:image\/\w+;base64,/, "");
+                        buffer = base64StrToBuffer(_str);
+                        
                         fs.writeFile(output, buffer, (err) => {
                             if (err) return console.log(err);
-                            console.log('\x1b[36m%s\x1b[0m', `--> Downloaded "${item.name}" completed`);
+                            console.log('\x1b[36m%s\x1b[0m', LANG.en.download, `${item.name}`);
                         });
 
                     } else {
 
                         mwsExtract(item.rawData, output)
                             .then((msg) => {
-                                console.log('\x1b[36m%s\x1b[0m', `--> Downloaded "${item.name}" completed`);
+                                console.log('\x1b[36m%s\x1b[0m', LANG.en.download, `${item.name}`);
                             })
                             .catch((err) => {
                             console.log(err)
@@ -182,7 +210,7 @@ app.post('/download-files-backup', async (req, res) => {
                 } else {
                     fs.writeFile(output, buffer, (err) => {
                         if (err) return console.log(err);
-                        console.log('\x1b[36m%s\x1b[0m', `--> Downloaded "${item.name}" completed`);
+                        console.log('\x1b[36m%s\x1b[0m', LANG.en.download, `${item.name}`);
                     });
                 }
                 
@@ -190,7 +218,7 @@ app.post('/download-files-backup', async (req, res) => {
 
             //
             res.send({
-                "message": "OK",
+                "message": LANG.en.sendOk,
                 "code": 200
             });     
 
@@ -210,7 +238,7 @@ app.post('/get-files-backup', async (req, res) => {
         //
         res.send({
             "data": { files: getBackupNames() },
-            "message": "OK",
+            "message": LANG.en.sendOk,
             "code": 200
         });      
     } catch (err) {
@@ -225,7 +253,7 @@ app.post('/get-files-stats', async (req, res) => {
         //
         res.send({
             "data": { stats: getExistStats() },
-            "message": "OK",
+            "message": LANG.en.sendOk,
             "code": 200
         });      
     } catch (err) {
@@ -243,14 +271,14 @@ app.post('/delete-files-backup', async (req, res) => {
 
         if (!inputFiles || inputFiles.length === 0) {
             res.send({
-                "message": "No file selected",
+                "message": LANG.en.noFile,
                 "code": 1000
             });
         } else {
             const oldFileNames = getBackupNames();
 
             // Get all the API files
-            const allPlugins = glob.sync( path.resolve(__dirname, '../backup/*') );
+            const allPlugins = glob.sync( path.resolve(__dirname, `../${STATIC_FILES_DIR}/*`) );
             
             if ( allPlugins.length > 0 ) {
 
@@ -265,7 +293,7 @@ app.post('/delete-files-backup', async (req, res) => {
                             // DO NOT use `rmSync()`, There will be a request end 500 error caused by incomplete processing of the file
                             fs.rm( file, { recursive: true }, (err) => {
                                 if (err) return console.log(err);
-                                console.log('\x1b[36m%s\x1b[0m', `--> Deleted "backup/${file}" successfully`);
+                                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${STATIC_FILES_DIR}/${file}`);
                             });
                             
                         }
@@ -286,8 +314,8 @@ app.post('/delete-files-backup', async (req, res) => {
 
             //
             res.send({
-                "data": { "deleteInfo": 'OK', "newData": newFileNames },
-                "message": "OK",
+                "data": { "deleteInfo": LANG.en.sendOk, "newData": newFileNames },
+                "message": LANG.en.sendOk,
                 "code": 200
             });      
 
@@ -305,11 +333,10 @@ app.post('/backupfiles-compression', async (req, res) => {
     try {
 
         const zip = new AdmZip();
-        const _date = new Date();
-        const createDate = _date.toISOString().split('T')[0]+_date.toISOString().split('T')[1];
+        const createDate = fileDate();
 
-        const currPath = path.resolve(__dirname, '../uploads/');
-        const outputFile = path.resolve(__dirname, `../backup/uploads-backup-${createDate}.zip`);
+        const currPath = path.resolve(__dirname, `../${SAVE_TO_DIR}/`);
+        const outputFile = path.resolve(__dirname, `../${STATIC_FILES_DIR}/uploads-backup-${createDate}.zip`);
 
         //
         zip.addLocalFolder(currPath);
@@ -317,7 +344,7 @@ app.post('/backupfiles-compression', async (req, res) => {
 
 
         // copy the latest file
-        const newpackPath = path.resolve(__dirname, `../backup/uploads-backup-latest.zip`);
+        const newpackPath = path.resolve(__dirname, `../${STATIC_FILES_DIR}/uploads-backup-latest.zip`);
         fs.copyFileSync(outputFile, newpackPath);
 
 
@@ -330,8 +357,8 @@ app.post('/backupfiles-compression', async (req, res) => {
 
         //
         res.send({
-            "data": { files: getBackupNames(), archive: 'archive.json'  },
-            "message": "OK",
+            "data": { files: getBackupNames(), archive: ARCHIVE_FILE_NAME  },
+            "message": LANG.en.sendOk,
             "code": 200
         });      
     } catch (err) {
@@ -349,25 +376,24 @@ app.post('/backupfiles-restore', async (req, res) => {
 
         if (!restorefile || restorefile === '') {
             res.send({
-                "message": "No file selected",
+                "message": LANG.en.noFile,
                 "code": 1000
             });
         } else {
-            const _date = new Date();
-            const currentDate = _date.toISOString();
+            const currentDate = simpleDate();
 
             // delete
-            const oldUploadsFolder = path.resolve(__dirname, '../uploads/');
+            const oldUploadsFolder = path.resolve(__dirname, `../${SAVE_TO_DIR}/`);
             fs.rm( oldUploadsFolder, { recursive: true }, (err) => {
                 if (err) return console.log(err);
-                console.log('\x1b[36m%s\x1b[0m', `--> Deleted "uploads/" successfully`);
+                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${SAVE_TO_DIR}/`);
 
                 if (!fs.existsSync(oldUploadsFolder)){
                     fs.mkdirSync(oldUploadsFolder, { recursive: true });
 
                     // move the backup file
-                    const oldpackPath = path.resolve(__dirname, `../backup/${restorefile}`);
-                    const newpackPath = path.resolve(__dirname, `../uploads/${restorefile}`);
+                    const oldpackPath = path.resolve(__dirname, `../${STATIC_FILES_DIR}/${restorefile}`);
+                    const newpackPath = path.resolve(__dirname, `../${SAVE_TO_DIR}/${restorefile}`);
                     
                     if (fs.existsSync(oldpackPath)) {
                         fs.copyFileSync(oldpackPath, newpackPath);
@@ -376,16 +402,16 @@ app.post('/backupfiles-restore', async (req, res) => {
                         try {
                             // Unzip file
                             const zip = new AdmZip(newpackPath);
-                            const targetPath = path.resolve(__dirname, `../uploads/`);
+                            const targetPath = path.resolve(__dirname, `../${SAVE_TO_DIR}/`);
 
                             zip.extractAllTo(targetPath, /*overwrite*/ true);
-                            console.log('\x1b[36m%s\x1b[0m', `--> (Step 4)  Extracted "uploads/${restorefile}" to "uploads/*" successfully`);
+                            console.log('\x1b[36m%s\x1b[0m', LANG.en.extracted, `${SAVE_TO_DIR}/${restorefile}`, `${SAVE_TO_DIR}/*`);
 
 
                             // delete the backup file
                             fs.rm( newpackPath, { recursive: true }, (err) => {
                                 if (err) return console.log(err);
-                                console.log('\x1b[36m%s\x1b[0m', `--> Deleted "uploads/${newpackPath}" successfully`);
+                                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${SAVE_TO_DIR}/${newpackPath}`);
                             });
                                             
                         } catch (err) {}
@@ -403,7 +429,7 @@ app.post('/backupfiles-restore', async (req, res) => {
             //
             res.send({
                 "data": { restoreFile: restorefile, restoreTime: currentDate },
-                "message": "OK",
+                "message": LANG.en.sendOk,
                 "code": 200
             });   
 
@@ -423,8 +449,8 @@ app.post('/backupfiles-restore', async (req, res) => {
  START APP
 ================================================
 */
-const hostname = 'localhost';
-
-app.listen(port, () =>
-    console.log(`> Server on http://${hostname}:${port}`)
-);
+const server = app.listen(port, () => {
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log(LANG.en.serverRun, host, port);
+});

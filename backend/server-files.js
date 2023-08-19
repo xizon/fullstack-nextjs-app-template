@@ -4,8 +4,15 @@ const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
 
+const { 
+    LANG,
+    PORT, 
+    STATIC_FILES_DIR
+} = require('./core/files/constants');
 
-const port = 7001;
+
+
+const port = PORT;
 const app = express();
 
 //add other middleware
@@ -14,12 +21,12 @@ app.use(cors());
 
 
 // api
-app.use('/api', express.static('api'));
+app.use('/api', express.static(STATIC_FILES_DIR));
 // app.use('/api', express.static(path.join(__dirname, '..', '/uploads/api')));
 
 
 // utilities
-const remainingElements = require('./libs/remaining-elements');
+const remainingElements = require('./utils/remaining-elements');
 
 
 
@@ -86,7 +93,7 @@ ${fileContent}
 };
 
 const getApiFileNames = () => {
-    return glob.sync(path.resolve(__dirname, '../api/*.js')).map(item => item.split('/').at(-1));
+    return glob.sync(path.resolve(__dirname, `../${STATIC_FILES_DIR}/*.js`)).map(item => item.split('/').at(-1));
 };
 
 
@@ -95,16 +102,16 @@ app.post('/upload-merge-api', async (req, res) => {
     try {
 
         // Get all the API files
-        const allApiFilePath = path.resolve(__dirname, '../api/index/all.js');
-        const allApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
+        const allApiFilePath = path.resolve(__dirname, `../${STATIC_FILES_DIR}/index/all.js`);
+        const allApiFiles = glob.sync(path.resolve(__dirname, `../${STATIC_FILES_DIR}/*.js`));
 
         mergeApiFiles(allApiFiles, allApiFilePath);
 
 
         //
         res.send({
-            "data": { "mergeInfo": "OK", "newData": getApiFileNames() },
-            "message": "OK",
+            "data": { "mergeInfo": LANG.en.sendOk, "newData": getApiFileNames() },
+            "message": LANG.en.sendOk,
             "code": 200
         });
     } catch (err) {
@@ -120,7 +127,7 @@ app.post('/get-merge-api-files', async (req, res) => {
         //
         res.send({
             "data": { files: getApiFileNames() },
-            "message": "OK",
+            "message": LANG.en.sendOk,
             "code": 200
         });
     } catch (err) {
@@ -137,7 +144,7 @@ app.post('/delete-merge-api-files', async (req, res) => {
 
         if (!inputFiles || inputFiles.length === 0) {
             res.send({
-                "message": "No file selected",
+                "message": LANG.en.noFile,
                 "code": 1000
             });
         } else {
@@ -145,8 +152,8 @@ app.post('/delete-merge-api-files', async (req, res) => {
             const oldFileNames = getApiFileNames();
 
             // Get all the API files
-            const allApiFilePath = path.resolve(__dirname, '../api/index/all.js');
-            const allApiFiles = glob.sync(path.resolve(__dirname, '../api/*.js'));
+            const allApiFilePath = path.resolve(__dirname, `../${STATIC_FILES_DIR}/index/all.js`);
+            const allApiFiles = glob.sync(path.resolve(__dirname, `../${STATIC_FILES_DIR}/*.js`));
 
             if (allApiFiles.length > 0) {
 
@@ -160,7 +167,7 @@ app.post('/delete-merge-api-files', async (req, res) => {
                             // DO NOT use `rmSync()`, There will be a request end 500 error caused by incomplete processing of the file
                             fs.rm(file, { recursive: true }, (err) => {
                                 if (err) return console.log(err);
-                                console.log('\x1b[36m%s\x1b[0m', `--> Deleted "api/${file}" successfully`);
+                                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${STATIC_FILES_DIR}/${file}`);
                             });
 
 
@@ -172,7 +179,7 @@ app.post('/delete-merge-api-files', async (req, res) => {
             }
 
             setTimeout(() => {
-                const latestAllApiFiles = glob.sync( path.resolve(__dirname, '../api/*.js') );
+                const latestAllApiFiles = glob.sync( path.resolve(__dirname, `../${STATIC_FILES_DIR}/*.js`) );
                 mergeApiFiles(latestAllApiFiles, allApiFilePath);
             }, 500);
 
@@ -180,8 +187,8 @@ app.post('/delete-merge-api-files', async (req, res) => {
 
             //
             res.send({
-                "data": { "deleteInfo": 'OK', "newData": newFileNames },
-                "message": "OK",
+                "data": { "deleteInfo": LANG.en.sendOk, "newData": newFileNames },
+                "message": LANG.en.sendOk,
                 "code": 200
             });
 
@@ -199,8 +206,8 @@ app.post('/delete-merge-api-files', async (req, res) => {
  START APP
 ================================================
 */
-const hostname = 'localhost';
-
-app.listen(port, () =>
-    console.log(`> Server on http://${hostname}:${port}`)
-);
+const server = app.listen(port, () => {
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log(LANG.en.serverRun, host, port);
+});

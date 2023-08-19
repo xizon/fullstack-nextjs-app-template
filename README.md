@@ -147,7 +147,7 @@ Please install php on your computer first.
 ```sh
 $ npm run action:phpserver
 ```
-Please use a PHP server environment with a local port of 4000, check the file at `./backend/php-runner.js`
+Please use a PHP server environment with a local port of 4000, check the file at `./backend/server-php.js`
 
 
 

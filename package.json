@@ -2,7 +2,7 @@
   "author": "UIUX Lab",
   "email": "uiuxlab@gmail.com",
   "name": "fullstack-nextjs-app-template",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "description": "A full-stack sample web application based on Next.js that creates a simple whole-website architecture.",
   "main": "next.config.js",
   "repository": {
@@ -23,15 +23,15 @@
     "next"
   ],
   "scripts": {
-    "dev": "NODE_ENV=development node server.js & node backend/php-runner.js",
+    "dev": "NODE_ENV=development node server.js & node backend/server-php.js",
     "build": "cross-env SKIP_BUILD_STATIC_GENERATION=true NODE_ENV=production node scripts/download-remote-files-from-API.js & cross-env SKIP_BUILD_STATIC_GENERATION=true NODE_ENV=production next build",
     "build:static": "cross-env NODE_ENV=production node scripts/download-remote-files-from-API.js & cross-env NODE_ENV=production next build",
-    "start": "NODE_ENV=production node server.js & node backend/php-runner.js",
+    "start": "NODE_ENV=production node server.js & node backend/server-php.js",
     "export": "next build && next export && node scripts/publishing-to-platform.js",
     "export:fix": "node scripts/paths-static-page.js",
     "export:test": "node scripts/paths-static-page.js && node scripts/server-generated-static-site.js",
     "lint": "next lint",
-    "action:phpserver": "node backend/php-runner.js",
+    "action:phpserver": "node backend/server-php.js",
     "action:rootdir": "nod scripts/config-rootdir-of-publishing-source.js",
     "action:theme": "node scripts/generate-css-files.js",
     "deploy:dev": "cross-env NODE_ENV=development pm2 start ecosystem.config.js",

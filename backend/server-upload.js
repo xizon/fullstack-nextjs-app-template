@@ -6,17 +6,38 @@ const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
 
-const port = 4001;
-const app = express();
 
-//parse image
-const ColorThief = require('colorthief');
+const { 
+    LANG,
+    PORT, 
+    STATIC_FILES_DIR,
+    REQUEST_MAX_LIMIT,
+    UPLOAD_MAX_SIZE
+} = require('./core/upload/constants');
+
+const {
+    imgIncludeExtTypes
+} = require('./core/upload/match');
+
+const {
+    binaryToBase64Str
+} = require('./core/upload/helpers');
+
+const {
+    getPaletteData
+} = require('./plugins/parse-image');
+
+
+
+
+const port = PORT;
+const app = express();
 
 // enable files upload
 app.use(fileUpload({
     createParentPath: true,
     limits: {
-        fileSize: 10 * 1024 * 1024 * 1024 //10MB max file(s) size
+        fileSize: UPLOAD_MAX_SIZE //max file(s) size
     },
 }));
 
@@ -25,8 +46,8 @@ app.use(fileUpload({
 app.use(cors());
 
 // "limit" is to avoid request errors: PayloadTooLargeError: request entity too large
-app.use(bodyParser.json({limit: '200mb'}));
-app.use(bodyParser.urlencoded({ extended: true, limit: '200mb' }));
+app.use(bodyParser.json({limit: REQUEST_MAX_LIMIT}));
+app.use(bodyParser.urlencoded({ extended: true, limit: REQUEST_MAX_LIMIT}));
 
 // HTTP request logger middleware for node.js
 app.use(morgan('dev'));
@@ -36,7 +57,7 @@ app.use(morgan('dev'));
 
 // Static resources in plugins can be used dynamically (no need to redeploy)
 // you can visit the static URL like this: http://localhost:4001/vars/custom-page/
-app.use('/vars', express.static('plugins'));
+app.use('/vars', express.static(STATIC_FILES_DIR));
 // app.use('/vars', express.static(path.join(__dirname, '..', '/uploads/vars')));
 
 
@@ -55,7 +76,7 @@ app.post('/upload-plugin', async (req, res) => {
         if (!req.files) {
             res.send({
                 status: false,
-                message: 'No file uploaded'
+                message: LANG.en.noFile
             });
         } else {
 
@@ -69,7 +90,7 @@ app.post('/upload-plugin', async (req, res) => {
                 
                 // Use the mv() method to place the file in upload directory (i.e. "'./uploads/'")
                 // Note: res.send() cannot be written and reused in the function, and multiple files will report an error
-                const uploadPath = path.join(__dirname, '..', '/plugins/', f.name);
+                const uploadPath = path.join(__dirname, '..', `/${STATIC_FILES_DIR}/`, f.name);
                 f.mv(uploadPath, function (err) {
                     if (err) {
                         res.send(err);
@@ -98,7 +119,7 @@ app.post('/upload-plugin', async (req, res) => {
             
             res.send({
                 status: true,
-                message: `${filesName} is uploaded`
+                message: `${filesName}${LANG.en.uploadedRes}`
             });
 
 
@@ -128,7 +149,7 @@ app.get('/plugins/*', async (req, res) => {
     try {
         if (!req.files) {
             res.send({
-                "message": "No file uploaded",
+                "message": LANG.en.noFile,
                 "code": 1000
             });
         } else {
@@ -140,10 +161,10 @@ app.get('/plugins/*', async (req, res) => {
 
             // for single file
             const f = currentFilesData;
-            if ( /\.(jpg|jpeg|png|gif|webp)$/i.test(f.name) ) {
+            if ( imgIncludeExtTypes.test(f.name) ) {
 
-                const tempPath = path.join(__dirname, '..', '/plugins/_temp/');
-                const uploadPath = path.join(__dirname, '..', '/plugins/_temp/', f.name);
+                const tempPath = path.join(__dirname, '..', `/${STATIC_FILES_DIR}/_temp/`);
+                const uploadPath = path.join(__dirname, '..', `/${STATIC_FILES_DIR}/_temp/`, f.name);
                 if (!fs.existsSync(tempPath)){
                     fs.mkdirSync(tempPath, { recursive: true });
                 }
@@ -152,22 +173,22 @@ app.get('/plugins/*', async (req, res) => {
                 fs.writeFileSync(uploadPath, f.data);
 
                 // parse image
-                const imgPath = `http://${hostname}:${port}/plugins/_temp/${f.name}`;
-                const paletteDataPromise = await ColorThief.getPalette(imgPath, 5, 10); // Promise
+                const imgPath = `http://${hostname}:${port}/${STATIC_FILES_DIR}/_temp/${f.name}`;
+                const paletteDataPromise = await getPaletteData(imgPath); // Promise
             
-
+                
                 // delete unnecessary files and folders
                 fs.rmSync(tempPath, { recursive: true });
-                console.log('\x1b[36m%s\x1b[0m', `--> Deleted "plugins/_temp/" successfully`);
+                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${STATIC_FILES_DIR}/_temp/`);
 
                 
                 //
                 res.send({
                     "data": { "uploadedInfo": {
                         paletteData: paletteDataPromise,
-                        imgData: `data:${f.mimetype};base64, ${Buffer.from(f.data, 'binary').toString('base64')}`
+                        imgData: `data:${f.mimetype};base64, ${binaryToBase64Str(f.data)}`
                     } },
-                    "message": "OK",
+                    "message": LANG.en.sendOk,
                     "code": 200
                 });      
 
@@ -198,11 +219,11 @@ app.get('/plugins/*', async (req, res) => {
   START APP
  ================================================
  */
-const hostname = 'localhost';
-
-app.listen(port, () =>
-    console.log(`> Server on http://${hostname}:${port}`)
-);
+const server = app.listen(port, () => {
+    const host = server.address().address;
+    const port = server.address().port;
+    console.log(LANG.en.serverRun, host, port);
+});
 
 
 
