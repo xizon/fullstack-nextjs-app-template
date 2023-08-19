@@ -9,13 +9,6 @@ import { wrapper } from "@/store/createStore";
 import { Provider } from "react-redux";
 
 
-// stylesheets
-// DO NOT use <link rel="stylesheet" href="xxx" media="all />
-/** Bootstrap 5+ */
-// import '../public/assets/css/bootstrap/5.2.3/bootstrap.min.css';
-
-
-
 function MyApp({ Component, ...rest }: AppProps) {
 
     const { store, props } = wrapper.useWrappedStore(rest);
@@ -25,6 +18,8 @@ function MyApp({ Component, ...rest }: AppProps) {
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
                 <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+
+                {/* <link rel="stylesheet" href="xxxxxxxx" /> */}
 
             </Head>
 
