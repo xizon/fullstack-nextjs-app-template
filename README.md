@@ -196,6 +196,10 @@ $ npm run export:test
 
 ## Deploy on Custom Server
 
+> 📌 Note: Using server.js may cause an error during [HMR] restart (first loading of the client): 
+> *WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr' failed:* --> *InvalidArgumentError: invalid upgrade header*
+> You can ignore it.
+
 ### ⚙️ (Step 1) Create a file as the server startup entry
 
 Create a new file `server.js` (do not use `.ts`) at the same level as your `pages` directory. Take a look at the following example of a custom server:

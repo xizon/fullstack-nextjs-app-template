@@ -2,6 +2,7 @@
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
+
     
     // for docker
     // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
@@ -30,6 +31,23 @@ const nextConfig = {
                 source: '/',
                 destination: process.env.NODE_ENV === 'development' ? '/index.html' : '/',
                 permanent: true,
+            },
+        ]
+    },
+    async headers() {
+        return [
+            {
+                source: '/about',
+                headers: [
+                    {
+                        key: 'x-custom-header',
+                        value: 'my custom header value',
+                    },
+                    {
+                        key: 'x-another-custom-header',
+                        value: 'my other custom header value',
+                    },
+                ],
             },
         ]
     },

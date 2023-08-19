@@ -1,7 +1,6 @@
 const { parse } = require('url');
 const next = require('next');
 const path = require('path');
-
 const express = require('express')
 
 let dev = process.env.NODE_ENV !== 'production'; // if "production", need run `npm run build` first
@@ -21,6 +20,21 @@ app.prepare().then(() => {
      * ----------------------------------------------------------------
      */
     const server = express();
+
+    /*
+    server.use("/graphql", async (req, res, next) => {
+        try {
+            const { accessToken } = await getAccessToken(req, res, { refresh: true });
+
+            if (accessToken) {
+                req.headers["Authorization"] = accessToken;
+            }
+        } catch (err) {
+            res.json({ errors: [{ code: err.code, message: err.message }] });
+        }
+        next();
+    });
+    */
 
     // Static resources in plugins can be used dynamically (no need to redeploy)
     // you can visit the static URL like this: http://localhost:3000/vars/custom-page/
@@ -56,17 +70,16 @@ app.prepare().then(() => {
                 // ...
             }
 
-
-
             // All requested resources
             if (pathname === '/a') {
-                await app.render(req, res, '/a', query)
+                await app.render(req, res, '/a', query);
             } else if (pathname === '/b') {
-                await app.render(req, res, '/b', query)
+                await app.render(req, res, '/b', query);
             } else {
-                await handle(req, res, parsedUrl)
+                await handle(req, res, parsedUrl);
             }
 
+            
         } catch (err) {
             console.error('Error occurred handling', req.url, err)
             res.statusCode = 500
