@@ -1,13 +1,18 @@
 # Changelog
 
 
+#### = 0.8.5 (August 21, 2023) =
+
+* Tweak: Node services optimization and performance fixes.
+* Feat: Refactored Node services.
+
+
 #### = 0.8.2 (August 19, 2023) =
 
 * New: Add some node services.
 * New: Add Request Cache demo.
 * Tweak: Code optimization and performance fixes.
 * Tweak: Upgrade next.js to 13.4.x.
-* Feat: Refactored Node services.
 
 
 #### = 0.6.8 (July 19, 2023) =

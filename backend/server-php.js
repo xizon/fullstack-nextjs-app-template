@@ -38,6 +38,8 @@ app.use(function (req, res, next) {
 // routing all .php file to php-express
 app.all(matchPhpFile, phpExpress.router);
 
+
+require('./plugins/signal');
 const server = app.listen(port, () => {
     const host = server.address().address;
     const port = server.address().port;

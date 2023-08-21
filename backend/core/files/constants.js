@@ -2,6 +2,7 @@
  * express server
  */
 const PORT = 7001;
+const HOST_NAME = 'localhost';
 
 /**
  * static files directory
@@ -27,6 +28,7 @@ const LANG = {
 
 module.exports = {
     PORT,
+    HOST_NAME,
     STATIC_FILES_DIR,
     LANG
 }     

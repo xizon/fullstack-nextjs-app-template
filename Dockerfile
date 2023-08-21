@@ -87,11 +87,11 @@ USER nextjs
 # ==========================================
 # run node script (deploy custom server configuration)
 # ==========================================
-# Execute a single file, please use the following command
 # Declare port 3000, just tell the mirror user the default port, the actual mapping will be informed below
 EXPOSE 3000
 ENV PORT 3000
-# run node script (deploy custom server configuration)
+
+# Execute a single file
 CMD ["node", "server.js"]
 
 

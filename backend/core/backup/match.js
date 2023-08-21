@@ -9,7 +9,6 @@ const imgTypes = /(jpg|jpeg|png|svg|gif|webp)$/i;
 const textTypes = /(json|xml|text)$/i;
 
 
-
 module.exports = {
     imgTypes,
     textTypes

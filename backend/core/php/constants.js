@@ -2,6 +2,7 @@
  * express server
  */
 const PORT = 4000;
+const HOST_NAME = 'localhost';
 
 /**
  * for view engine
@@ -23,6 +24,7 @@ const LANG = {
 
 module.exports = {
     PORT,
+    HOST_NAME,
     TEMPLATE_FILES_PATH,
     LANG
 }     

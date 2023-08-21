@@ -206,6 +206,7 @@ app.post('/delete-merge-api-files', async (req, res) => {
  START APP
 ================================================
 */
+require('./plugins/signal');
 const server = app.listen(port, () => {
     const host = server.address().address;
     const port = server.address().port;

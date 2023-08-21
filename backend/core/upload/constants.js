@@ -4,6 +4,9 @@ const { fileSizeMegabytes } = require('./computeds');
  * express server
  */
 const PORT = 4001;
+const HOST_NAME = 'localhost';
+
+
 
 /**
  * static files directory
@@ -40,6 +43,7 @@ const LANG = {
 
 module.exports = {
     PORT,
+    HOST_NAME,
     STATIC_FILES_DIR,
     REQUEST_MAX_LIMIT,
     UPLOAD_MAX_SIZE,

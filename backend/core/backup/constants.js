@@ -2,11 +2,12 @@
  * express server
  */
 const PORT = 8001;
+const HOST_NAME = 'localhost';
 
 /**
  * static files directory
  */
-const STATIC_FILES_DIR = 'backup';
+const STATIC_FILES_DIR = 'temp_backup';
 const SAVE_TO_DIR = 'uploads';
 
 
@@ -40,6 +41,7 @@ const LANG = {
 
 module.exports = {
     PORT,
+    HOST_NAME,
     STATIC_FILES_DIR,
     SAVE_TO_DIR,
     REQUEST_MAX_LIMIT,

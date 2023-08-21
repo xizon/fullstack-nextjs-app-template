@@ -10,6 +10,7 @@ const fs = require('fs');
 const { 
     LANG,
     PORT, 
+    HOST_NAME,
     STATIC_FILES_DIR,
     REQUEST_MAX_LIMIT,
     UPLOAD_MAX_SIZE
@@ -173,7 +174,7 @@ app.get('/plugins/*', async (req, res) => {
                 fs.writeFileSync(uploadPath, f.data);
 
                 // parse image
-                const imgPath = `http://${hostname}:${port}/${STATIC_FILES_DIR}/_temp/${f.name}`;
+                const imgPath = `http://${HOST_NAME}:${PORT}/${STATIC_FILES_DIR}/_temp/${f.name}`;
                 const paletteDataPromise = await getPaletteData(imgPath); // Promise
             
                 
@@ -205,20 +206,13 @@ app.get('/plugins/*', async (req, res) => {
 
 
 
-/*
- ================================================
-  SERVICE 3: XXXXXXX
- ================================================
- */
-
-
-
 
  /*
  ================================================
   START APP
  ================================================
  */
+require('./plugins/signal');
 const server = app.listen(port, () => {
     const host = server.address().address;
     const port = server.address().port;

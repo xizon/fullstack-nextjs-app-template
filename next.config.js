@@ -6,6 +6,7 @@ const nextConfig = {
     
     // for docker
     // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
+    // "next start" does not work with "output: standalone" configuration. Use "node .next/standalone/server.js" instead
     output: 'standalone', 
 
     //  add a page route with html extension 

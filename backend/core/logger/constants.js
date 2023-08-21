@@ -2,6 +2,7 @@
  * express server
  */
 const PORT = 6001;
+const HOST_NAME = 'localhost';
 
 
 /**
@@ -19,5 +20,6 @@ const LANG = {
 
 module.exports = {
     PORT,
+    HOST_NAME,
     LANG
 }     

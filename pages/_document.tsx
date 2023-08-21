@@ -8,6 +8,8 @@ export default function Document(req) {
     return (
         <Html lang="en-US" dir="ltr">
             <Head>
+                {/* <link rel="stylesheet" href="/assets/css/xxx.css" media="all" /> */}
+
                 <link rel="icon" href="/assets/images/favicon/favicon-32x32.png" type="image/x-icon" />
                 <link rel="shortcut icon" href="/assets/images/favicon/favicon-32x32.png" sizes="32x32" />
                 <link rel="apple-touch-icon" href="/assets/images/favicon/apple-touch-icon-57x57.png" />

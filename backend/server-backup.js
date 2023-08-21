@@ -4,11 +4,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const glob = require('glob');
 const mwsExtract = require('mws-extract-document');
-
-// Unzip the compressed package to the specified directory (usually used independently for the installer)
 const fs = require('fs');
 const AdmZip = require("adm-zip");
-const mime = require('mime');
 
 
 const { 
@@ -16,7 +13,8 @@ const {
     PORT, 
     STATIC_FILES_DIR,
     SAVE_TO_DIR,
-    ARCHIVE_FILE_NAME
+    ARCHIVE_FILE_NAME,
+    REQUEST_MAX_LIMIT
 } = require('./core/backup/constants');
 
 
@@ -29,12 +27,12 @@ const {
     base64StrToBuffer,
     uint8arrayToBuffer,
     fileDate,
-    simpleDate
+    simpleDate,
+    dataIsString,
+    getBackupNames,
+    getExistStats,
+    generateArchiveFile
 } = require('./core/backup/helpers');
-
-const { 
-    bytesConvertToMegabytes 
-} = require('./core/backup/computeds');
 
 
 
@@ -115,50 +113,6 @@ axios({
 });
 
 */
-
-
-const getBackupNames = () => {
-    return glob.sync(path.resolve(__dirname, `../${STATIC_FILES_DIR}/*`)).map(item => item.split('/').at(-1));
-};
-
-const getFileStats = () => {
-    return getBackupNames().map((item) => {
-        const _file = path.resolve(__dirname, `../${STATIC_FILES_DIR}/${item}`);
-
-        const fileStats = fs.statSync(_file)
-        const fileSizeInBytes = fileStats.size;
-        // Convert the file size to megabytes (optional)
-        const fileSizeInMegabytes = bytesConvertToMegabytes(fileSizeInBytes);
-        const mimeType = mime.getType(_file);
-     
-        return {
-            name: item,
-            sizeMegabytes: fileSizeInBytes,
-            sizeBytes: fileSizeInMegabytes,
-            createTime: fileStats.ctime,
-            mimeType: mimeType,
-            port: port,
-            path: `${STATIC_FILES_DIR}/`
-        }
-    })
-};
-
-const getExistStats = () => {
-    const jsonPath = path.resolve(__dirname, `../${STATIC_FILES_DIR}/${ARCHIVE_FILE_NAME}`);
-    if (!fs.existsSync(jsonPath)) return [];
-
-    const json = JSON.parse(fs.readFileSync(jsonPath));
-    return json;
-};
-
-
-const generateArchiveFile = () => {
-    // generate the catelog archive
-    const archivePath = path.resolve(__dirname, `../${STATIC_FILES_DIR}/${ARCHIVE_FILE_NAME}`);
-    fs.writeFileSync(archivePath, JSON.stringify(getFileStats()));
-};
-
-
 
 
 app.post('/download-files-backup', async (req, res) => {
@@ -449,6 +403,7 @@ app.post('/backupfiles-restore', async (req, res) => {
  START APP
 ================================================
 */
+require('./plugins/signal');
 const server = app.listen(port, () => {
     const host = server.address().address;
     const port = server.address().port;

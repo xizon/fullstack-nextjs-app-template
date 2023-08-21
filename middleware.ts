@@ -11,6 +11,7 @@ export function middleware(req) {
     const { pathname } = req.nextUrl;
 
     // Determine whether you have permission to enter the dashboard
+    // If you use Docker, please do not directly use the server jump `/`
 
     //----------------------------------------------------------------
     // if (

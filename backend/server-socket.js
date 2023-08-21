@@ -32,7 +32,7 @@ Refer to: https://socket.io/docs/v4/using-multiple-nodes/
 const express = require('express');
 const cors = require('cors');
 
-const { 
+const {
     LANG,
     PORT
 } = require('./core/socket/constants');
@@ -52,27 +52,16 @@ const io = require('socket.io')(http, {
 
 app.use(cors());
 
+// do something with express
+
 
 io.on('connection', (socket) => {
-    socket.on('chat message', msg => {
-        io.emit('chat message', msg);
-    });
+    require('./plugins/ws').main(socket, io);
 });
-
-
-
-// Stop running node in docker with Ctrl+C sends the SIGINT signal.
-// Usage: docker run --init -p <host_port>:<container_port<image_name:version>
-const process = require('process');
-process.on('SIGINT', () => {
-    console.info(LANG.en.interrupted)
-    process.exit(0);
-});
-
-
 
 
 //
+require('./plugins/signal');
 const server = http.listen(port, () => {
     const host = server.address().address;
     const port = server.address().port;
