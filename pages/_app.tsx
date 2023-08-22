@@ -16,6 +16,10 @@ import { Provider } from "react-redux";
 function MyApp({ Component, ...rest }: AppProps) {
 
     const { store, props } = wrapper.useWrappedStore(rest);
+
+    // props passed by SSR on other pages
+    const { currentData } = props.pageProps;
+    console.log('_app.tsx -> currentData: ', currentData);
     
     return (
         <>

@@ -17,6 +17,7 @@
         "mime": "^3.0.0",
         "morgan": "^1.10.0",
         "mws-extract-document": "^1.0.1",
+        "node-cache": "^5.1.2",
         "openurl": "^1.1.1",
         "php-express": "^0.0.3",
         "socket.io": "^4.6.1"

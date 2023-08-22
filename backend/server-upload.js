@@ -54,6 +54,12 @@ app.use(bodyParser.urlencoded({ extended: true, limit: REQUEST_MAX_LIMIT}));
 app.use(morgan('dev'));
 
 
+// create cache for static assets
+// !!! CODE NEEDS TO BE PLACED HERE （BEFORE `app.use('/xxxx', express.static(xxxx))`） !!!
+app.use(require('./routes/cache-static-assets'));
+
+
+
 // Note: `app.use(..., express.static(...))` cannot be placed before `app.use(cors())`
 
 // Static resources in plugins can be used dynamically (no need to redeploy)
@@ -129,14 +135,6 @@ app.post('/upload-plugin', async (req, res) => {
         res.status(500).send(err);
     }
 });
-
-
-// get page (It is also possible not to write the following code)
-app.get('/plugins/*', async (req, res) => {
-    let pagePath = req.path;   // /plugins/xxx/yyy/
-    res.sendFile(path.join(__dirname, `../${pagePath}`));
-});
-
 
 
 
