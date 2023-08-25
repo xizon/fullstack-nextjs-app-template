@@ -1,7 +1,10 @@
+const fs = require('fs');
+const path = require('path');
+const glob = require('glob');
+
 const NodeCache = require('node-cache'); 
 const pageStaticAssetsCache = new NodeCache(); // seconds
 const md5 = require('md5');
-const fs = require('fs');
 
 
 const fileCache = (file) => {
@@ -20,5 +23,21 @@ const fileCache = (file) => {
     return res;
 };
 
+const deleteAllCache = () => {
+    // Get all the static assets files
+    const allPluginsJsFiles = glob.sync( path.resolve(__dirname, `../../uploads/plugins/*/*/static/js/*.js`) );
+    const files = allPluginsJsFiles;
 
-module.exports = fileCache;
+    const keys = files.map( (file) => md5(file));
+
+    pageStaticAssetsCache.del(keys);
+
+    return keys;
+};
+
+
+
+module.exports = {
+    fileCache,
+    deleteAllCache
+};

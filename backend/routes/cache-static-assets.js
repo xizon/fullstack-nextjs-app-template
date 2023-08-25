@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-const fileCache = require('../plugins/cache'); 
+const { fileCache } = require('../plugins/cache'); 
 
 
 // match `/plugins/xxxxx/1.0.0/static/js/main.js?xxxxxx`

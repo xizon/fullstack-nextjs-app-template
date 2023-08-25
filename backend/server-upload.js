@@ -57,6 +57,7 @@ app.use(morgan('dev'));
 // create cache for static assets
 // !!! CODE NEEDS TO BE PLACED HERE （BEFORE `app.use('/xxxx', express.static(xxxx))`） !!!
 app.use(require('./routes/cache-static-assets'));
+app.use('/cache-delete-static-assets', require('./routes/cache-delete-static-assets'));
 
 
 
