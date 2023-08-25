@@ -122,7 +122,17 @@ const {
     removeStyle
 } = require('./libs//use-style');
 
-
+const {
+    uint8arrayToArr,
+    arrayToUint8array,
+    uint8arrayToBase64Str,
+    decodeBase64Str,
+    toBinary,
+    arrayToBlob,
+    blobToUint8array,
+    arrayToStream,
+    readStream    
+} = require('./libs/buffer');
 
 
 // use these methods
@@ -214,6 +224,16 @@ CoreUtils.add('addScript', (...attrs) => addScript(...attrs));
 CoreUtils.add('removeScript', (...attrs) => removeScript(...attrs));
 CoreUtils.add('addStyle', (...attrs) => addStyle(...attrs));
 CoreUtils.add('removeStyle', (...attrs) => removeStyle(...attrs));
+CoreUtils.add('uint8arrayToArr', (...attrs) => uint8arrayToArr(...attrs));
+CoreUtils.add('arrayToUint8array', (...attrs) => arrayToUint8array(...attrs));
+CoreUtils.add('uint8arrayToBase64Str', (...attrs) => uint8arrayToBase64Str(...attrs));
+CoreUtils.add('decodeBase64Str', (...attrs) => decodeBase64Str(...attrs));
+CoreUtils.add('toBinary', (...attrs) => toBinary(...attrs));
+CoreUtils.add('arrayToBlob', (...attrs) => arrayToBlob(...attrs));
+CoreUtils.add('blobToUint8array', (...attrs) => blobToUint8array(...attrs));
+CoreUtils.add('arrayToStream', (...attrs) => arrayToStream(...attrs));
+CoreUtils.add('readStream', (...attrs) => readStream(...attrs));
+
 
 
 // node & browser
