@@ -111,7 +111,12 @@ const {
 } = require('./libs/color');
 
 const shuffle = require('./libs/shuffle');
-const convertTree = require('./libs/convert-tree');
+const {
+    convertTree,
+    flatTree,
+    addTreeDepth,
+    addTreeIndent
+} = require('./libs/tree');
 
 const {
     addScript,
@@ -220,6 +225,9 @@ CoreUtils.add('HSLToRGB', (...attrs) => HSLToRGB(...attrs));
 CoreUtils.add('generateGradient', (...attrs) => generateGradient(...attrs));
 CoreUtils.add('shuffle', (...attrs) => shuffle(...attrs));
 CoreUtils.add('convertTree', (...attrs) => convertTree(...attrs));
+CoreUtils.add('flatTree', (...attrs) => flatTree(...attrs));
+CoreUtils.add('addTreeDepth', (...attrs) => addTreeDepth(...attrs));
+CoreUtils.add('addTreeIndent', (...attrs) => addTreeIndent(...attrs));
 CoreUtils.add('addScript', (...attrs) => addScript(...attrs));
 CoreUtils.add('removeScript', (...attrs) => removeScript(...attrs));
 CoreUtils.add('addStyle', (...attrs) => addStyle(...attrs));
