@@ -12,11 +12,10 @@ export function middleware(req) {
 
     // Determine whether you have permission to enter the dashboard
     // If you use Docker, please do not directly use the server jump `/`
-
+    // such as: /dir/mypage@admin
     //----------------------------------------------------------------
     // if (
-    //     pathname === '/' ||
-    //     /\/\d+\/(.*?)-management/.test(pathname)
+    //     /\/\d+\/(.*?)\@admin/.test(pathname) ||
     // ) {
        
     // }
