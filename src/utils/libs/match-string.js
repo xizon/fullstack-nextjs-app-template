@@ -2,8 +2,8 @@
 /**
  * Match all files URLs from string
  *
- * @param {string} str Input text
- * @return {array} All matching files
+ * @param {String} str Input text
+ * @return {Array} All matching files
  */
  function matchAllFilesUrls(str) {
 

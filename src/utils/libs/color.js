@@ -50,8 +50,8 @@ function HSLToRGB(h, s, l) {
  * Generate a gradient effect based on a color
  * 
  * @param {Array} colorStart   The RGB representation
- * @param {number} target      A number, gradient variable
- * @param {number} diff        A number, gradient variable
+ * @param {Number} target      A number, gradient variable
+ * @param {Number} diff        A number, gradient variable
  * @returns  {Array}           The RGB representation
  */
 function generateGradient(colorStart, target, diff){

@@ -1,8 +1,8 @@
 /**
  * Convert string to slug
  *
- * @param {string} str Input text
- * @return {string} Converted text
+ * @param {String} str Input text
+ * @return {String} Converted text
  */
 function toSlug(str) {
 

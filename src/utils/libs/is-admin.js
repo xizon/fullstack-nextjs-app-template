@@ -2,6 +2,10 @@
 const authHeader = require('./auth-header');
 const { getCookie } = require('./cookies-tool');
 
+/**
+ * Determine whether you have administrator authorization
+ * @returns {Boolean}
+ */
 function isAdmin() {
 
     //destroy cookie & localStorage

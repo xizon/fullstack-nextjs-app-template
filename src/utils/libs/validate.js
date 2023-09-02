@@ -43,7 +43,7 @@ function isJSON(input){
  * Object validation
  * @public
  * @param {String} input
- * @return {boolean}
+ * @return {Boolean}
  */
 
 function isEmpty(input) {

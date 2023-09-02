@@ -1,8 +1,8 @@
 /**
  * Quick Sort
  *
- * @param {array} arr input array
- * @return {string} new array
+ * @param {Array} arr input array
+ * @return {String} new array
  */
 function quickSort(arr) {
     const sortedArray = quickSortRecursion(arr, 0, arr.length - 1);

@@ -125,7 +125,7 @@ const {
 const {
     addStyle,
     removeStyle
-} = require('./libs//use-style');
+} = require('./libs/use-style');
 
 const {
     uint8arrayToArr,
@@ -138,6 +138,13 @@ const {
     arrayToStream,
     readStream    
 } = require('./libs/buffer');
+
+const {
+    updateJsonNode
+} = require('./libs/arr-manipulation');
+
+
+
 
 
 // use these methods
@@ -241,6 +248,7 @@ CoreUtils.add('arrayToBlob', (...attrs) => arrayToBlob(...attrs));
 CoreUtils.add('blobToUint8array', (...attrs) => blobToUint8array(...attrs));
 CoreUtils.add('arrayToStream', (...attrs) => arrayToStream(...attrs));
 CoreUtils.add('readStream', (...attrs) => readStream(...attrs));
+CoreUtils.add('updateJsonNode', (...attrs) => updateJsonNode(...attrs));
 
 
 

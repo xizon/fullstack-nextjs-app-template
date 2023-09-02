@@ -1,8 +1,8 @@
 /**
  * Rename a file to another from URL path
  *
- * @param {string} filepath The current file path
- * @return {string} A new file name
+ * @param {String} filepath The current file path
+ * @return {String} A new file name
  */
 function renameFile(filepath) {
 

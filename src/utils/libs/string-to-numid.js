@@ -1,8 +1,8 @@
 /**
  * Convert string to numeric ID
  *
- * @param {string} str Any string.
- * @return {string} An integer
+ * @param {String} str Any string.
+ * @return {String} An integer
  */
 function strToNumId(str) {
 
@@ -23,8 +23,8 @@ function strToNumId(str) {
 /**
  * Convert string to md5
  *
- * @param {string} str Input text
- * @return {string} Converted text
+ * @param {String} str Input text
+ * @return {String} Converted text
  */
 function md5(str) {
     var hc = "0123456789abcdef";
