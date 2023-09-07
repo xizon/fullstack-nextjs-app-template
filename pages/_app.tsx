@@ -18,8 +18,9 @@ function MyApp({ Component, ...rest }: AppProps) {
     const { store, props } = wrapper.useWrappedStore(rest);
 
     // props passed by SSR on other pages
-    const { currentData } = props.pageProps;
-    console.log('_app.tsx -> currentData: ', currentData);
+    const { currentData, apiPath } = props.pageProps;
+    
+    console.log('_app.tsx -> currentData: ', currentData, ' | apiPath: ', apiPath);
     
     return (
         <>

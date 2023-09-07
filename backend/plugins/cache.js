@@ -24,16 +24,12 @@ const fileCache = (file) => {
 };
 
 const deleteAllCache = () => {
-    // Get all the static assets files
-    const allPluginsJsFiles = glob.sync( path.resolve(__dirname, `../../uploads/plugins/*/*/static/js/*.js`) );
-    const files = allPluginsJsFiles;
-
-    const keys = files.map( (file) => md5(file));
-
+    const keys = pageStaticAssetsCache.keys();
     pageStaticAssetsCache.del(keys);
 
     return keys;
 };
+
 
 
 

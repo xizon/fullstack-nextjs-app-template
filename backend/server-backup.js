@@ -180,7 +180,10 @@ app.post('/download-files-backup', async (req, res) => {
 
  
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 });
 
@@ -196,7 +199,10 @@ app.post('/get-files-backup', async (req, res) => {
             "code": 200
         });      
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 });
 
@@ -211,7 +217,10 @@ app.post('/get-files-stats', async (req, res) => {
             "code": 200
         });      
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 });
 
@@ -277,7 +286,10 @@ app.post('/delete-files-backup', async (req, res) => {
 
 
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 });
 
@@ -316,7 +328,10 @@ app.post('/backupfiles-compression', async (req, res) => {
             "code": 200
         });      
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 });
 
@@ -391,7 +406,10 @@ app.post('/backupfiles-restore', async (req, res) => {
             
    
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 });
 

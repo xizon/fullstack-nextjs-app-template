@@ -16,7 +16,10 @@ router.post('/', async (req, res) => {
             "code": 200
         });      
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 
 });

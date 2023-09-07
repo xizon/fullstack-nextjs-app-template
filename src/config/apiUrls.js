@@ -57,7 +57,18 @@ const config = {
 	 ------------------------------------------
 	*/
     "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
-    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page2`
+    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page2`,
+
+	/*
+	 TYPE: Nodejs Services (fixed port:45000 - remote port)
+     !!! Compatible with Docker
+	 ------------------------------------------
+	*/  
+    // gRPC API
+    "GRPC_TEST_API": `${prodUrl('http','192.168.xxx.xxx','45000','45000')}/api/xxxx.js`,
+
+    
+
 };
 
 
@@ -119,9 +130,17 @@ const localConfig = {
 	 ------------------------------------------
 	*/
     "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
-    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page2`
+    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page2`,
 
-	
+
+	/*
+	 TYPE: Nodejs Services (fixed port:4001)
+	 ------------------------------------------
+	*/  
+    // gRPC API
+    "GRPC_TEST_API": "http://localhost:4001/api/xxxx.js"
+
+
 };
 
 

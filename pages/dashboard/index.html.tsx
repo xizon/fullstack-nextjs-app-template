@@ -9,6 +9,7 @@ import cookies from 'next-cookies';
 // Authority 
 import CoreUtils from '@/utils/CoreUtils';
 
+import apiUrls from '@/config/apiUrls';
 
 const MainContent = () => {
     return (
@@ -68,7 +69,9 @@ export async function getServerSideProps(context) {
     }
 
     return {
-        props: {},
+        props: {
+            apiPath: apiUrls.GRPC_TEST_API.replace('{reqUrl}',`//${context.req.headers.host.split(':')[0]}`), // Compatible with Docker
+        },
     }
 
 }

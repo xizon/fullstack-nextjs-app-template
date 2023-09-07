@@ -23,7 +23,10 @@ router.get(/\/plugins\/[\w\W]*\/[\w\W]*\/static\/js\/(.*?)\.js$/, async (req, re
         }
 
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 
 

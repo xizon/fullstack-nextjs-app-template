@@ -133,7 +133,10 @@ app.post('/upload-plugin', async (req, res) => {
 
         }
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 });
 
@@ -199,7 +202,10 @@ app.post('/upload-plugin', async (req, res) => {
                 
         }
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).send({
+            "message": err.toString(),
+            "code": 500
+        });;
     }
 });
 

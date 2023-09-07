@@ -1,13 +1,16 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+/**
+ * Save change route in next.js
+ * 
+ * @usage:
 
-/*
-Usage:
 
 import useRouterChange from '@/utils/hooks/useSafePush';
 const { safePush } = useRouterChange();
 safePush(path)
 */
+
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 const useSafePush = () => {
     const [onChanging, setOnChanging] = useState(false);
