@@ -44,7 +44,7 @@ app.use(cors());
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 

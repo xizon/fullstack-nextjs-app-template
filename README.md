@@ -55,6 +55,7 @@ List my progress here:
 | WebSocket Support via `socket.io` | ✅ |
 | Additional Node.js Services | ✅ |
 | Request Cache Demo | ✅ |
+| Authentication of Microservices | ✅ |
 | End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [React Pure Bootstrap](https://github.com/xizon/react-pure-bootstrap) |
 

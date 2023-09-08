@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 
 });

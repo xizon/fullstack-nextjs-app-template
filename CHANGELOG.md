@@ -1,5 +1,11 @@
 # Changelog
 
+#### = 0.9.5 (September 8, 2023) =
+
+* New: Authentication of Microservices.
+* Tweak: Optimize SSR scripts.
+
+
 #### = 0.9.2 (September 7, 2023) =
 
 * Tweak: Optimize some node services.

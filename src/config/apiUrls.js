@@ -64,10 +64,11 @@ const config = {
      !!! Compatible with Docker
 	 ------------------------------------------
 	*/  
-    // gRPC API
-    "GRPC_TEST_API": `${prodUrl('http','192.168.xxx.xxx','45000','45000')}/api/xxxx.js`,
+    // Test API
+    "TEST_API": `${prodUrl('http','192.168.xxx.xxx','45000','45000')}/api/xxxxxx`,
 
-    
+    // generate microservices token
+    "MS_GENERATE_TOKEN": `${prodUrl('http','192.168.xxx.xxx','45000','45000')}/create-token`
 
 };
 
@@ -137,9 +138,11 @@ const localConfig = {
 	 TYPE: Nodejs Services (fixed port:4001)
 	 ------------------------------------------
 	*/  
-    // gRPC API
-    "GRPC_TEST_API": "http://localhost:4001/api/xxxx.js"
+    // Test API
+    "TEST_API": "http://localhost:4001/api/xxxxxx",
 
+    // generate microservices token
+    "MS_GENERATE_TOKEN":  "http://localhost:4001/create-token"
 
 };
 

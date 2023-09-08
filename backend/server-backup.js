@@ -43,9 +43,13 @@ const app = express();
 // HTTP request logger middleware for node.js
 app.use(cors());
 
-// "limit" is to avoid request errors: PayloadTooLargeError: request entity too large
-app.use(bodyParser.json({limit: REQUEST_MAX_LIMIT}));
+// parsing the incoming data
+app.use(bodyParser.json({ limit: REQUEST_MAX_LIMIT })); // "limit" is to avoid request errors: PayloadTooLargeError: request entity too large
 app.use(bodyParser.urlencoded({ extended: true, limit: REQUEST_MAX_LIMIT }));
+
+
+// app.use(express.json({ limit: REQUEST_MAX_LIMIT }));
+// app.use(express.urlencoded({ extended: true, limit: REQUEST_MAX_LIMIT }));
 
 
 // api
@@ -183,7 +187,7 @@ app.post('/download-files-backup', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 
@@ -202,7 +206,7 @@ app.post('/get-files-backup', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 
@@ -220,7 +224,7 @@ app.post('/get-files-stats', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 
@@ -289,7 +293,7 @@ app.post('/delete-files-backup', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 
@@ -331,7 +335,7 @@ app.post('/backupfiles-compression', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 
@@ -409,7 +413,7 @@ app.post('/backupfiles-restore', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 

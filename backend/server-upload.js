@@ -46,9 +46,14 @@ app.use(fileUpload({
 // HTTP request logger middleware for node.js
 app.use(cors());
 
-// "limit" is to avoid request errors: PayloadTooLargeError: request entity too large
-app.use(bodyParser.json({limit: REQUEST_MAX_LIMIT}));
-app.use(bodyParser.urlencoded({ extended: true, limit: REQUEST_MAX_LIMIT}));
+// parsing the incoming data
+app.use(bodyParser.json({ limit: REQUEST_MAX_LIMIT })); // "limit" is to avoid request errors: PayloadTooLargeError: request entity too large
+app.use(bodyParser.urlencoded({ extended: true, limit: REQUEST_MAX_LIMIT }));
+
+
+// app.use(express.json({ limit: REQUEST_MAX_LIMIT }));
+// app.use(express.urlencoded({ extended: true, limit: REQUEST_MAX_LIMIT }));
+
 
 // HTTP request logger middleware for node.js
 app.use(morgan('dev'));
@@ -136,7 +141,7 @@ app.post('/upload-plugin', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 
@@ -205,7 +210,7 @@ app.post('/upload-plugin', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 

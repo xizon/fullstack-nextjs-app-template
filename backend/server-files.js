@@ -118,7 +118,7 @@ app.post('/upload-merge-api', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 
@@ -137,7 +137,7 @@ app.post('/get-merge-api-files', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 
@@ -205,7 +205,7 @@ app.post('/delete-merge-api-files', async (req, res) => {
         res.status(500).send({
             "message": err.toString(),
             "code": 500
-        });;
+        });
     }
 });
 

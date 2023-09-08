@@ -100,8 +100,7 @@ COPY ./server-socket.js /app-demo-server
 COPY ./server-files.js /app-demo-server
 COPY ./server-upload.js /app-demo-server
 COPY ./server-logger.js /app-demo-server
-
-
+COPY ./server-auth.js /app-demo-server
 
 
 #--

@@ -25,7 +25,7 @@ const MainContent = () => {
 /** Render data
  * ---------------------------------
 */
-const Dashboard = () => {
+const Dashboard = ({apiPath, mycontent}) => {
 
     useEffect(() => {
 
@@ -62,15 +62,40 @@ export async function getServerSideProps(context) {
 
     console.log('Local Url: ', `//${context.req.headers.host}`);
 
+    const apiPath = apiUrls.TEST_API.replace('{reqUrl}',`//${context.req.headers.host.split(':')[0]}`); // Compatible with Docker
+
     // Authorize the page and manage permissions by `middleware`
     const token = cookies(context).SITE_DATA_LOGIN_COOKIE;
     if (token !== undefined) {
         context.res.setHeader('Authorization', `JWT ${cookies(context).SITE_DATA_LOGIN_COOKIE}`);
     }
 
+
+    let mycontent: any = null;
+
+    /*
+    try {
+
+        // ASYNC REQUEST:
+        // a) Special Note: When using asynchronous requests, you need to add "http" or "https" protocol to access normally, 
+        // b) otherwise you will get the code of "proxy.pac"
+        // c) [production] mode will not automatically bring the protocol
+        // d) If successful, check the source code and you will see [null], but the actual rendered value exists
+        const url = new URL(context.req.headers.referer);
+        const protocol = url.protocol.replace(':', '');
+        const targetUrl = /(http|https)/i.test(apiPath) ? apiPath : `${protocol}:${apiPath}`;
+        const res = await axios.get(targetUrl, { responseType: 'json' });
+
+        if (res.data.code != 1000) mycontent = res.data.data;  //required
+
+    } catch (e) { }
+    */
+
+
     return {
         props: {
-            apiPath: apiUrls.GRPC_TEST_API.replace('{reqUrl}',`//${context.req.headers.host.split(':')[0]}`), // Compatible with Docker
+            apiPath: apiPath,
+            mycontent: mycontent,
         },
     }
 
