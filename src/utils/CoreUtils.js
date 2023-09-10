@@ -143,6 +143,11 @@ const {
     updateJsonNode
 } = require('./libs/arr-manipulation');
 
+const {
+    evaluate
+} = require('./libs/math');
+const guid = require('./libs/guid');
+
 
 
 
@@ -249,7 +254,8 @@ CoreUtils.add('blobToUint8array', (...attrs) => blobToUint8array(...attrs));
 CoreUtils.add('arrayToStream', (...attrs) => arrayToStream(...attrs));
 CoreUtils.add('readStream', (...attrs) => readStream(...attrs));
 CoreUtils.add('updateJsonNode', (...attrs) => updateJsonNode(...attrs));
-
+CoreUtils.add('evaluate', (...attrs) => evaluate(...attrs));
+CoreUtils.add('guid', (...attrs) => guid(...attrs));
 
 
 // node & browser
