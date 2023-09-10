@@ -83,12 +83,6 @@ app.post('/verify-token', jwtVerify({ secret: getSecret, algorithms: ALGORITHMS 
 
     // console.log(req.auth); // { name: 'admin', role: '[ADMIN_SYS]', iat: 1694188712 }
 
-    if (!req.auth.name) {
-        res.send({
-            "message": LANG.en.unauthorized,
-            "code": 401
-        });
-    }
  
     try {
 
