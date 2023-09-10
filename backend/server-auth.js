@@ -7,9 +7,15 @@ const { expressjwt: jwtVerify } = require('express-jwt');
 const { 
     LANG,
     PORT,
-    algorithms,
-    getSecret
+    ALGORITHMS
 } = require('./core/auth/constants');
+
+
+
+const { 
+    getSecret
+} = require('./core/auth/helpers');
+
 
 
 const port = PORT;
@@ -46,7 +52,7 @@ app.post('/create-token', async (req, res) => {
 
     // Generate an access token
     const secret = await getSecret();
-    const accessToken = jwt.sign({ name: name,  role: role }, secret, { algorithm: algorithms[0] });
+    const accessToken = jwt.sign({ name: name,  role: role }, secret, { algorithm: ALGORITHMS[0] });
 
     res.send({
         "data": { token: accessToken },
@@ -73,7 +79,7 @@ axios({
 });
     
 */
-app.post('/verify-token', jwtVerify({ secret: getSecret, algorithms: algorithms }), async (req, res) => {
+app.post('/verify-token', jwtVerify({ secret: getSecret, algorithms: ALGORITHMS }), async (req, res) => {
 
     // console.log(req.auth); // { name: 'admin', role: '[ADMIN_SYS]', iat: 1694188712 }
 
