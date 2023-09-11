@@ -13,7 +13,8 @@ const {
 
 
 const { 
-    getSecret
+    getSecret,
+    verifyToken
 } = require('./core/auth/helpers');
 
 
@@ -99,6 +100,32 @@ app.post('/verify-token', jwtVerify({ secret: getSecret, algorithms: ALGORITHMS 
     }
 
 });
+
+
+
+//
+//!!! IMPORTANT !!!
+// Please do not use `express-jwt` for form upload. If you add Authorization to the header, 
+// the [boundary] will be lost and the content of FormData cannot be obtained correctly.
+// the headers are correctly set `Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryxxxxxxxxxx`
+app.post('/upload-plugin-security', async (req, res) => {
+
+    const { Authorization } = req.query;
+    const auth = await verifyToken(Authorization);
+    if (auth.code === 500) {
+        res.status(401).send({
+            "message": LANG.en.unauthorized,
+            "code": 401
+        });
+        return;
+    }
+
+
+
+    // do something
+    // ...
+});
+
 
 
 
