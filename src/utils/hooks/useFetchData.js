@@ -34,7 +34,7 @@ const App = () => {
             // do something
         }
 
-    }, [storeData]);
+    }, [storeData]); // You can also remove dependencies and write `useEffect(() => { ... }, [])`
 };
 
  */
