@@ -1,5 +1,12 @@
 # Changelog
 
+
+#### = 0.9.8 (September 26, 2023) =
+
+* New: Add a new custom hook `useEffectOnce()` to avoid StrictMode renders components twice on development mode.
+
+
+
 #### = 0.9.5 (September 8, 2023) =
 
 * New: Authentication of Microservices.
