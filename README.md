@@ -29,6 +29,7 @@ List my progress here:
 | Parameter Acquisition | ✅ |
 | Pagination | ✅ |
 | Basic Components | ✅ |
+| Exporting Pure HTML Static Files | ✅ |
 | Authorization | ✅ |
 | Login | ✅ |
 | Register | ✅ |
