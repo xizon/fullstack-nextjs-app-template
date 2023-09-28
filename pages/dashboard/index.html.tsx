@@ -7,7 +7,10 @@ import DataList from '@/components/Dashboard/Datalist';
 import cookies from 'next-cookies';
 
 // Authority 
-import CoreUtils from '@/utils/CoreUtils';
+import useAuth from '@/utils/hooks/useAuth';
+
+import useRouterChange from '@/utils/hooks/useSafePush';
+
 
 import apiUrls from '@/config/apiUrls';
 
@@ -27,14 +30,19 @@ const MainContent = () => {
 */
 const Dashboard = ({apiPath, mycontent}) => {
 
-    useEffect(() => {
+    const { isAuthenticated } = useAuth();
+    const { safePush } = useRouterChange();
 
+    useEffect(() => {
 
         //Authority
         //-----
-        const __IS_ADMIN = CoreUtils.return('isAdmin');
+        if ( !isAuthenticated ) {
+            safePush('/sign-in.html');
+        }
 
-    }, []); 
+
+    }, [isAuthenticated]); 
 
     return (
         <>

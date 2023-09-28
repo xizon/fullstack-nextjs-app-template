@@ -4,10 +4,8 @@ import { useEffect, useState, useRef } from 'react';
 import Layout from '@/components/Layout';
 
 
-import AuthService from "@/utils/data-service/auth";
-
 // Authority 
-import CoreUtils from '@/utils/CoreUtils';
+import useAuth from '@/utils/hooks/useAuth';
 
 
 /** Render data
@@ -15,6 +13,11 @@ import CoreUtils from '@/utils/CoreUtils';
 */
 const SignIn = () => {
 
+    const { isInitialized, isAuthenticated, login, logout } = useAuth();
+
+    console.log('useAuth() -> isAuthenticated: ', isAuthenticated);
+    console.log('useAuth() -> isInitialized: ', isInitialized);
+    
 
     const rootRef = useRef<any>(null);
     const usernameRef = useRef<any>(null);
@@ -72,9 +75,11 @@ const SignIn = () => {
         formData.append('action', 'load_singlepages_ajax_content');
         */
 
-        AuthService.login(formData).then(function (response) {
+        login(formData).then(function (response: any) {
 
             console.log('Login Info: ', response);
+
+            const {code, error} = response;
 
 
             /*
@@ -82,14 +87,14 @@ const SignIn = () => {
              ///////////////   (1) Network or API error   ///////////////
              ////////////////////////////////////////////////////////////
              */
-            if (typeof response === typeof undefined) {
+            if (code == -1) {
                 //control status
                 $inputs.forEach((node) => {
                     node.disabled = false;
                 });
 
                 //update state
-                setError('ERROR: Unknown!');
+                setError('ERROR: ' + code + ': ' + error + '!');
                 return false;
             }
 
@@ -98,10 +103,10 @@ const SignIn = () => {
              ////////////////////////////////////////////////////////////
              ////////////////   (2) Login successful   //////////////////
              ////////////////////////////////////////////////////////////
-             */
+            */
 
             // This is where you would call Firebase, an API etc...
-            if (response && response.code === 200) {
+            if (code == 200) {
 
                 //control status
                 $inputs.forEach((node) => {
@@ -122,7 +127,7 @@ const SignIn = () => {
              ////////////////   (3) Login failed       //////////////////
              ////////////////////////////////////////////////////////////
              */
-            if (response && (response.code === 401 || response.code === 419)) {
+            if (code == 401 || code == 419) {
 
                 //control status
                 $inputs.forEach((node) => {
@@ -130,7 +135,7 @@ const SignIn = () => {
                 });
 
                 //update state
-                setError('ERROR: ' + response.code + ': ' + response.error + '!');
+                setError('ERROR: ' + code + ': ' + error + '!');
                 return false;
 
             }
@@ -151,7 +156,7 @@ const SignIn = () => {
 
     function signOut(e) {
         e.preventDefault();
-        AuthService.logout();
+        logout();
 
         //update state
         setLoginOk(false);
@@ -161,14 +166,13 @@ const SignIn = () => {
 
         //Authority
         //-----
-        const __IS_ADMIN = CoreUtils.return('isAdmin');
-        if ( !__IS_ADMIN ) {
+        if ( !isAuthenticated ) {
             setLoginOk(false);
         } else {
             setLoginOk(true);
         }
 
-    }, [loginOk]); 
+    }, [loginOk, isAuthenticated]); 
 
     
     return (

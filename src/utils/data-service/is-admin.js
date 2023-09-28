@@ -1,18 +1,17 @@
 // Authority 
-const authHeader = require('./auth-header');
-const { getCookie } = require('./cookies-tool');
+import authHeader from '@/utils/data-service/auth-header';
+import CoreUtils from '@/utils/CoreUtils';
 
 /**
  * Determine whether you have administrator authorization
  * @returns {Boolean}
  */
 function isAdmin() {
-
+    
     //destroy cookie & localStorage
-    const expiration = getCookie('SITE_DATA_LOGIN_COOKIE');
+    const expiration = CoreUtils.return('getCookie', 'SITE_DATA_LOGIN_COOKIE');
     if ( expiration == null || expiration == 0 ) {
         localStorage.removeItem('SITE_DATA_AUTH');
-        localStorage.removeItem('MS_DATA_AUTH');
     }
     
     //check localStorage
@@ -20,4 +19,4 @@ function isAdmin() {
 }
 
 
-module.exports = isAdmin;
+export default isAdmin;

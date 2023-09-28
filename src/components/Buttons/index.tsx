@@ -7,28 +7,7 @@
 /*-- Apply this component styles --*/
 import myStyles from '@/components/Buttons/styles/index.module.scss';
 
-
-interface ButtonStylesConfig {
-  info?: {
-    [key: string]: string | undefined;
-  };
-  success?: {
-    [key: string]: string | undefined;
-  };
-  danger?: {
-    [key: string]: string | undefined;
-  };
-  warning?: {
-    [key: string]: string | undefined;
-  };
-}
-
-interface ButtonProps extends React.ComponentPropsWithoutRef<any> {
-  bgColor?: string;
-  btnName?: string | React.ReactNode;
-  href?: string;
-};
-
+import { ButtonStylesConfig, ButtonProps } from '@/interfaces/button';
 
 const styles: ButtonStylesConfig = {
   info: {

@@ -1,0 +1,29 @@
+/* ======================================================
+   <!-- Avatar -->
+/* ====================================================== */
+$sizes: (
+    sm: 1.75rem,
+    md: 3rem,
+    lg: 5rem,
+    xl: 8.333333333333333rem
+);
+
+.app-avatar-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 100%;
+}
+
+@each $key, $value in $sizes {
+    .app-avatar-#{$key} {
+        height: $value;
+        width: $value;
+
+        >img {
+            height: $value;
+            width: $value;
+        }
+    }
+}

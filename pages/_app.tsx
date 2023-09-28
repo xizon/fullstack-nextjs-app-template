@@ -9,6 +9,10 @@ import { wrapper } from "@/store/createStore";
 import { Provider } from "react-redux";
 
 
+// auth
+import { AuthProvider } from '@/contexts/JWTAuthContext';
+
+
 // using disk cache
 // import '../public/assets/css/xxx.css';
 
@@ -31,7 +35,11 @@ function MyApp({ Component, ...rest }: AppProps) {
             </Head>
 
             <Provider store={store}>
-                <Component {...props.pageProps} />
+
+                <AuthProvider>
+                    <Component {...props.pageProps} />
+                </AuthProvider>
+                
             </Provider>
 
 

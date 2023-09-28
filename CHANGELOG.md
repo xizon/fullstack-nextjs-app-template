@@ -1,5 +1,11 @@
 # Changelog
 
+#### = 1.0.5 (September 27, 2023) =
+
+* New: Add general component `<Avatar />`.
+* New: Add `src/interfaces`.
+* Refact: Using auth hooks (using createContext & useReducer) to control all components.
+
 
 #### = 0.9.8 (September 26, 2023) =
 
@@ -125,7 +131,7 @@
 
 #### = 0.4.0 (November 17, 2022) =
 
-* New: Add general component <BackToTop />.
+* New: Add general component `<BackToTop />`.
 
 
 #### = 0.3.9 (November 12, 2022) =

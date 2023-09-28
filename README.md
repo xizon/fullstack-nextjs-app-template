@@ -45,6 +45,7 @@ List my progress here:
 | Remote Download | ✅ |
 | Fully Static HTML Files Generation | ✅ |
 | Custom Server | ✅ |
+| Custom Hooks (auth, redux, etc.) | ✅ |
 | Frontend Page Interacts With Node | ✅ |
 | Alias Support | ✅ |
 | Local PHP Service Association | ✅ |
@@ -89,6 +90,9 @@ fullstack-nextjs-app-template/
 │   └── *.tsx
 ├── src/
 │   ├── config/
+│   ├── data/
+│   ├── contexts/
+│   ├── interfaces/
 │   ├── components/
 │   ├── styles/
 │   ├── utils/

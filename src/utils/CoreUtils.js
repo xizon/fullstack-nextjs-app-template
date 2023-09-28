@@ -43,7 +43,6 @@ const {
     easeOutBack, 
     easeInOutBack
 } = require('./libs/easing');
-const authHeader = require('./libs/auth-header');
 const { 
     getCookie, 
     setCookie, 
@@ -61,7 +60,6 @@ const {
     getFilesFromHead, 
     getBodyCode 
 } = require('./libs/parse-htmlstr');
-const isAdmin = require('./libs/is-admin');
 const { loadTextures } = require('./libs/loader');
 const { 
     getNextSiblings, 
@@ -149,7 +147,13 @@ const {
 const guid = require('./libs/guid');
 
 
-
+const {
+    JWT_SECRET,
+    JWT_EXPIRES_IN,
+    sign: jwtSign,
+    decode: jwtDecode,
+    verify: jwtVerify
+} = require('./libs/jwt');
 
 
 // use these methods
@@ -185,7 +189,6 @@ CoreUtils.add('easeInOutElastic', (...attrs) => easeInOutElastic(...attrs));
 CoreUtils.add('easeInBack', (...attrs) => easeInBack(...attrs));
 CoreUtils.add('easeOutBack', (...attrs) => easeOutBack(...attrs));
 CoreUtils.add('easeInOutBack', (...attrs) => easeInOutBack(...attrs));
-CoreUtils.add('authHeader', (...attrs) => authHeader(...attrs));
 CoreUtils.add('getCookie', (...attrs) => getCookie(...attrs));
 CoreUtils.add('setCookie', (...attrs) => setCookie(...attrs));
 CoreUtils.add('delCookie', (...attrs) => delCookie(...attrs));
@@ -199,7 +202,6 @@ CoreUtils.add('getClassesMethods', (...attrs) => getClassesMethods(...attrs));
 CoreUtils.add('serializeArray', (...attrs) => serializeArray(...attrs));
 CoreUtils.add('getFilesFromHead', (...attrs) => getFilesFromHead(...attrs));
 CoreUtils.add('getBodyCode', (...attrs) => getBodyCode(...attrs));
-CoreUtils.add('isAdmin', (...attrs) => isAdmin(...attrs));
 CoreUtils.add('loadTextures', (...attrs) => loadTextures(...attrs));
 CoreUtils.add('getNextSiblings', (...attrs) => getNextSiblings(...attrs));
 CoreUtils.add('getPreviousSiblings', (...attrs) => getPreviousSiblings(...attrs));
@@ -256,6 +258,11 @@ CoreUtils.add('readStream', (...attrs) => readStream(...attrs));
 CoreUtils.add('updateJsonNode', (...attrs) => updateJsonNode(...attrs));
 CoreUtils.add('evaluate', (...attrs) => evaluate(...attrs));
 CoreUtils.add('guid', (...attrs) => guid(...attrs));
+CoreUtils.add('JWT_SECRET', () => JWT_SECRET);
+CoreUtils.add('JWT_EXPIRES_IN', () => JWT_EXPIRES_IN);
+CoreUtils.add('jwtSign', (...attrs) => jwtSign(...attrs));
+CoreUtils.add('jwtDecode', (...attrs) => jwtDecode(...attrs));
+CoreUtils.add('jwtVerify', (...attrs) => jwtVerify(...attrs));
 
 
 // node & browser
