@@ -1,4 +1,10 @@
 /**
+ * Get all depth
+ * @param {Object} node
+ * @returns Number
+ */
+export function getAllDepth(arr: any): any;
+/**
  * Convert Tree
  * @param {Array} arr                    - Flat array
  * @param  {?String | ?Number} parentId  - Parent id
@@ -14,15 +20,14 @@ export function convertTree(arr: any[], parentId?: (string | (number | null)) | 
  */
 export function flatTree(arr: any[]): any[];
 /**
- * Add depth to each item in the tree
- * @param {Array} arr                    - Hierarchical array
- * @param  {?String | ?Number} parentId  - Parent id
- * @param  {?String} keyId               - Key value of id.
- * @param  {?String} keyParentId         - Key value of parent id.
- * @param  {?Number} depth               - Depth of the item.
- * @returns
- */
-export function addTreeDepth(arr: any[], parentId?: (string | (number | null)) | null, keyId?: string | null, keyParentId?: string | null, depth?: number | null): void;
+* Add depth to each item in the tree
+* @param {Array} arr       - Hierarchical array
+* @param  {?String} keyId               - Key value of id.
+* @param  {?String} keyParentId         - Key value of parent id.
+* @param  {?Number} depth               - Depth of the item.
+* @returns Number
+*/
+export function addTreeDepth(arr: any[], keyId?: string | null, parentItem?: string, depth?: number | null): any;
 /**
  * Add indent placeholder
  * @param {Array} arr                    - Flat array

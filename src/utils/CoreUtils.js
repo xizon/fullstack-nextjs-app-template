@@ -110,6 +110,7 @@ const {
 
 const shuffle = require('./libs/shuffle');
 const {
+    getAllDepth,
     convertTree,
     flatTree,
     addTreeDepth,
@@ -238,6 +239,7 @@ CoreUtils.add('RGBToHSL', (...attrs) => RGBToHSL(...attrs));
 CoreUtils.add('HSLToRGB', (...attrs) => HSLToRGB(...attrs));
 CoreUtils.add('generateGradient', (...attrs) => generateGradient(...attrs));
 CoreUtils.add('shuffle', (...attrs) => shuffle(...attrs));
+CoreUtils.add('getAllDepth', (...attrs) => getAllDepth(...attrs));
 CoreUtils.add('convertTree', (...attrs) => convertTree(...attrs));
 CoreUtils.add('flatTree', (...attrs) => flatTree(...attrs));
 CoreUtils.add('addTreeDepth', (...attrs) => addTreeDepth(...attrs));
