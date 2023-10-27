@@ -100,9 +100,19 @@ function uint8arrayToBase64Str(data) {
     if (typeof Buffer !== typeof undefined) {
         return Buffer.from(data, 'binary').toString('base64');  // node.js too
     } else {
-        return btoa(String.fromCharCode.apply(null, arrayToUint8array(data)));
+
+        // prevent ERROR:  RangeError: Maximum call stack size exceeded
+        //!!!!!!!!!
+        let binary = '';
+        const bytes = new Uint8Array(data);
+        const len = bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode( bytes[ i ] );
+        }
+        return window.btoa(binary);
     }
 }
+
 
 /**
  * decode base64 string
