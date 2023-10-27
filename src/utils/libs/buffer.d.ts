@@ -1,4 +1,16 @@
 /**
+ * base64 to ArrayBuffer
+ * @param {String} data
+ * @returns {ArrayBuffer}
+ */
+export function base64ToArrayBuffer(data: string): ArrayBuffer;
+/**
+ * ArrayBuffer to Uint8Array
+ * @param {ArrayBuffer} data
+ * @returns {Uint8Array}
+ */
+export function arrayBufferToUint8Array(data: ArrayBuffer): Uint8Array;
+/**
  * uint8array to array
  * @param {Uint8Array} data
  * @returns {Array}

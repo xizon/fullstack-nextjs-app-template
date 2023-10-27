@@ -127,6 +127,8 @@ const {
 } = require('./libs/use-style');
 
 const {
+    base64ToArrayBuffer,
+    arrayBufferToUint8Array,
     uint8arrayToArr,
     arrayToUint8array,
     uint8arrayToBase64Str,
@@ -248,6 +250,8 @@ CoreUtils.add('addScript', (...attrs) => addScript(...attrs));
 CoreUtils.add('removeScript', (...attrs) => removeScript(...attrs));
 CoreUtils.add('addStyle', (...attrs) => addStyle(...attrs));
 CoreUtils.add('removeStyle', (...attrs) => removeStyle(...attrs));
+CoreUtils.add('base64ToArrayBuffer', (...attrs) => base64ToArrayBuffer(...attrs));
+CoreUtils.add('arrayBufferToUint8Array', (...attrs) => arrayBufferToUint8Array(...attrs));
 CoreUtils.add('uint8arrayToArr', (...attrs) => uint8arrayToArr(...attrs));
 CoreUtils.add('arrayToUint8array', (...attrs) => arrayToUint8array(...attrs));
 CoreUtils.add('uint8arrayToBase64Str', (...attrs) => uint8arrayToBase64Str(...attrs));

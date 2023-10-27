@@ -1,5 +1,60 @@
 
 
+
+/**
+ * base64 to ArrayBuffer
+ * @param {String} data 
+ * @returns {ArrayBuffer}
+ */
+/*
+@returns:
+
+ArrayBuffer(522240)
+
+    byteLength: 522240
+    detached: false
+    maxByteLength: 522240
+    resizable: false
+    [[Prototype]]: ArrayBuffer
+    [[Int8Array]]: Int8Array(522240)
+    [[Uint8Array]]: Uint8Array(522240)
+    [[Int16Array]]: Int16Array(261120)
+    [[Int32Array]]: Int32Array(130560)
+    [[ArrayBufferByteLength]]: 522240
+    [[ArrayBufferData]]: 673
+*/
+function base64ToArrayBuffer(data) {
+
+    let res = data;
+    if (data.indexOf('base64,') >= 0) {
+        res = data.split('base64,')[1];
+    }
+
+    //
+    const binaryString = atob(res);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+/**
+ * ArrayBuffer to Uint8Array
+ * @param {ArrayBuffer} data 
+ * @returns {Uint8Array}
+ */
+/*
+@returns:
+
+Uint8Array(522240) [208, 207, 17, 224, 161, 177, 26, 225, 0, 0, ......]
+*/
+function arrayBufferToUint8Array(data) {
+    const bytes = new Uint8Array(data);
+    return bytes;
+}
+
+
 /**
  * uint8array to array
  * @param {Uint8Array} data 
@@ -188,6 +243,8 @@ async function readStream(data) {
 
 
 module.exports = {
+    base64ToArrayBuffer,
+    arrayBufferToUint8Array,
     uint8arrayToArr,
     arrayToUint8array,
     uint8arrayToBase64Str,
