@@ -4,14 +4,6 @@
 
 
 
-> [!NOTE]
-> This project is based on [create-next-app (Next.js v13.0.0 )](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) to create and extend the basic functions of the whole site.
->
-> Nextjs 14+ has export compatibility issues with some configurations of this project and current nextjs will not be updated yet.
->
-> This project is compatible with nextjs 14+, however, if you don't need to use the "Exporting Pure HTML Static Files", you can directly [upgrade to next 14+](https://nextjs.org/docs/pages/building-your-application/upgrading/version-14)
-
-
 ![quick overview](public/assets/images/screenshot.jpg)
 
 
@@ -49,7 +41,7 @@ List my progress here:
 | Parameter Acquisition | ✅ |
 | Pagination | ✅ |
 | Basic Components | ✅ |
-| Exporting Pure HTML Static Files <blockquote>⚠️ Nextjs 14+ has export compatibility issues with some configurations of this project and current nextjs will not be updated yet.</blockquote> | ✅ |
+| Exporting Pure HTML Static Files | ✅ |
 | Authorization | ✅ |
 | Login | ✅ |
 | Register | ✅ |
@@ -199,6 +191,14 @@ $ npm run destroy
 
 
 ### Export your Next.js application to static HTML
+
+
+FIrst, you need to enable [Static Exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports).
+
+
+> [!WARNING]
+> [ISR](https://nextjs.org/docs/pages/building-your-application/rendering/incremental-static-regeneration) cannot be used with "output: export". 
+
 
 
 **Step 1. generate static resources:**
@@ -663,6 +663,11 @@ the following:
 
 ### 👣 (Step 3) To add support for Docker to an existing project, simply copy the Dockerfile to the root of the project and add the following to the `next.config.js` file:
 
+
+> [!NOTE]
+> Use Docker container, don't use [Static Exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports).
+
+
 ```js
 // next.config.js
 module.exports = {
@@ -1002,10 +1007,7 @@ $ npm cache verify
 
 ## Supported development environment
 
-- Next.js 13.0.0 
-  - This project compatible with nextjs 14+
-  - "Exporting Pure HTML Static Files" configurations of this project is not compatible with 14+
-
+- Next.js 13.0.0 to 14+
 - React 18 +
 - TypeScript 4.x.x + 
 - Express 4.x.x

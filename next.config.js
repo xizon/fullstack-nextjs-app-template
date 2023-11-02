@@ -1,12 +1,21 @@
 /** @type {import('next').NextConfig} */
 
+// Docker deployment
+const dockerDeploymentEnabled = false;
+
+// Static Exports
+let exportHtmlEnabled = true;
+if (dockerDeploymentEnabled) exportHtmlEnabled = false;
+
+//
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
 
-    // !!! for docker
+    // !!! for docker (`output: 'standalone'`)
     // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
-    output: 'standalone', 
+    
+    output: dockerDeploymentEnabled ? 'standalone' : (exportHtmlEnabled ? 'export' : undefined), 
 
     // image optimize
     images: {
@@ -28,6 +37,7 @@ const nextConfig = {
         return config;
     },
     env: {
+        EXPORT_HTML: exportHtmlEnabled,
         STATIC_URL: '/public',
     }
     /*

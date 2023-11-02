@@ -1,5 +1,9 @@
 # Changelog
 
+#### = 1.1.0 (November 2, 2023) =
+
+* Tweak: Upgrade to [next 14+](https://nextjs.org/docs/pages/building-your-application/upgrading/version-14).
+
 
 #### = 1.0.8 (November 2, 2023) =
 
