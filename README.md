@@ -515,7 +515,9 @@ There probably won’t be any messages if the service restarted successfully. Ot
 
 ## Further Help
 
-This project is based on [`create-next-app (Next.js v12.2.x+)`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) to create and extend the basic functions of the whole site.
+This project is based on [create-next-app (Next.js v12+ ~ v14+ )](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) to create and extend the basic functions of the whole site.
+
+[Upgrading from 13 to 14](https://nextjs.org/docs/pages/building-your-application/upgrading/version-14)
 
 
 
@@ -941,7 +943,7 @@ $ npm cache verify
 
 ## Supported development environment
 
-- Next.js 13.4 + 
+- Next.js 13.x + ~  Next.js 14.1 + 
 - React 18 +
 - TypeScript 4.x.x + 
 - Express 4.x.x
