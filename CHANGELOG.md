@@ -1,7 +1,7 @@
 # Changelog
 
 
-#### = 1.0.7 (November 2, 2023) =
+#### = 1.0.8 (November 2, 2023) =
 
 * New: add some new utilities.
 * Tweak: Roll back to nextjs 13.0.0, compatible with previous HTML export.

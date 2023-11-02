@@ -4,8 +4,7 @@
 
 
 
-> 🌈
-> 
+> [!NOTE]
 > This project is based on [create-next-app (Next.js v13.0.0 )](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) to create and extend the basic functions of the whole site.
 >
 > Nextjs 14+ has export compatibility issues with some configurations of this project and current nextjs will not be updated yet.
@@ -227,7 +226,7 @@ $ npm run export:test
 
 
 <details>
-  <summary><h2> 👉🏼 Deploy on Custom Server</h2></summary>
+  <summary><h4> 👉🏼 Deploy on Custom Server</h4></summary>
   
 
 > 📌 Note: Using server.js may cause an error during [HMR] restart (first loading of the client): 
@@ -544,7 +543,7 @@ There probably won’t be any messages if the service restarted successfully. Ot
 
 
 <details>
-  <summary><h2> 👉🏼 Node.js Port 3000 already in use but it actually isn't?</h2></summary>
+  <summary><h4> 👉🏼 Node.js Port 3000 already in use but it actually isn't?</h4></summary>
   
 
 run the following command
@@ -556,7 +555,7 @@ $ killall -9 node
 
 
 <details>
-  <summary><h2> 👉🏼 Change the Favicon</h2></summary>
+  <summary><h4> 👉🏼 Change the Favicon</h4></summary>
   
 
 To change your Site Favicon, navigate the file `pages/_document.tsx` and modify the code between `<Head>`
@@ -566,7 +565,7 @@ To change your Site Favicon, navigate the file `pages/_document.tsx` and modify 
 
 
 <details>
-  <summary><h2> 👉🏼 Customize Menu</h2></summary>
+  <summary><h4> 👉🏼 Customize Menu</h4></summary>
   
 
 
@@ -576,7 +575,7 @@ Navigate the file `src/components/Header` and modify it.
 
 
 <details>
-  <summary><h2> 👉🏼 Set port in next.js</h2></summary>
+  <summary><h4> 👉🏼 Set port in next.js</h4></summary>
   
 
 In your package.json file, add -p 8080 to the dev/start scripts to start the server on port 8080:
@@ -596,7 +595,7 @@ $ PORT=8080 npm run dev
 
 
 <details>
-  <summary><h2> 👉🏼 Site URL (Root Directory) Configurations</h2></summary>
+  <summary><h4> 👉🏼 Site URL (Root Directory) Configurations</h4></summary>
   
 
 Change the root directory of the website so that it can be used when you upload the project to another directory. Modify the key `siteUrl` of the `./src/data/app.json`.
@@ -617,7 +616,7 @@ If the file is in the root directory, you can leave it empty. If in another dire
 
 
 <details>
-  <summary><h2> 👉🏼 Deploy Using Docker (build a single next.js program image)</h2></summary>
+  <summary><h4> 👉🏼 Deploy Using Docker (build a single next.js program image)</h4></summary>
   
 
 >
@@ -860,7 +859,7 @@ $ docker save fullstack-nextjs-app-template:v1 -o ./fullstack-nextjs-app-templat
 
 
 <details>
-  <summary><h2> 👉🏼 Deploy Using Docker (Build composite image that include other custom images)</h2></summary>
+  <summary><h4> 👉🏼 Deploy Using Docker (Build composite image that include other custom images)</h4></summary>
   
 
 
@@ -902,7 +901,7 @@ $ docker-compose up
 
 
 <details>
-  <summary><h2> 👉🏼 Deploy Using Docker (Common Load-balancing Solutions of Socket.io Issue)</h2></summary>
+  <summary><h4> 👉🏼 Deploy Using Docker (Common Load-balancing Solutions of Socket.io Issue)</h4></summary>
   
 
 
@@ -936,7 +935,7 @@ Refer to: [Using multiple nodes](https://socket.io/docs/v4/using-multiple-nodes/
 
 
 <details>
-  <summary><h2> 👉🏼 Installation Error or Unable To Run</h2></summary>
+  <summary><h4> 👉🏼 Installation Error or Unable To Run</h4></summary>
   
 
 a) Has `node_modules` folder, just do it directly.
