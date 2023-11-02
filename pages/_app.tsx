@@ -24,7 +24,7 @@ function MyApp({ Component, ...rest }: AppProps) {
     // props passed by SSR on other pages
     const { currentData, apiPath } = props.pageProps;
     
-    console.log('_app.tsx -> currentData: ', currentData, ' | apiPath: ', apiPath);
+    // console.log('_app.tsx -> currentData: ', currentData, ' | apiPath: ', apiPath);
     
     return (
         <>

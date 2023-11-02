@@ -2,7 +2,7 @@
   "author": "UIUX Lab",
   "email": "uiuxlab@gmail.com",
   "name": "fullstack-nextjs-app-template",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "A full-stack sample web application based on Next.js that creates a simple whole-website architecture.",
   "main": "next.config.js",
   "repository": {
@@ -42,7 +42,7 @@
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
-    "next": "^14.0.1",
+    "next": "^13.0.0",
     "next-cookies": "^2.0.3",
     "next-redux-wrapper": "^8.1.0",
     "php-express": "0.0.3",
@@ -59,7 +59,7 @@
     "@types/react-dom": "18.0.6",
     "cross-env": "^7.0.3",
     "eslint": "8.22.0",
-    "eslint-config-next": "^14.0.1",
+    "eslint-config-next": "^13.0.0",
     "sass": "^1.54.5",
     "typescript": "4.7.4"
   },

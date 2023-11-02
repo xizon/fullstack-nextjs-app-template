@@ -1,5 +1,14 @@
 # Changelog
 
+
+#### = 1.0.7 (November 2, 2023) =
+
+* New: add some new utilities.
+* Tweak: Roll back to nextjs 13.0.0, compatible with previous HTML export.
+  - ⚠️ Nextjs 14+ has export compatibility issues with some configurations of this project and current nextjs will not be updated yet.
+  - ⚠️ This project is compatible with nextjs 14+, however, if you don't need to use the "Exporting Pure HTML Static Files", you can directly [upgrade to next 14+](https://nextjs.org/docs/pages/building-your-application/upgrading/version-14)
+
+
 #### = 1.0.5 (September 27, 2023) =
 
 * New: Add general component `<Avatar />`.

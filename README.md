@@ -3,19 +3,40 @@
  This repository is a full-stack sample web application based on Next.js that creates a simple whole-website architecture, and provides the foundational services, components, and plumbing needed to get a basic web application up and running. 
 
 
+
+> 🌈
+> 
+> This project is based on [create-next-app (Next.js v13.0.0 )](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) to create and extend the basic functions of the whole site.
+>
+> Nextjs 14+ has export compatibility issues with some configurations of this project and current nextjs will not be updated yet.
+>
+> This project is compatible with nextjs 14+, however, if you don't need to use the "Exporting Pure HTML Static Files", you can directly [upgrade to next 14+](https://nextjs.org/docs/pages/building-your-application/upgrading/version-14)
+
+
 ![quick overview](public/assets/images/screenshot.jpg)
+
 
 ## Table of Contents
 
 * [Scheme](#scheme)
 * [File Structures](#file-structures)
 * [Getting Started](#getting-started)
-* [Deploy on Custom Server](#deploy-on-custom-server)
 * [Further Help](#further-help)
+*  - [Deploy on Custom Server](#--deploy-on-custom-server)
+*  - [Node.js Port 3000 already in use but it actually isn't?](#--nodejs-port-3000-already-in-use-but-it-actually-isnt)
+*  - [Change the Favicon](#--change-the-favicon)
+*  - [Customize Menu](#--customize-menu)
+*  - [Set port in next.js](#--set-port-in-nextjs)
+*  - [Site URL (Root Directory) Configurations](#--site-url-root-directory-configurations)
+*  - [Deploy Using Docker (build a single next.js program image)](#--deploy-using-docker-build-a-single-nextjs-program-image)
+*  - [Deploy Using Docker (Build composite image that include other custom images)](#--deploy-using-docker-build-composite-image-that-include-other-custom-images)
+*  - [Deploy Using Docker (Common Load-balancing Solutions of Socket.io Issue)](#--deploy-using-docker-common-load-balancing-solutions-of-socketio-issue)
+*  - [Installation Error or Unable To Run](#--installation-error-or-unable-to-run)
 * [Contributing](#contributing)
 * [Supported development environment](#supported-development-environment)
 * [Changelog](#changelog)
 * [Licensing](#licensing)
+
 
 
 ## Scheme
@@ -29,7 +50,7 @@ List my progress here:
 | Parameter Acquisition | ✅ |
 | Pagination | ✅ |
 | Basic Components | ✅ |
-| Exporting Pure HTML Static Files | ✅ |
+| Exporting Pure HTML Static Files <blockquote>⚠️ Nextjs 14+ has export compatibility issues with some configurations of this project and current nextjs will not be updated yet.</blockquote> | ✅ |
 | Authorization | ✅ |
 | Login | ✅ |
 | Register | ✅ |
@@ -180,6 +201,7 @@ $ npm run destroy
 
 ### Export your Next.js application to static HTML
 
+
 **Step 1. generate static resources:**
 ```sh
 $ npm run export
@@ -200,13 +222,19 @@ $ npm run export:test
 
 
 
-## Deploy on Custom Server
+
+## Further Help
+
+
+<details>
+  <summary><h2> 👉🏼 Deploy on Custom Server</h2></summary>
+  
 
 > 📌 Note: Using server.js may cause an error during [HMR] restart (first loading of the client): 
 > *WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr' failed:* --> *InvalidArgumentError: invalid upgrade header*
 > You can ignore it.
 
-### ⚙️ (Step 1) Create a file as the server startup entry
+### 👣 (Step 1) Create a file as the server startup entry
 
 Create a new file `server.js` (do not use `.ts`) at the same level as your `pages` directory. Take a look at the following example of a custom server:
 
@@ -287,7 +315,7 @@ access with `https://localhost:3000` or `https://{YOUR_IP}:3000`
 
 
 
-### ⚙️ (Step 2) Configure `package.json` 
+### 👣 (Step 2) Configure `package.json` 
 
 To run the custom server you'll need to update the scripts in package.json like so:
 ```json
@@ -304,9 +332,9 @@ module.exports = {
 }
 ```
 
-### ⚙️ (Step 3) Install PM2 environment
+### 👣 (Step 3) Install PM2 environment
 
-Start Next.js application with PM2 as a service (only works if you are using Node v13.9.0 or above.)
+Start Next.js application with PM2 as a service (only works if you are using Node v18.17.0 or above.)
 
 #### 3.1) Installing Node and NPM on hosting server **(Optional).**
 
@@ -436,7 +464,7 @@ $ pm2 start xxxxxx
 You had created a basic Next.js App from here, then you need to deploy a Next.js App on Apache or Nginx web server. Please refer to the network for the tutorial on setting up the proxy.
 
 
-### ⚙️ (Step 4) Nginx’s Site Configuration
+### 👣 (Step 4) Nginx’s Site Configuration
 
 Now that the app is ready to be deployed, we should prepare the Nginx end. In case Nginx is not installed, it can be easily installed with the apt packaging system by running the following two commands:
 
@@ -512,33 +540,44 @@ There probably won’t be any messages if the service restarted successfully. Ot
 
 
 
-
-## Further Help
-
-This project is based on [create-next-app (Next.js v12+ ~ v14+ )](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) to create and extend the basic functions of the whole site.
-
-[Upgrading from 13 to 14](https://nextjs.org/docs/pages/building-your-application/upgrading/version-14)
+</details>
 
 
-
-### ⚙️ Node.js Port 3000 already in use but it actually isn't?
+<details>
+  <summary><h2> 👉🏼 Node.js Port 3000 already in use but it actually isn't?</h2></summary>
+  
 
 run the following command
 ```sh
 $ killall -9 node
 ```
 
-### ⚙️ Change the Favicon
+</details>
+
+
+<details>
+  <summary><h2> 👉🏼 Change the Favicon</h2></summary>
+  
 
 To change your Site Favicon, navigate the file `pages/_document.tsx` and modify the code between `<Head>`
 
 
-### ⚙️ Customize Menu
+</details>
+
+
+<details>
+  <summary><h2> 👉🏼 Customize Menu</h2></summary>
+  
+
 
 Navigate the file `src/components/Header` and modify it.
 
+</details>
 
-### ⚙️ Set port in next.js
+
+<details>
+  <summary><h2> 👉🏼 Set port in next.js</h2></summary>
+  
 
 In your package.json file, add -p 8080 to the dev/start scripts to start the server on port 8080:
 ```json
@@ -553,8 +592,12 @@ Alternatively, if you don't want to hardcode this in the package.json file, you 
 $ PORT=8080 npm run dev
 ```
 
+</details>
 
-### ⚙️ Site URL (Root Directory) Configurations:
+
+<details>
+  <summary><h2> 👉🏼 Site URL (Root Directory) Configurations</h2></summary>
+  
 
 Change the root directory of the website so that it can be used when you upload the project to another directory. Modify the key `siteUrl` of the `./src/data/app.json`.
 
@@ -570,7 +613,12 @@ If the file is in the root directory, you can leave it empty. If in another dire
 
 
 
-### ⚙️ Deploy Using Docker (build a single next.js program image):
+</details>
+
+
+<details>
+  <summary><h2> 👉🏼 Deploy Using Docker (build a single next.js program image)</h2></summary>
+  
 
 >
 > ⚠️ Tips: When running the `getServerSideProps` of Next.js, `Express` and `WebSocket` services of Node.js, the communication would be container to container. So for these requests, routes to localhost (`http://localhost:3000`) would not work. Instead it would need to be something like `http://localhost:7777` instead (when communicating from the frontend service to the backend service). The localhost domain would work as expected on the client side requests.
@@ -583,7 +631,7 @@ If the file is in the root directory, you can leave it empty. If in another dire
 
 
 
-**Step 1.** First download docker (version Intel chip, note. macOs10.14 and below versions use up to version 4.11.0)
+### 👣 (Step 1) First download docker (version Intel chip, note. macOs10.14 and below versions use up to version 4.11.0)
 
 https://docs.docker.com/desktop/release-notes/#4110
 
@@ -597,7 +645,7 @@ $ sudo docker run hello-world
 ```
 
 
-**Step 2.** Create a new file `Dockerfile` in the root directory of the application
+### 👣 (Step 2) Create a new file `Dockerfile` in the root directory of the application
 
 
 ```sh
@@ -614,7 +662,7 @@ the following:
 …
 
 
-**Step 3.** To add support for Docker to an existing project, simply copy the Dockerfile to the root of the project and add the following to the `next.config.js` file:
+### 👣 (Step 3) To add support for Docker to an existing project, simply copy the Dockerfile to the root of the project and add the following to the `next.config.js` file:
 
 ```js
 // next.config.js
@@ -626,7 +674,7 @@ module.exports = {
 
 
 
-**Step 4.** Build your container:
+### 👣 (Step 4) Build your container:
 Syntax: docker build [OPTIONS] PATH | URL | -
 
 ! ! ! Note: The last path is a point, don't miss it
@@ -638,7 +686,7 @@ $ docker build -t fullstack-nextjs-app-template:v1 .
 [The first deployment takes a few minutes because it needs other docker libraries, and it only takes tens of seconds after that]
 
 
-**Step 5.** Run your application. Based on the tags you gave your Dockerfile, you can now run them with the docker run command.
+### 👣 (Step 5) Run your application. Based on the tags you gave your Dockerfile, you can now run them with the docker run command.
 
 The -p flag exposes the container's ports to services outside of docker (the first port is the port exposed to the outside). Use of multiple ports: `docker run -p <host_port1>:<container_port1> -p <host_port2>:<container_port2>`
 
@@ -671,7 +719,7 @@ $ docker run -p 3000:3000 fullstack-nextjs-app-template:v1
 
 
 
-**Step 6.** Persistence running (exit the command panel is still executed, add a parameter -d)
+### 👣 (Step 6) Persistence running (exit the command panel is still executed, add a parameter -d)
 
 Run the image with -d to run the container in detached mode, leaving the container running in the background. The -p flag redirects the public port to a private port inside the container.
 
@@ -681,7 +729,7 @@ $ docker run -p 3000:3000 -d fullstack-nextjs-app-template:v1
 
 
 
-**Step 7.** Docker process check
+### 👣 (Step 7) Docker process check
 
 ```sh
 $ docker ps
@@ -691,7 +739,7 @@ $ docker kill <PID>
 
 
 
-**Step 8.** Node.js process check
+### 👣 (Step 8) Node.js process check
 
 The process already exists, to delete, for example, port 3000
 
@@ -705,7 +753,7 @@ $ kill -9 <PID>
 
 
 
-**Step 9.** Push image to private server
+### 👣 (Step 9) Push image to private server
 
 > Note: change the `192.168.1.140` to yours
 
@@ -787,7 +835,7 @@ $ docker pull 192.168.1.140:5000/fullstack-nextjs-app-template-v1
 
 
 
-**Step 10.** Export the image (Optional)
+### 👣 (Step 10) Export the image (Optional)
 
 View the container that is running in the background (note that you need to run it first to find the id)
 
@@ -808,11 +856,15 @@ Next, save the newly packaged image as a tar file, run `docker save <image_name:
 $ docker save fullstack-nextjs-app-template:v1 -o ./fullstack-nextjs-app-template-v1.tar
 ```
 
+</details>
 
 
-### ⚙️ Deploy Using Docker (Build composite image that include other custom images):
+<details>
+  <summary><h2> 👉🏼 Deploy Using Docker (Build composite image that include other custom images)</h2></summary>
+  
 
-**Step 1.** Create a file `docker-compose.yml`, the content as follows:
+
+### 👣 (Step 1) Create a file `docker-compose.yml`, the content as follows:
 
 ```yml
 services:
@@ -829,7 +881,7 @@ services:
 ```
 
 
-**Step 2.** Build another image, like this:
+### 👣 (Step 2) Build another image, like this:
 
 ```bash
 # build
@@ -839,16 +891,19 @@ $ docker run --init -p 4001:4001 my-node-server:v1
 ```
 
 
-**Step 3.** Build a composite image, run:
+### 👣 (Step 3) Build a composite image, run:
 
 ```bash
 $ docker-compose up
 ```
 
 
+</details>
 
 
-### ⚙️ Deploy Using Docker (Common Load-balancing Solutions of Socket.io Issue):
+<details>
+  <summary><h2> 👉🏼 Deploy Using Docker (Common Load-balancing Solutions of Socket.io Issue)</h2></summary>
+  
 
 
 #### 1. Multiple Kubernetes pods
@@ -877,9 +932,12 @@ Refer to: [Using multiple nodes](https://socket.io/docs/v4/using-multiple-nodes/
 
 
 
+</details>
 
-### ⚠️ Installation Error or Unable To Run:
 
+<details>
+  <summary><h2> 👉🏼 Installation Error or Unable To Run</h2></summary>
+  
 
 a) Has `node_modules` folder, just do it directly.
 
@@ -925,6 +983,8 @@ Check cache
 $ npm cache verify
 ```
 
+</details>
+
 
 
 ## Contributing
@@ -943,10 +1003,14 @@ $ npm cache verify
 
 ## Supported development environment
 
-- Next.js 13.x + ~  Next.js 14.1 + 
+- Next.js 13.0.0 
+  - This project compatible with nextjs 14+
+  - "Exporting Pure HTML Static Files" configurations of this project is not compatible with 14+
+
 - React 18 +
 - TypeScript 4.x.x + 
 - Express 4.x.x
+
 
 
 ## Changelog

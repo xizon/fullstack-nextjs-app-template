@@ -87,7 +87,7 @@ export default function MenuList(props: MenuListProps) {
 
 
             //Hide all other siblings of the selected <ul>
-            [].slice.call(vmenuRef.current.children).forEach(function(li: any){
+            if (vmenuRef.current) [].slice.call(vmenuRef.current.children).forEach(function(li: any){
 
                 activeClass(li, 'remove');
     

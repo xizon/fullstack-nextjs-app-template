@@ -1,13 +1,18 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
 
-    
-    // for docker
+    // !!! for docker
     // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
-    // "next start" does not work with "output: standalone" configuration. Use "node .next/standalone/server.js" instead
     output: 'standalone', 
+
+    // image optimize
+    images: {
+      unoptimized: process.env.NODE_ENV !== "production" ? false : true
+    },
+
 
     //  add a page route with html extension 
     // Rename the file under pages directory to `.html.tsx`
