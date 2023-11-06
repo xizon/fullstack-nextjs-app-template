@@ -34,6 +34,8 @@ function MyApp({ Component, ...rest }: AppProps) {
 
             </Head>
 
+            {/* If you use `<Script>` here, please use `function ScriptLoader(props) { return useMemo(() => <Script strategy="beforeInteractive" src={props.url} />, [])}` to avoid loading the same thing repeatedly js file */}
+
             <Provider store={store}>
 
                 <AuthProvider>
