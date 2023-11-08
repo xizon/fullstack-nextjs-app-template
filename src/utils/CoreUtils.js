@@ -158,6 +158,10 @@ const {
     verify: jwtVerify
 } = require('./libs/jwt');
 
+const {
+    autop
+} = require('./libs/autop');
+
 
 // use these methods
 CoreUtils.add('debounce', (...attrs) => debounce(...attrs));
@@ -269,6 +273,7 @@ CoreUtils.add('JWT_EXPIRES_IN', () => JWT_EXPIRES_IN);
 CoreUtils.add('jwtSign', (...attrs) => jwtSign(...attrs));
 CoreUtils.add('jwtDecode', (...attrs) => jwtDecode(...attrs));
 CoreUtils.add('jwtVerify', (...attrs) => jwtVerify(...attrs));
+CoreUtils.add('autop', (...attrs) => autop(...attrs));
 
 
 // node & browser
