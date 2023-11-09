@@ -5,15 +5,40 @@
 
 const myActions = async () => {
     const action = {
-        type: 'LOADER_FULLSCREEN'
+        type: 'ACTION_TYPE_1'
     }    
     return action;
 }
 
+const myActions1 = async () => {
+    const action = {
+        type: 'ACTION_TYPE_2'
+    }    
+    return action;
+}
+
+
+const myActions2 = async () => {
+    const action = {
+        type: 'ACTION_TYPE_3'
+    }    
+    return action;
+}
+
+const myActions3 = async (myparam) => {
+    const action = {
+        type: 'ACTION_TYPE_4',
+        payload: myparam
+    }    
+    return action;
+}
+
+
 const App = () => {
     const [storeData, fetchStore] = useFetchData(myActions);
-    // const [storeData, fetchStore] = useFetchData([myActions1, myActions2]);
-    // const [storeData] = useFetchData();
+    // const [demo1StoreData, fetchDemo1Store] = useFetchData([myActions1, myActions2]);
+    // const [demo2StoreData, fetchDemo2Store] = useFetchData(myActions3);
+    // const [demo3StoreData] = useFetchData();
 
     const getStoreData = () => {
         const _data = storeData.xxxxxx;
@@ -22,6 +47,10 @@ const App = () => {
         } else {
             return _data;
         }
+    };
+
+    const updateDemo2 = () => {
+        fetchDemo2Store('string here');
     };
 
     useEffect(() => {
@@ -53,11 +82,11 @@ function useFetchData(actions) {
     // Get store
     if ( typeof actions === 'undefined' ) return [storeData];
 
-    const fetchStore = async () => {
+    const fetchStore = async (...rest) => {
 
         if (Array.isArray(actions)) {
 
-            const allActions = actions.map((action) => action());
+            const allActions = actions.map((action) => action(...rest));
             Promise.all(allActions).then((values) => {
                 values.forEach((val) => {
                     dispatch(val);
@@ -65,7 +94,7 @@ function useFetchData(actions) {
             });
             
         } else {
-            const res = await actions(); // {type: 'RECEIVE_MENU', payload: [...]}
+            const res = await actions(...rest); // {type: 'RECEIVE_MENU', payload: [...]}
             dispatch(res);
         }
 
