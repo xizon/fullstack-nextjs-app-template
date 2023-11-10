@@ -8,3 +8,9 @@
  * @return {String}     - Text which has been converted into correct paragraph tags.
  */
 export function autop(pee: string, br?: boolean | null): string;
+/**
+ * Undo autop
+ *
+ * @param {String} str  - The text which has to be formatted. Characters entered, including "Enter" but not <p>, <br> tags
+ */
+export function reverseAutop(str: string): string;

@@ -108,6 +108,36 @@ function autopNewlinePreservationHelper(matches) {
     return matches[0].replace( "\n", "<PreserveNewline />" );
 }
 
+
+
+/**
+ * Undo autop
+ * 
+ * @param {String} str  - The text which has to be formatted. Characters entered, including "Enter" but not <p>, <br> tags
+ */
+function reverseAutop(str) {
+    if (typeof str === 'undefined') return str;
+
+    //remove any new lines already in there
+    str = str.replace("\n", "");
+
+    //remove all <p>
+    str = str.replace("<p>", "");
+
+    //replace <br /> with \n
+    str = str.replace(/[<]br[^>]*[>]/gi, "\n");
+
+    //replace </p> with \n\n
+    str = str.replace("</p>", "\n\n");
+
+
+    //remove last line from string
+    str = str.replace(/(\r\n|\n|\r).*$/, "");
+
+    return str;
+}
+
 module.exports = {
-    autop
+    autop,
+    reverseAutop
 }

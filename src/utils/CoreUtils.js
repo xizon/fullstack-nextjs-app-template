@@ -159,7 +159,8 @@ const {
 } = require('./libs/jwt');
 
 const {
-    autop
+    autop,
+    reverseAutop
 } = require('./libs/autop');
 
 
@@ -274,6 +275,7 @@ CoreUtils.add('jwtSign', (...attrs) => jwtSign(...attrs));
 CoreUtils.add('jwtDecode', (...attrs) => jwtDecode(...attrs));
 CoreUtils.add('jwtVerify', (...attrs) => jwtVerify(...attrs));
 CoreUtils.add('autop', (...attrs) => autop(...attrs));
+CoreUtils.add('reverseAutop', (...attrs) => reverseAutop(...attrs));
 
 
 // node & browser
