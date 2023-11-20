@@ -31,13 +31,7 @@ export default function Layout(props) {
     const [dispatchUpdate, setDispatchUpdate] = useState<boolean>(false);
     const dispatch = useDispatch();
     const storeData = useSelector((state: any) => {
-        const _menu = state.menuData.menuItems;
-
-        if ( _menu === null) {
-            return null;
-        } else {
-            return [..._menu];
-        }
+        return state.menuData.menuItems;
     });
     
 

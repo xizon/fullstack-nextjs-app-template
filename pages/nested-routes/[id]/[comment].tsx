@@ -53,7 +53,7 @@ export async function getStaticPaths() {
     if (process.env.SKIP_BUILD_STATIC_GENERATION) {
         return {
             paths: [],
-            fallback: 'blocking',
+            fallback: process.env.EXPORT_HTML ? false : 'blocking',
         }
     }
 
@@ -69,7 +69,7 @@ export async function getStaticPaths() {
             '/nested-routes/second/second-comment.html'
         ],
         // We'll pre-render only these paths at build time.
-        fallback: 'blocking'
+        fallback: process.env.EXPORT_HTML ? false : 'blocking'
     }
 }
 

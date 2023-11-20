@@ -1,5 +1,13 @@
 # Changelog
 
+
+
+#### = 1.1.2 (November 20, 2023) =
+
+* Fix: fixed some bugs for "output: export".
+
+
+
 #### = 1.1.0 (November 2, 2023) =
 
 * Tweak: Upgrade to [next 14+](https://nextjs.org/docs/pages/building-your-application/upgrading/version-14).

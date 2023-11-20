@@ -7,6 +7,7 @@ const dockerDeploymentEnabled = false;
 let exportHtmlEnabled = true;
 if (dockerDeploymentEnabled) exportHtmlEnabled = false;
 
+
 //
 const nextConfig = {
     reactStrictMode: true,
@@ -15,11 +16,11 @@ const nextConfig = {
     // !!! for docker (`output: 'standalone'`)
     // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
     
-    output: dockerDeploymentEnabled ? 'standalone' : (exportHtmlEnabled ? 'export' : undefined), 
+    output: dockerDeploymentEnabled ? 'standalone' : process.env.EXPORT_ENABLED == 'false' ? undefined : (exportHtmlEnabled ? 'export' : undefined), 
 
     // image optimize
     images: {
-      unoptimized: process.env.NODE_ENV !== "production" ? false : true
+      unoptimized: true
     },
 
 
