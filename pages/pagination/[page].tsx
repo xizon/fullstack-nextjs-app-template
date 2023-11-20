@@ -98,7 +98,7 @@ export async function getStaticPaths() {
     if (process.env.SKIP_BUILD_STATIC_GENERATION) {
         return {
             paths: [],
-            fallback: process.env.EXPORT_HTML ? false : 'blocking',
+            fallback: process.env.exportHtml == 'true' ? false : 'blocking',
         }
     }
 
@@ -116,7 +116,7 @@ export async function getStaticPaths() {
             }
         }),
         // We'll pre-render only these paths at build time.
-        fallback: process.env.EXPORT_HTML ? false : 'blocking'
+        fallback: process.env.exportHtml == 'true' ? false : 'blocking'
     }
 
 }
@@ -141,7 +141,7 @@ export async function getStaticProps(context) {
 
         // Incremental Static Regeneration. (Next.js will attempt to re-generate the page:)
         // !!! IMPORTANT:  Error: ISR cannot be used with "output: export"
-        revalidate: process.env.EXPORT_HTML ? undefined : 10, // In seconds 
+        revalidate: process.env.exportHtml == 'true' ? undefined : 10, // In seconds 
     };
 
 }
@@ -165,7 +165,7 @@ export async function getStaticPaths() {
     if (process.env.SKIP_BUILD_STATIC_GENERATION) {
         return {
             paths: [],
-            fallback: process.env.EXPORT_HTML ? false : 'blocking',
+            fallback: process.env.exportHtml == 'true' ? false : 'blocking',
         }
     }
 
@@ -201,7 +201,7 @@ export async function getStaticPaths() {
             return p
         }),
         // We'll pre-render only these paths at build time.
-        fallback: process.env.EXPORT_HTML ? false : 'blocking'
+        fallback: process.env.exportHtml == 'true' ? false : 'blocking'
     }
 
 

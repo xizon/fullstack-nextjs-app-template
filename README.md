@@ -663,6 +663,8 @@ the following:
 
 ### 👣 (Step 3) To add support for Docker to an existing project, simply copy the Dockerfile to the root of the project and add the following to the `next.config.js` file:
 
+You can directly set the `dockerDeploymentEnabled` property to `true` in the current `next.config.js`.
+
 
 > [!NOTE]
 > Use Docker container, don't use [Static Exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports).

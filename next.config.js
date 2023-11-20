@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 
 // Docker deployment
+// To add support for Docker to an existing project, 
+// you can directly set the `dockerDeploymentEnabled` property to `true`
 const dockerDeploymentEnabled = false;
 
 // Static Exports
-let exportHtmlEnabled = true;
+let exportHtmlEnabled = process.env.EXPORT_ENABLED == 'false' ? false : true;
 if (dockerDeploymentEnabled) exportHtmlEnabled = false;
 
 
@@ -16,7 +19,7 @@ const nextConfig = {
     // !!! for docker (`output: 'standalone'`)
     // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
     
-    output: dockerDeploymentEnabled ? 'standalone' : process.env.EXPORT_ENABLED == 'false' ? undefined : (exportHtmlEnabled ? 'export' : undefined), 
+    output: dockerDeploymentEnabled ? 'standalone' : !exportHtmlEnabled ? undefined : 'export', 
 
     // image optimize
     images: {
@@ -38,8 +41,7 @@ const nextConfig = {
         return config;
     },
     env: {
-        EXPORT_HTML: exportHtmlEnabled,
-        STATIC_URL: '/public',
+        exportHtml: `${exportHtmlEnabled}`
     }
     /*
     async redirects() {

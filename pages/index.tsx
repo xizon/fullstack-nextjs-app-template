@@ -67,7 +67,6 @@ const Home = ({initialReduxState}) => {
 }
 
 
-
 /** This gets called on every request 
  * ---------------------------------
 */
@@ -102,7 +101,7 @@ export async function getStaticProps() {
 
         // Incremental Static Regeneration. (Next.js will attempt to re-generate the page:)
         // !!! IMPORTANT:  Error: ISR cannot be used with "output: export"
-        revalidate: process.env.EXPORT_HTML ? undefined : 10, // In seconds 
+        revalidate: process.env.exportHtml == 'true' ? undefined : 10, // In seconds 
     }
 }
 

@@ -63,7 +63,7 @@ export async function getStaticPaths() {
     if (process.env.SKIP_BUILD_STATIC_GENERATION) {
         return {
             paths: [],
-            fallback: process.env.EXPORT_HTML ? false : 'blocking',
+            fallback: process.env.exportHtml == 'true' ? false : 'blocking',
         }
     }
 
@@ -77,7 +77,7 @@ export async function getStaticPaths() {
             '/nested-routes/second.html'
         ],
         // We'll pre-render only these paths at build time.
-        fallback: process.env.EXPORT_HTML ? false : 'blocking'
+        fallback: process.env.exportHtml == 'true' ? false : 'blocking'
     }
 }
 
@@ -88,7 +88,7 @@ export async function getStaticProps() {
         
         // Incremental Static Regeneration. (Next.js will attempt to re-generate the page:)
         // !!! IMPORTANT:  Error: ISR cannot be used with "output: export"
-        revalidate: process.env.EXPORT_HTML ? undefined : 10, // In seconds 
+        revalidate: process.env.exportHtml == 'true' ? undefined : 10, // In seconds 
     }  
 }
 
