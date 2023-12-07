@@ -84,7 +84,6 @@ app.use('/vars', express.static(STATIC_FILES_DIR));
 
 app.post('/upload-plugin', async (req, res) => {
 
-
     try {
         if (!req.files) {
             res.send({
@@ -187,7 +186,7 @@ app.post('/upload-plugin', async (req, res) => {
                 
                 // delete unnecessary files and folders
                 fs.rmSync(tempPath, { recursive: true });
-                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${STATIC_FILES_DIR}/_temp/`);
+                console.log(`\x1b[36m ${LANG.en.delete} \x1b[0m`, `${STATIC_FILES_DIR}/_temp/`);
 
                 //console.log(f.data); // <Buffer 89 50 4e 47 0d 0a 1a 0a  />
 

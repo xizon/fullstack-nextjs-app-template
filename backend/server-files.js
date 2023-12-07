@@ -173,7 +173,7 @@ app.post('/delete-merge-api-files', async (req, res) => {
                             // DO NOT use `rmSync()`, There will be a request end 500 error caused by incomplete processing of the file
                             fs.rm(file, { recursive: true }, (err) => {
                                 if (err) return console.log(err);
-                                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${STATIC_FILES_DIR}/${file}`);
+                                console.log(`\x1b[36m ${LANG.en.delete} \x1b[0m`, `${STATIC_FILES_DIR}/${file}`);
                             });
 
 

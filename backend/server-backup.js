@@ -142,7 +142,7 @@ app.post('/download-files-backup', async (req, res) => {
                     if ( textTypes.test(ext) ) {
                         fs.writeFile(output, item.rawData, (err) => {
                             if (err) return console.log(err);
-                            console.log('\x1b[36m%s\x1b[0m', LANG.en.download, `${item.name}`);
+                            console.log(`\x1b[36m ${LANG.en.download} \x1b[0m`, `${item.name}`);
                         });
 
                     } else if ( imgTypes.test(ext) ) {
@@ -151,14 +151,14 @@ app.post('/download-files-backup', async (req, res) => {
                         
                         fs.writeFile(output, buffer, (err) => {
                             if (err) return console.log(err);
-                            console.log('\x1b[36m%s\x1b[0m', LANG.en.download, `${item.name}`);
+                            console.log(`\x1b[36m ${LANG.en.download} \x1b[0m`, `${item.name}`);
                         });
 
                     } else {
 
                         mwsExtract(item.rawData, output)
                             .then((msg) => {
-                                console.log('\x1b[36m%s\x1b[0m', LANG.en.download, `${item.name}`);
+                                console.log(`\x1b[36m ${LANG.en.download} \x1b[0m`, `${item.name}`);
                             })
                             .catch((err) => {
                             console.log(err)
@@ -168,7 +168,7 @@ app.post('/download-files-backup', async (req, res) => {
                 } else {
                     fs.writeFile(output, buffer, (err) => {
                         if (err) return console.log(err);
-                        console.log('\x1b[36m%s\x1b[0m', LANG.en.download, `${item.name}`);
+                        console.log(`\x1b[36m ${LANG.en.download} \x1b[0m`, `${item.name}`);
                     });
                 }
                 
@@ -260,7 +260,7 @@ app.post('/delete-files-backup', async (req, res) => {
                             // DO NOT use `rmSync()`, There will be a request end 500 error caused by incomplete processing of the file
                             fs.rm( file, { recursive: true }, (err) => {
                                 if (err) return console.log(err);
-                                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${STATIC_FILES_DIR}/${file}`);
+                                console.log(`\x1b[36m ${LANG.en.delete} \x1b[0m`, `${STATIC_FILES_DIR}/${file}`);
                             });
                             
                         }
@@ -359,7 +359,7 @@ app.post('/backupfiles-restore', async (req, res) => {
             const oldUploadsFolder = path.resolve(__dirname, `../${SAVE_TO_DIR}/`);
             fs.rm( oldUploadsFolder, { recursive: true }, (err) => {
                 if (err) return console.log(err);
-                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${SAVE_TO_DIR}/`);
+                console.log(`\x1b[36m ${LANG.en.delete} \x1b[0m`, `${SAVE_TO_DIR}/`);
 
                 if (!fs.existsSync(oldUploadsFolder)){
                     fs.mkdirSync(oldUploadsFolder, { recursive: true });
@@ -378,13 +378,13 @@ app.post('/backupfiles-restore', async (req, res) => {
                             const targetPath = path.resolve(__dirname, `../${SAVE_TO_DIR}/`);
 
                             zip.extractAllTo(targetPath, /*overwrite*/ true);
-                            console.log('\x1b[36m%s\x1b[0m', LANG.en.extracted, `${SAVE_TO_DIR}/${restorefile}`, `${SAVE_TO_DIR}/*`);
+                            console.log(`\x1b[36m ${LANG.en.extracted} \x1b[0m`,`${SAVE_TO_DIR}/${restorefile}`, `${SAVE_TO_DIR}/*`);
 
 
                             // delete the backup file
                             fs.rm( newpackPath, { recursive: true }, (err) => {
                                 if (err) return console.log(err);
-                                console.log('\x1b[36m%s\x1b[0m', LANG.en.delete, `${SAVE_TO_DIR}/${newpackPath}`);
+                                console.log(`\x1b[36m ${LANG.en.delete} \x1b[0m`, `${SAVE_TO_DIR}/${newpackPath}`);
                             });
                                             
                         } catch (err) {}
