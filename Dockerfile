@@ -1,7 +1,7 @@
 
 # Use official Node mirrors.
 # https://hub.docker.com
-FROM node:18.14.2-alpine3.17 AS base
+FROM node:18.17.0-alpine3.17 AS base
 
 
 # ==========================================
@@ -15,6 +15,11 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /fullstack-nextjs-app-template
 
+
+# If npm network problems prevent you from installing npm dependency packages, please use the following code
+# RUN npm config set registry http://registry.npmmirror.com
+
+
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
@@ -24,12 +29,13 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-    
+
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /fullstack-nextjs-app-template
 COPY --from=deps /fullstack-nextjs-app-template/node_modules ./node_modules
 COPY . .
+
 
 
 # ==========================================
