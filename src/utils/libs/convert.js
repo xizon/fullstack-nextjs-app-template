@@ -4,8 +4,10 @@
  * @returns {String} such as: [1][2][3]
  */
 function convertStringByCommaToValByBrackets(str) {
-    if (typeof str === 'undefined') return '';
-    if ( str.length === 0 ) return '';
+    if (typeof str === 'undefined' || str === null || str === '') {
+        return '';
+    }
+
     return str.split(',').map((v) => v.toString().includes('[') && v.toString().includes(']') ? `${v}` : `[${v}]`).join('');
 }
 
@@ -29,8 +31,10 @@ function convertArrToValByBrackets(arr) {
  * @returns {String} such as: {1}{2}{3}
  */
 function convertStringByCommaToValByBraces(str) {
-    if (typeof str === 'undefined') return '';
-    if ( str.length === 0 ) return '';
+    if (typeof str === 'undefined' || str === null || str === '') {
+        return '';
+    }
+    
     return str.split(',').map((v) => v.toString().includes('{') && v.toString().includes('}') ? `${v}` : `{${v}}`).join('');
 }
 

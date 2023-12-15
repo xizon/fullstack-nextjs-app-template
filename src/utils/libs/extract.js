@@ -4,7 +4,9 @@
  * @returns {Array|String} such as: ['1,2','f','c']
  */
 function extractContentsOfBrackets(str, commaSeparated = false) {
-    if (typeof str === 'undefined') return '';
+    if (typeof str === 'undefined' || str === null || str === '') {
+        return !commaSeparated ? [] : '';
+    }
 
     const res = str.match(/[^\[]+(?=(\[ \])|\])/g);
     if (commaSeparated) {
@@ -21,7 +23,9 @@ function extractContentsOfBrackets(str, commaSeparated = false) {
  * @returns {Array|String} such as: ['1,2','f','c']
  */
 function extractContentsOfBraces(str, commaSeparated = false) {
-    if (typeof str === 'undefined') return '';
+    if (typeof str === 'undefined' || str === null || str === '') {
+        return !commaSeparated ? [] : '';
+    }
 
     const res = str.match(/[^\{]+(?=(\{ \})|\})/g);
     if (commaSeparated) {
@@ -38,7 +42,9 @@ function extractContentsOfBraces(str, commaSeparated = false) {
  * @returns {Array|String} such as: ['1,2','f','c']
  */
 function extractContentsOfParentheses(str, commaSeparated = false) {
-    if (typeof str === 'undefined') return '';
+    if (typeof str === 'undefined' || str === null || str === '') {
+        return !commaSeparated ? [] : '';
+    }
 
     const res = str.match(/[^\(]+(?=(\( \))|\))/g);
     if (commaSeparated) {
