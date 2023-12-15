@@ -6,7 +6,7 @@
 function convertStringByCommaToValByBrackets(str) {
     if (typeof str === 'undefined') return '';
     if ( str.length === 0 ) return '';
-    return str.split(',').map((v) => v.includes('[') && v.includes(']') ? `${v}` : `[${v}]`).join('');
+    return str.split(',').map((v) => v.toString().includes('[') && v.toString().includes(']') ? `${v}` : `[${v}]`).join('');
 }
 
 
@@ -18,7 +18,7 @@ function convertStringByCommaToValByBrackets(str) {
 function convertArrToValByBrackets(arr) {
     if (!Array.isArray(arr)) return '';
     
-    return arr.map((v) => v.includes('[') && v.includes(']') ? `${v}` : `[${v}]`).join('');
+    return arr.map((v) => v.toString().includes('[') && v.toString().includes(']') ? `${v}` : `[${v}]`).join('');
 }
 
 
@@ -31,7 +31,7 @@ function convertArrToValByBrackets(arr) {
 function convertStringByCommaToValByBraces(str) {
     if (typeof str === 'undefined') return '';
     if ( str.length === 0 ) return '';
-    return str.split(',').map((v) => v.includes('{') && v.includes('}') ? `${v}` : `{${v}}`).join('');
+    return str.split(',').map((v) => v.toString().includes('{') && v.toString().includes('}') ? `${v}` : `{${v}}`).join('');
 }
 
 
@@ -43,7 +43,7 @@ function convertStringByCommaToValByBraces(str) {
 function convertArrToValByBraces(arr) {
     if (!Array.isArray(arr)) return '';
     
-    return arr.map((v) => v.includes('{') && v.includes('}') ? `${v}` : `{${v}}`).join('');
+    return arr.map((v) => v.toString().includes('{') && v.toString().includes('}') ? `${v}` : `{${v}}`).join('');
 }
 
 
