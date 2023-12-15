@@ -1,0 +1,55 @@
+/**
+ * Convert value to string separated by square brackets 
+ * @param {String} str  such as: 1,2,3
+ * @returns {String} such as: [1][2][3]
+ */
+function convertStringByCommaToValByBrackets(str) {
+    if (typeof str === 'undefined') return '';
+    if ( str.length === 0 ) return '';
+    return str.split(',').map((v) => v.includes('[') && v.includes(']') ? `${v}` : `[${v}]`).join('');
+}
+
+
+/**
+ * Convert array value to string  separated by square brackets 
+ * @param {Array} arr  such as: ['1','2','3']
+ * @returns {String} such as: [1][2][3]
+ */
+function convertArrToValByBrackets(arr) {
+    if (!Array.isArray(arr)) return '';
+    
+    return arr.map((v) => v.includes('[') && v.includes(']') ? `${v}` : `[${v}]`).join('');
+}
+
+
+
+/**
+ * Convert value to string separated by curly braces
+ * @param {String} str  such as: 1,2,3
+ * @returns {String} such as: {1}{2}{3}
+ */
+function convertStringByCommaToValByBraces(str) {
+    if (typeof str === 'undefined') return '';
+    if ( str.length === 0 ) return '';
+    return str.split(',').map((v) => v.includes('{') && v.includes('}') ? `${v}` : `{${v}}`).join('');
+}
+
+
+/**
+ * Convert array value to string  separated by curly braces
+ * @param {Array} arr  such as: ['1','2','3']
+ * @returns {String} such as: {1}{2}{3}
+ */
+function convertArrToValByBraces(arr) {
+    if (!Array.isArray(arr)) return '';
+    
+    return arr.map((v) => v.includes('{') && v.includes('}') ? `${v}` : `{${v}}`).join('');
+}
+
+
+module.exports = {
+    convertStringByCommaToValByBrackets,
+    convertArrToValByBrackets,
+    convertStringByCommaToValByBraces,
+    convertArrToValByBraces
+}

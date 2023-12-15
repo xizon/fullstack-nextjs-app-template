@@ -164,6 +164,21 @@ const {
 } = require('./libs/autop');
 
 
+const {
+    convertStringByCommaToValByBrackets,
+    convertArrToValByBrackets,
+    convertStringByCommaToValByBraces,
+    convertArrToValByBraces
+} = require('./libs/convert');
+
+
+const {
+    extractContentsOfBrackets,
+    extractContentsOfBraces,
+    extractContentsOfParentheses
+} = require('./libs/extract');
+
+
 // use these methods
 CoreUtils.add('debounce', (...attrs) => debounce(...attrs));
 CoreUtils.add('throttle', (...attrs) => throttle(...attrs));
@@ -276,6 +291,13 @@ CoreUtils.add('jwtDecode', (...attrs) => jwtDecode(...attrs));
 CoreUtils.add('jwtVerify', (...attrs) => jwtVerify(...attrs));
 CoreUtils.add('autop', (...attrs) => autop(...attrs));
 CoreUtils.add('reverseAutop', (...attrs) => reverseAutop(...attrs));
+CoreUtils.add('convertStringByCommaToValByBrackets', (...attrs) => convertStringByCommaToValByBrackets(...attrs));
+CoreUtils.add('convertArrToValByBrackets', (...attrs) => convertArrToValByBrackets(...attrs));
+CoreUtils.add('convertStringByCommaToValByBraces', (...attrs) => convertStringByCommaToValByBraces(...attrs));
+CoreUtils.add('convertArrToValByBraces', (...attrs) => convertArrToValByBraces(...attrs));
+CoreUtils.add('extractContentsOfBrackets', (...attrs) => extractContentsOfBrackets(...attrs));
+CoreUtils.add('extractContentsOfBraces', (...attrs) => extractContentsOfBraces(...attrs));
+CoreUtils.add('extractContentsOfParentheses', (...attrs) => extractContentsOfParentheses(...attrs));
 
 
 // node & browser
