@@ -17,6 +17,7 @@ if ( typeof window !== "undefined" ) {
     } catch(e) {}
 
     browser = {
+        isTablet        : /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(navigator.userAgent.toLowerCase()),
         isMobile        : /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
         isAndroid       : /(android)/i.test(navigator.userAgent),
         isPC            : !navigator.userAgent.match(/(iPhone|iPod|Android|ios|Mobile)/i),
