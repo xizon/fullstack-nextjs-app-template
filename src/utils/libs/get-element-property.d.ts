@@ -26,3 +26,17 @@ export function getOffset(el: Element): Json;
  * @return {Json}      - An object containing the properties top and left.
  */
 export function getPosition(el: Element): Json;
+/**
+ * Get the absolute position of the stage element
+ *
+ * @param {Element} domElement  - A DOM node
+ * @param {Number | String} left     - left offset
+ * @param {Number | String} top      - top offset
+ * @returns
+ */
+export function getAbsolutePositionOfStage(domElement: Element, left?: number | string, top?: number | string): {
+    y: number;
+    x: number;
+    width: number;
+    height: number;
+};

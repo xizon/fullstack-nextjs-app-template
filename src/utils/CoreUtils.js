@@ -84,7 +84,8 @@ const {
     getTransitionDuration, 
     getAbsoluteCoordinates, 
     getOffset, 
-    getPosition 
+    getPosition,
+    getAbsolutePositionOfStage
 } = require('./libs/get-element-property');
 const { 
     isJSON,
@@ -245,6 +246,7 @@ CoreUtils.add('getTransitionDuration', (...attrs) => getTransitionDuration(...at
 CoreUtils.add('getAbsoluteCoordinates', (...attrs) => getAbsoluteCoordinates(...attrs));
 CoreUtils.add('getOffset', (...attrs) => getOffset(...attrs));
 CoreUtils.add('getPosition', (...attrs) => getPosition(...attrs));
+CoreUtils.add('getAbsolutePositionOfStage', (...attrs) => getAbsolutePositionOfStage(...attrs));
 CoreUtils.add('isJSON', (...attrs) => isJSON(...attrs));
 CoreUtils.add('isEmpty', (...attrs) => isEmpty(...attrs));
 CoreUtils.add('isNumber', (...attrs) => isNumber(...attrs));
