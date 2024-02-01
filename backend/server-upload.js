@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
-
+const md5 = require('md5');
+const sizeOf = require('image-size');
 
 const { 
     LANG,
@@ -153,6 +154,8 @@ app.post('/upload-plugin', async (req, res) => {
  */
  app.post('/upload-image', async (req, res) => {
 
+    const { symbol, md5Enabled } = req.query;
+
     try {
         if (!req.files) {
             res.send({
@@ -170,8 +173,11 @@ app.post('/upload-plugin', async (req, res) => {
             const f = currentFilesData;
             if ( imgIncludeExtTypes.test(f.name) ) {
 
+                const ext = /^.+\.([^.]+)$/.exec(f.name);
+                let saveName = typeof symbol === 'undefined' ? f.name : `${typeof md5Enabled !== 'undefined' ? symbol + '-' + md5(symbol) : symbol}.${ext == null ? '' : ext[1]}`;
+
                 const tempPath = path.join(__dirname, '..', `/${STATIC_FILES_DIR}/_temp/`);
-                const uploadPath = path.join(__dirname, '..', `/${STATIC_FILES_DIR}/_temp/`, f.name);
+                const uploadPath = path.join(__dirname, '..', `/${STATIC_FILES_DIR}/_temp/`, saveName);
                 if (!fs.existsSync(tempPath)){
                     fs.mkdirSync(tempPath, { recursive: true });
                 }
@@ -180,7 +186,7 @@ app.post('/upload-plugin', async (req, res) => {
                 fs.writeFileSync(uploadPath, f.data);
 
                 // parse image
-                const imgPath = `http://${HOST_NAME}:${PORT}/${STATIC_FILES_DIR}/_temp/${f.name}`;
+                const imgPath = `http://${HOST_NAME}:${PORT}/${STATIC_FILES_DIR}/_temp/${saveName}`;
                 const paletteDataPromise = await getPaletteData(imgPath); // Promise
             
                 
@@ -191,11 +197,22 @@ app.post('/upload-plugin', async (req, res) => {
                 //console.log(f.data); // <Buffer 89 50 4e 47 0d 0a 1a 0a  />
 
                 
+                // get image dimensions
+                const { height, width } = sizeOf(uploadPath);
+                
+                
                 //
                 res.send({
                     "data": { "uploadedInfo": {
+                        imgName: saveName,
                         paletteData: paletteDataPromise,
-                        imgData: `data:${f.mimetype};base64, ${binaryToBase64Str(f.data)}`
+                        imgData: `data:${f.mimetype};base64, ${binaryToBase64Str(f.data)}`,
+                        imgPath: imgPath,
+                        dimensions: {
+                            height, 
+                            width
+                        },
+                        ext: `${ext == null ? '' : ext[1]}`
                     } },
                     "message": LANG.en.sendOk,
                     "code": 200

@@ -179,6 +179,33 @@ const {
     extractContentsOfParentheses
 } = require('./libs/extract');
 
+const {
+    getLastDayInMonth,
+    getFirstAndLastMonthDay,
+    getCalendarDate,
+
+    // current
+    getTodayDate,
+    getCurrentMonth,
+    getCurrentYear,
+    getCurrentDate,
+
+    // next & previous
+    getTomorrowDate,
+    getYesterdayDate,
+    getNextMonthDate,
+    getPrevMonthDate,
+    getNextYearDate,
+    getPrevYearDate,
+} = require('./libs/date');
+
+const {
+    getTimeslots,
+    getMinutesBetweenDates,
+    getMinutesBetweenTime,
+    convertTimeToMin
+} = require('./libs/time');
+
 
 // use these methods
 CoreUtils.add('debounce', (...attrs) => debounce(...attrs));
@@ -300,7 +327,23 @@ CoreUtils.add('convertArrToValByBraces', (...attrs) => convertArrToValByBraces(.
 CoreUtils.add('extractContentsOfBrackets', (...attrs) => extractContentsOfBrackets(...attrs));
 CoreUtils.add('extractContentsOfBraces', (...attrs) => extractContentsOfBraces(...attrs));
 CoreUtils.add('extractContentsOfParentheses', (...attrs) => extractContentsOfParentheses(...attrs));
-
+CoreUtils.add('getLastDayInMonth', (...attrs) => getLastDayInMonth(...attrs));
+CoreUtils.add('getFirstAndLastMonthDay', (...attrs) => getFirstAndLastMonthDay(...attrs));
+CoreUtils.add('getCalendarDate', (...attrs) => getCalendarDate(...attrs));
+CoreUtils.add('getTodayDate', (...attrs) => getTodayDate(...attrs));
+CoreUtils.add('getCurrentMonth', (...attrs) => getCurrentMonth(...attrs));
+CoreUtils.add('getCurrentYear', (...attrs) => getCurrentYear(...attrs));
+CoreUtils.add('getCurrentDate', (...attrs) => getCurrentDate(...attrs));
+CoreUtils.add('getTomorrowDate', (...attrs) => getTomorrowDate(...attrs));
+CoreUtils.add('getYesterdayDate', (...attrs) => getYesterdayDate(...attrs));
+CoreUtils.add('getNextMonthDate', (...attrs) => getNextMonthDate(...attrs));
+CoreUtils.add('getPrevMonthDate', (...attrs) => getPrevMonthDate(...attrs));
+CoreUtils.add('getNextYearDate', (...attrs) => getNextYearDate(...attrs));
+CoreUtils.add('getPrevYearDate', (...attrs) => getPrevYearDate(...attrs));
+CoreUtils.add('getTimeslots', (...attrs) => getTimeslots(...attrs));
+CoreUtils.add('getMinutesBetweenDates', (...attrs) => getMinutesBetweenDates(...attrs));
+CoreUtils.add('getMinutesBetweenTime', (...attrs) => getMinutesBetweenTime(...attrs));
+CoreUtils.add('convertTimeToMin', (...attrs) => convertTimeToMin(...attrs));
 
 // node & browser
 module.exports = CoreUtils;
