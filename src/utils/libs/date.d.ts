@@ -85,3 +85,10 @@ export function getNextYearDate(v: Date | string): string;
  * @returns {String}  YYYY-MM-DD
  */
 export function getPrevYearDate(v: Date | string): string;
+/**
+ * Get specified date
+ * @param {Date | String} v
+ * @param {Number} days  The number of days forward or backward, which can be a negative number
+ * @returns {String}  YYYY-MM-DD
+ */
+export function getSpecifiedDate(v: Date | string, days: number): string;

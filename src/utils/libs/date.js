@@ -78,6 +78,21 @@ function getYesterdayDate(v) {
     return yesterday;
 }
 
+/**
+ * Get specified date
+ * @param {Date | String} v 
+ * @param {Number} days  The number of days forward or backward, which can be a negative number
+ * @returns {String}  YYYY-MM-DD
+ */
+/* console.log(getSpecifiedDate(getTodayDate(), -180)); // 2023-08-27 (180 days before February 23, 202) */
+function getSpecifiedDate(v, days) {
+    
+    const today = dateFormat(v);
+    const _specifiedDay = today;
+    _specifiedDay.setDate(_specifiedDay.getDate() + days);
+    const specifiedDay = getCalendarDate(_specifiedDay);
+    return specifiedDay;
+}
 
 
 /**
@@ -257,5 +272,6 @@ module.exports = {
     getPrevMonthDate,
     getNextYearDate,
     getPrevYearDate,
+    getSpecifiedDate,
     
 }
