@@ -183,6 +183,7 @@ const {
     getLastDayInMonth,
     getFirstAndLastMonthDay,
     getCalendarDate,
+    getFullTime,
 
     // current
     getTodayDate,
@@ -335,6 +336,7 @@ CoreUtils.add('getTodayDate', (...attrs) => getTodayDate(...attrs));
 CoreUtils.add('getCurrentMonth', (...attrs) => getCurrentMonth(...attrs));
 CoreUtils.add('getCurrentYear', (...attrs) => getCurrentYear(...attrs));
 CoreUtils.add('getCurrentDate', (...attrs) => getCurrentDate(...attrs));
+CoreUtils.add('getFullTime', (...attrs) => getFullTime(...attrs));
 CoreUtils.add('getTomorrowDate', (...attrs) => getTomorrowDate(...attrs));
 CoreUtils.add('getYesterdayDate', (...attrs) => getYesterdayDate(...attrs));
 CoreUtils.add('getNextMonthDate', (...attrs) => getNextMonthDate(...attrs));

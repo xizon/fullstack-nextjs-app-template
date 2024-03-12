@@ -95,6 +95,7 @@ function getSpecifiedDate(v, days) {
 }
 
 
+
 /**
  * Get next month date
  * @param {Date | String} v 
@@ -253,18 +254,50 @@ function getCurrentDate(padZeroEnabled = true) {
 
 
 
+/**
+ * Get full time
+ * @param {Date | String} v 
+ * @param {Boolean} padZeroEnabled 
+ * @param {Boolean} hasSeconds 
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+function getFullTime(v, padZeroEnabled = true, hasSeconds = true) {
+    
+    const date = dateFormat(v);
+    const padZero = (num) => {
+        if (padZeroEnabled) {
+            return num < 10 ? '0' + num : num.toString();
+        } else {
+            return num.toString();
+        }
+
+    };
+    const year = date.getFullYear();
+    const month = padZero(date.getMonth() + 1);
+    const day = padZero(date.getDate());
+    const hours = padZero(date.getHours());
+    const minutes = padZero(date.getMinutes());
+    const seconds = padZero(date.getSeconds());
+    const res = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    const res2 = `${year}-${month}-${day} ${hours}:${minutes}`;
+    
+    return hasSeconds ? res : res2;
+}
+
+
 // node & browser
 module.exports = {
     getLastDayInMonth,
     getFirstAndLastMonthDay,
     getCalendarDate,
+    getFullTime,
 
     // current
     getTodayDate,
     getCurrentMonth,
     getCurrentYear,
     getCurrentDate,
-
+    
     // next & previous
     getTomorrowDate,
     getYesterdayDate,

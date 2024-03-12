@@ -49,6 +49,15 @@ export function getCurrentDate(padZeroEnabled?: boolean): {
     yearStart: string;
     yearEnd: string;
 };
+
+/**
+ * Get full time
+ * @param {Date | String} v 
+ * @param {Boolean} padZeroEnabled 
+ * @param {Boolean} hasSeconds 
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+export function getFullTime(v: Date | string, padZeroEnabled?: boolean, hasSeconds?: boolean): string;
 /**
  * Get tomorrow date
  * @param {Date | String} v
