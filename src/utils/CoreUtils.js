@@ -180,6 +180,9 @@ const {
 } = require('./libs/extract');
 
 const {
+    isValidDate,
+
+    //
     getLastDayInMonth,
     getFirstAndLastMonthDay,
     getCalendarDate,
@@ -329,6 +332,7 @@ CoreUtils.add('convertArrToValByBraces', (...attrs) => convertArrToValByBraces(.
 CoreUtils.add('extractContentsOfBrackets', (...attrs) => extractContentsOfBrackets(...attrs));
 CoreUtils.add('extractContentsOfBraces', (...attrs) => extractContentsOfBraces(...attrs));
 CoreUtils.add('extractContentsOfParentheses', (...attrs) => extractContentsOfParentheses(...attrs));
+CoreUtils.add('isValidDate', (...attrs) => isValidDate(...attrs));
 CoreUtils.add('getLastDayInMonth', (...attrs) => getLastDayInMonth(...attrs));
 CoreUtils.add('getFirstAndLastMonthDay', (...attrs) => getFirstAndLastMonthDay(...attrs));
 CoreUtils.add('getCalendarDate', (...attrs) => getCalendarDate(...attrs));

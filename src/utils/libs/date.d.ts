@@ -3,6 +3,12 @@
  */
 export type JSON = string;
 /**
+ * Check if the string is legitimate
+ * @param {String} v
+ * @returns {Boolean}
+ */
+export function isValidDate(v: string): boolean;
+/**
  * Get last day in month
  * @param {Date | String} v
  * @param {?Number}  targetMonth
@@ -23,6 +29,14 @@ export function getFirstAndLastMonthDay(year: any, padZeroEnabled?: boolean): an
  * @returns {String}  YYYY-MM-DD
  */
 export function getCalendarDate(v: Date | string, padZeroEnabled?: boolean): string;
+/**
+ * Get full time
+ * @param {Date | String} v
+ * @param {Boolean} padZeroEnabled
+ * @param {Boolean} hasSeconds
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+export function getFullTime(v: Date | string, padZeroEnabled?: boolean, hasSeconds?: boolean): string;
 /**
  * Get today date
  * @returns {String}  YYYY-MM-DD
@@ -49,15 +63,6 @@ export function getCurrentDate(padZeroEnabled?: boolean): {
     yearStart: string;
     yearEnd: string;
 };
-
-/**
- * Get full time
- * @param {Date | String} v 
- * @param {Boolean} padZeroEnabled 
- * @param {Boolean} hasSeconds 
- * @returns {String}  yyyy-MM-dd HH:mm:ss
- */
-export function getFullTime(v: Date | string, padZeroEnabled?: boolean, hasSeconds?: boolean): string;
 /**
  * Get tomorrow date
  * @param {Date | String} v
@@ -101,3 +106,34 @@ export function getPrevYearDate(v: Date | string): string;
  * @returns {String}  YYYY-MM-DD
  */
 export function getSpecifiedDate(v: Date | string, days: number): string;
+/**
+ * Add hours
+ * @param {Date | String} v
+ * @param {Number} offset
+ * @param {Boolean} padZeroEnabled
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+export function setDateHours(v: Date | string, offset: number, padZeroEnabled?: boolean): string;
+/**
+ * Add minutes
+ * @param {Date | String} v
+ * @param {Number} offset
+ * @param {Boolean} padZeroEnabled
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+export function setDateMinutes(v: Date | string, offset: number, padZeroEnabled?: boolean): string;
+/**
+ * Add days
+ * @param {Date | String} v
+ * @param {Number} offset
+ * @param {Boolean} padZeroEnabled
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+export function setDateDays(v: Date | string, offset: number, padZeroEnabled?: boolean): string;
+/**
+ * Convert timestamp to date
+ * @param {Number} v
+ * @param {Boolean} padZeroEnabled
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+export function timestampToDate(v: number, padZeroEnabled?: boolean): string;

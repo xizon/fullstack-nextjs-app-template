@@ -44,6 +44,17 @@ const nextConfig = {
         exportHtml: `${exportHtmlEnabled}`
     }
     /*
+
+    // change the api route
+    async rewrites() {
+        return [
+            {
+                source: '/core-api/posts',
+                destination: '/api/posts',
+            }
+        ]
+    },
+
     async redirects() {
         return [
             {

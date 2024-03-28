@@ -1,5 +1,15 @@
 
 /**
+ * Check if the string is legitimate
+ * @param {String} v 
+ * @returns {Boolean}  
+ */
+const isValidDate = (v) => {
+    return !(String(new Date(v)).toLowerCase() === 'invalid date');
+};
+
+
+/**
  * Get calendar date
  * @param {Date | String} v 
  * @returns {String}  YYYY-MM-DD
@@ -285,8 +295,61 @@ function getFullTime(v, padZeroEnabled = true, hasSeconds = true) {
 }
 
 
+
+/**
+ * Add hours
+ * @param {Date | String} v 
+ * @param {Number} offset
+ * @param {Boolean} padZeroEnabled 
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+function setDateHours(v, offset, padZeroEnabled = true) {
+    const date = dateFormat(v);
+    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset*60*60*1000));
+    return getFullTime(new Date(_cur), padZeroEnabled);
+}
+
+/**
+ * Add minutes
+ * @param {Date | String} v 
+ * @param {Number} offset
+ * @param {Boolean} padZeroEnabled 
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+ function setDateMinutes(v, offset, padZeroEnabled = true) {
+    const date = dateFormat(v);
+    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset*60*1000));
+    return getFullTime(new Date(_cur), padZeroEnabled);
+}
+/**
+ * Add days
+ * @param {Date | String} v 
+ * @param {Number} offset
+ * @param {Boolean} padZeroEnabled 
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+ function setDateDays(v, offset, padZeroEnabled = true) {
+    const date = dateFormat(v);
+    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset*24*60*60*1000));
+    return getFullTime(new Date(_cur), padZeroEnabled);
+}
+
+/**
+ * Convert timestamp to date
+ * @param {Number} v 
+ * @param {Boolean} padZeroEnabled 
+ * @returns {String}  yyyy-MM-dd HH:mm:ss
+ */
+function timestampToDate(v, padZeroEnabled = true) {
+    return getFullTime(new Date(v), padZeroEnabled);
+}
+
+
 // node & browser
 module.exports = {
+    isValidDate,
+
+    //
     getLastDayInMonth,
     getFirstAndLastMonthDay,
     getCalendarDate,
@@ -306,5 +369,11 @@ module.exports = {
     getNextYearDate,
     getPrevYearDate,
     getSpecifiedDate,
-    
+
+
+    // convert
+    setDateHours,
+    setDateMinutes,
+    setDateDays,
+    timestampToDate
 }
