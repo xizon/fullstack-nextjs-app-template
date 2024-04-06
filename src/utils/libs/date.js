@@ -12,7 +12,7 @@ const isValidDate = (v) => {
 /**
  * Get calendar date
  * @param {Date | String} v 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function dateFormat(v) {
     const date = typeof v === 'string' ? new Date(v.replace(/-/g, "/")) : v;  // fix "Invalid date in safari"
@@ -24,10 +24,10 @@ function dateFormat(v) {
  * Get calendar date
  * @param {Date | String} v 
  * @param {Boolean} padZeroEnabled 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function getCalendarDate(v, padZeroEnabled = true) {
-    
+
     const date = dateFormat(v);
     const padZero = (num) => {
         if (padZeroEnabled) {
@@ -50,10 +50,10 @@ function getCalendarDate(v, padZeroEnabled = true) {
 
 /**
  * Get today date
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function getTodayDate() {
-    
+
     return getCalendarDate(new Date());
 }
 
@@ -62,10 +62,10 @@ function getTodayDate() {
 /**
  * Get tomorrow date
  * @param {Date | String} v 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function getTomorrowDate(v) {
-    
+
     const today = dateFormat(v);
     const _tomorrow = today;
     _tomorrow.setDate(_tomorrow.getDate() + 1);
@@ -77,10 +77,10 @@ function getTomorrowDate(v) {
 /**
  * Get yesterday date
  * @param {Date | String} v 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function getYesterdayDate(v) {
-    
+
     const today = dateFormat(v);
     const _yesterday = today;
     _yesterday.setDate(_yesterday.getDate() - 1);
@@ -92,11 +92,11 @@ function getYesterdayDate(v) {
  * Get specified date
  * @param {Date | String} v 
  * @param {Number} days  The number of days forward or backward, which can be a negative number
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 /* console.log(getSpecifiedDate(getTodayDate(), -180)); // 2023-08-27 (180 days before February 23, 202) */
 function getSpecifiedDate(v, days) {
-    
+
     const today = dateFormat(v);
     const _specifiedDay = today;
     _specifiedDay.setDate(_specifiedDay.getDate() + days);
@@ -109,13 +109,13 @@ function getSpecifiedDate(v, days) {
 /**
  * Get next month date
  * @param {Date | String} v 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function getNextMonthDate(v) {
-    
+
     const today = dateFormat(v);
-    today.setMonth(today.getMonth()+1);
-    
+    today.setMonth(today.getMonth() + 1);
+
     return getCalendarDate(today);
 }
 
@@ -123,13 +123,13 @@ function getNextMonthDate(v) {
 /**
  * Get previous month date
  * @param {Date | String} v 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function getPrevMonthDate(v) {
-    
+
     const today = dateFormat(v);
-    today.setMonth(today.getMonth()-1);
-    
+    today.setMonth(today.getMonth() - 1);
+
     return getCalendarDate(today);
 }
 
@@ -138,14 +138,14 @@ function getPrevMonthDate(v) {
 /**
  * Get next year date
  * @param {Date | String} v 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function getNextYearDate(v) {
-    
+
     const today = dateFormat(v);
     const current = new Date(today);
     current.setFullYear(current.getFullYear() + 1);
-    
+
     return getCalendarDate(current);
 }
 
@@ -153,14 +153,14 @@ function getNextYearDate(v) {
 /**
  * Get previous year date
  * @param {Date | String} v 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 function getPrevYearDate(v) {
-    
+
     const today = dateFormat(v);
     const current = new Date(today);
     current.setFullYear(current.getFullYear() - 1);
-    
+
     return getCalendarDate(current);
 }
 
@@ -171,7 +171,7 @@ function getPrevYearDate(v) {
  * Get last day in month
  * @param {Date | String} v 
  * @param {?Number}  targetMonth 
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 /*
 Example: Get last day in  next month 
@@ -186,7 +186,7 @@ const lastDayOfNextMonth = `${y}-${m}-${d}`; // 2024-02-29
 */
 function getLastDayInMonth(v, targetMonth = undefined) {
     const date = dateFormat(v);
-    return new Date(date.getFullYear(), typeof targetMonth !== 'undefined' ? targetMonth : date.getMonth()-1, 0).getDate();
+    return new Date(date.getFullYear(), typeof targetMonth !== 'undefined' ? targetMonth : date.getMonth() - 1, 0).getDate();
 }
 
 
@@ -239,7 +239,7 @@ function getFirstAndLastMonthDay(year, padZeroEnabled = true) {
  * @typedef {String} JSON
  */
 function getCurrentDate(padZeroEnabled = true) {
-    
+
     const date = new Date();
     const padZero = (num) => {
         if (padZeroEnabled) {
@@ -272,7 +272,7 @@ function getCurrentDate(padZeroEnabled = true) {
  * @returns {String}  yyyy-MM-dd HH:mm:ss
  */
 function getFullTime(v, padZeroEnabled = true, hasSeconds = true) {
-    
+
     const date = dateFormat(v);
     const padZero = (num) => {
         if (padZeroEnabled) {
@@ -290,7 +290,7 @@ function getFullTime(v, padZeroEnabled = true, hasSeconds = true) {
     const seconds = padZero(date.getSeconds());
     const res = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     const res2 = `${year}-${month}-${day} ${hours}:${minutes}`;
-    
+
     return hasSeconds ? res : res2;
 }
 
@@ -305,7 +305,7 @@ function getFullTime(v, padZeroEnabled = true, hasSeconds = true) {
  */
 function setDateHours(v, offset, padZeroEnabled = true) {
     const date = dateFormat(v);
-    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset*60*60*1000));
+    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset * 60 * 60 * 1000));
     return getFullTime(new Date(_cur), padZeroEnabled);
 }
 
@@ -316,9 +316,9 @@ function setDateHours(v, offset, padZeroEnabled = true) {
  * @param {Boolean} padZeroEnabled 
  * @returns {String}  yyyy-MM-dd HH:mm:ss
  */
- function setDateMinutes(v, offset, padZeroEnabled = true) {
+function setDateMinutes(v, offset, padZeroEnabled = true) {
     const date = dateFormat(v);
-    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset*60*1000));
+    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset * 60 * 1000));
     return getFullTime(new Date(_cur), padZeroEnabled);
 }
 /**
@@ -328,9 +328,9 @@ function setDateHours(v, offset, padZeroEnabled = true) {
  * @param {Boolean} padZeroEnabled 
  * @returns {String}  yyyy-MM-dd HH:mm:ss
  */
- function setDateDays(v, offset, padZeroEnabled = true) {
+function setDateDays(v, offset, padZeroEnabled = true) {
     const date = dateFormat(v);
-    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset*24*60*60*1000));
+    const _cur = new Date(date).setTime(new Date(date).getTime() + (offset * 24 * 60 * 60 * 1000));
     return getFullTime(new Date(_cur), padZeroEnabled);
 }
 
@@ -360,7 +360,7 @@ module.exports = {
     getCurrentMonth,
     getCurrentYear,
     getCurrentDate,
-    
+
     // next & previous
     getTomorrowDate,
     getYesterdayDate,

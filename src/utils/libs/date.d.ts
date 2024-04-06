@@ -12,7 +12,7 @@ export function isValidDate(v: string): boolean;
  * Get last day in month
  * @param {Date | String} v
  * @param {?Number}  targetMonth
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getLastDayInMonth(v: Date | string, targetMonth?: number | null): string;
 /**
@@ -26,7 +26,7 @@ export function getFirstAndLastMonthDay(year: any, padZeroEnabled?: boolean): an
  * Get calendar date
  * @param {Date | String} v
  * @param {Boolean} padZeroEnabled
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getCalendarDate(v: Date | string, padZeroEnabled?: boolean): string;
 /**
@@ -39,7 +39,7 @@ export function getCalendarDate(v: Date | string, padZeroEnabled?: boolean): str
 export function getFullTime(v: Date | string, padZeroEnabled?: boolean, hasSeconds?: boolean): string;
 /**
  * Get today date
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getTodayDate(): string;
 /**
@@ -66,44 +66,44 @@ export function getCurrentDate(padZeroEnabled?: boolean): {
 /**
  * Get tomorrow date
  * @param {Date | String} v
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getTomorrowDate(v: Date | string): string;
 /**
  * Get yesterday date
  * @param {Date | String} v
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getYesterdayDate(v: Date | string): string;
 /**
  * Get next month date
  * @param {Date | String} v
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getNextMonthDate(v: Date | string): string;
 /**
  * Get previous month date
  * @param {Date | String} v
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getPrevMonthDate(v: Date | string): string;
 /**
  * Get next year date
  * @param {Date | String} v
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getNextYearDate(v: Date | string): string;
 /**
  * Get previous year date
  * @param {Date | String} v
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getPrevYearDate(v: Date | string): string;
 /**
  * Get specified date
  * @param {Date | String} v
  * @param {Number} days  The number of days forward or backward, which can be a negative number
- * @returns {String}  YYYY-MM-DD
+ * @returns {String}  yyyy-MM-dd
  */
 export function getSpecifiedDate(v: Date | string, days: number): string;
 /**
