@@ -17,6 +17,11 @@
     }
 }
 
+html {
+    // To prevent page jitter caused by the scroll bar in windows, add `overflow-y: scroll`
+    // overflow-y: scroll;
+}
+
 html,
 body {
     margin: 0;
