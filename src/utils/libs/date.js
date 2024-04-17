@@ -1,3 +1,83 @@
+/**
+ * Get now
+ * @returns {Date}  // Wed Apr 17 2024 14:31:36 GMT+0800 (China Standard Time)
+ */
+const getNow = () => {
+    return new Date(Date.now());
+};
+
+/**
+ * Zero Padding
+ * @param {Number} num
+ * @param {Boolean} padZeroEnabled 
+ * @returns {String}  '01', '05', '12'
+ */
+const padZero = (num, padZeroEnabled = true) => {
+    if (padZeroEnabled) {
+        return num < 10 ? '0' + num : num.toString();
+    } else {
+        return num.toString();
+    }
+
+};
+
+
+/**
+ * Number validation
+ * @param {*} v 
+ * @returns {Boolean}  
+ */
+const isNumeric = (v) => {
+    return !isNaN(parseFloat(v)) && isFinite(v);
+};
+
+
+/**
+ * Hours validation
+ * @param {*} v 
+ * @returns {Boolean}  
+ */
+const isValidHours = (v) => {
+    return /^([01]?[0-9]|2[0-3])$/.test(v);//  0～23, 00～23
+};
+
+/**
+ * Minutes and Seconds validation
+ * @param {*} v 
+ * @returns {Boolean}  
+ */
+const isValidMinutesAndSeconds = (v) => {
+    return /^([01]?[0-9]|[0-5][0-9])$/.test(v);//  0~59, 00~59
+};
+
+/**
+ * Year validation
+ * @param {*} v 
+ * @returns {Boolean}  
+ */
+const isValidYear = (v) => {
+    return /^([1-9][0-9])\d{2}$/.test(v);//  1000 ～ 9999
+};
+
+/**
+ * Month validation
+ * @param {*} v 
+ * @returns {Boolean}  
+ */
+const isValidMonth = (v) => {
+    return /^(0?[1-9]|1[0-2])$/.test(v);//  01～12, 1~12
+};     
+
+/**
+ * Day validation
+ * @param {*} v 
+ * @returns {Boolean}  
+ */
+const isValidDay = (v) => {
+    return /^(0?[1-9]|[1-2][0-9]|3[0-1])$/.test(v);//  01～31, 1~31
+}; 
+
+
 
 /**
  * Check if the string is legitimate
@@ -29,19 +109,12 @@ function dateFormat(v) {
 function getCalendarDate(v, padZeroEnabled = true) {
 
     const date = dateFormat(v);
-    const padZero = (num) => {
-        if (padZeroEnabled) {
-            return num < 10 ? '0' + num : num.toString();
-        } else {
-            return num.toString();
-        }
-
-    };
     const year = date.getFullYear();
-    const month = padZero(date.getMonth() + 1);
-    const day = padZero(date.getDate());
-    const hours = padZero(date.getHours());
-    const minutes = padZero(date.getMinutes());
+    const month = padZero(date.getMonth() + 1, padZeroEnabled);
+    const day = padZero(date.getDate(), padZeroEnabled);
+    const hours = padZero(date.getHours(), padZeroEnabled);
+    const minutes = padZero(date.getMinutes(), padZeroEnabled);
+    const seconds = padZero(date.getSeconds(), padZeroEnabled);
     const res = `${year}-${month}-${day}`;
     return res;
 }
@@ -200,7 +273,6 @@ function getCurrentYear() {
     return new Date().getFullYear();
 }
 
-
 /**
  * Get current month
  * @param {Boolean} padZeroEnabled 
@@ -210,6 +282,21 @@ function getCurrentMonth(padZeroEnabled = true) {
     const m = new Date().getMonth() + 1;
     return padZeroEnabled ? String(m).padStart(2, '0') : m;
 }
+
+
+
+/**
+ * Get current day
+ * @param {Boolean} padZeroEnabled 
+ * @returns {Number}
+ */
+function getCurrentDay(padZeroEnabled = true) {
+    const d = new Date().getDate();
+    return padZeroEnabled ? String(d).padStart(2, '0') : d;
+}
+
+
+
 
 /**
  * Get first and last month day
@@ -345,9 +432,23 @@ function timestampToDate(v, padZeroEnabled = true) {
 }
 
 
+
+
+
 // node & browser
 module.exports = {
+    getNow,
+    padZero,
+    dateFormat,
+
+    //
     isValidDate,
+    isNumeric,
+    isValidHours,
+    isValidMinutesAndSeconds,
+    isValidYear,
+    isValidMonth,
+    isValidDay,
 
     //
     getLastDayInMonth,
@@ -359,6 +460,7 @@ module.exports = {
     getTodayDate,
     getCurrentMonth,
     getCurrentYear,
+    getCurrentDay,
     getCurrentDate,
 
     // next & previous

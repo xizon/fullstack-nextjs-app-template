@@ -3,11 +3,65 @@
  */
 export type JSON = string;
 /**
+ * Get now
+ * @returns {Date}  // Wed Apr 17 2024 14:31:36 GMT+0800 (China Standard Time)
+ */
+export function getNow(): Date;
+/**
+ * Zero Padding
+ * @param {Number} num
+ * @param {Boolean} padZeroEnabled
+ * @returns {String}  '01', '05', '12'
+ */
+export function padZero(num: number, padZeroEnabled?: boolean): string;
+/**
+ * Get calendar date
+ * @param {Date | String} v
+ * @returns {String}  yyyy-MM-dd
+ */
+export function dateFormat(v: Date | string): string;
+/**
  * Check if the string is legitimate
  * @param {String} v
  * @returns {Boolean}
  */
 export function isValidDate(v: string): boolean;
+/**
+ * Number validation
+ * @param {*} v
+ * @returns {Boolean}
+ */
+export function isNumeric(v: any): boolean;
+/**
+ * Hours validation
+ * @param {*} v
+ * @returns {Boolean}
+ */
+export function isValidHours(v: any): boolean;
+/**
+ * Minutes and Seconds validation
+ * @param {*} v
+ * @returns {Boolean}
+ */
+export function isValidMinutesAndSeconds(v: any): boolean;
+/**
+ * Year validation
+ * @param {*} v
+ * @returns {Boolean}
+ */
+export function isValidYear(v: any): boolean;
+/**
+ * Month validation
+ * @param {*} v
+ * @returns {Boolean}
+ */
+export function isValidMonth(v: any): boolean;
+/**
+ * Day validation
+ * @param {*} v
+ * @returns {Boolean}
+ */
+export function isValidDay(v: any): boolean;
 /**
  * Get last day in month
  * @param {Date | String} v
@@ -53,6 +107,12 @@ export function getCurrentMonth(padZeroEnabled?: boolean): number;
  * @returns {Number}
  */
 export function getCurrentYear(): number;
+/**
+ * Get current day
+ * @param {Boolean} padZeroEnabled
+ * @returns {Number}
+ */
+export function getCurrentDay(padZeroEnabled?: boolean): number;
 /**
  * Get current date
  * @param {Boolean} padZeroEnabled

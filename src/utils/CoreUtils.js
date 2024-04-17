@@ -179,8 +179,20 @@ const {
     extractContentsOfParentheses
 } = require('./libs/extract');
 
+
 const {
+    getNow,
+    padZero,
+    dateFormat,
+
+    //
     isValidDate,
+    isNumeric,
+    isValidHours,
+    isValidMinutesAndSeconds,
+    isValidYear,
+    isValidMonth,
+    isValidDay,
 
     //
     getLastDayInMonth,
@@ -192,6 +204,7 @@ const {
     getTodayDate,
     getCurrentMonth,
     getCurrentYear,
+    getCurrentDay,
     getCurrentDate,
 
     // next & previous
@@ -202,7 +215,15 @@ const {
     getNextYearDate,
     getPrevYearDate,
     getSpecifiedDate,
+
+
+    // convert
+    setDateHours,
+    setDateMinutes,
+    setDateDays,
+    timestampToDate
 } = require('./libs/date');
+
 
 const {
     getTimeslots,
@@ -352,6 +373,24 @@ CoreUtils.add('getTimeslots', (...attrs) => getTimeslots(...attrs));
 CoreUtils.add('getMinutesBetweenDates', (...attrs) => getMinutesBetweenDates(...attrs));
 CoreUtils.add('getMinutesBetweenTime', (...attrs) => getMinutesBetweenTime(...attrs));
 CoreUtils.add('convertTimeToMin', (...attrs) => convertTimeToMin(...attrs));
+CoreUtils.add('getNow', (...attrs) => getNow(...attrs));
+CoreUtils.add('padZero', (...attrs) => padZero(...attrs));
+CoreUtils.add('dateFormat', (...attrs) => dateFormat(...attrs));
+CoreUtils.add('isNumeric', (...attrs) => isNumeric(...attrs));
+CoreUtils.add('isValidHours', (...attrs) => isValidHours(...attrs));
+CoreUtils.add('isValidMinutesAndSeconds', (...attrs) => isValidMinutesAndSeconds(...attrs));
+CoreUtils.add('isValidYear', (...attrs) => isValidYear(...attrs));
+CoreUtils.add('isValidMonth', (...attrs) => isValidMonth(...attrs));
+CoreUtils.add('isValidDay', (...attrs) => isValidDay(...attrs));
+CoreUtils.add('getCurrentDay', (...attrs) => getCurrentDay(...attrs));
+CoreUtils.add('setDateHours', (...attrs) => setDateHours(...attrs));
+CoreUtils.add('setDateMinutes', (...attrs) => setDateMinutes(...attrs));
+CoreUtils.add('setDateDays', (...attrs) => setDateDays(...attrs));
+CoreUtils.add('timestampToDate', (...attrs) => timestampToDate(...attrs));
+
+
+
+
 
 // node & browser
 module.exports = CoreUtils;
