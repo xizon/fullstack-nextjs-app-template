@@ -250,9 +250,6 @@ const useDragDropPosition = (
             });
         }
 
-        return () => {
-            moveDelayInitClear();
-        }
     }, []);
 
     useEffect(() => {
@@ -266,6 +263,14 @@ const useDragDropPosition = (
             };
         }
     }, []);
+
+
+    useEffect(() => {
+        return () => {
+            moveDelayInitClear();
+        }
+    }, []);
+
 
     return {
         ref,
