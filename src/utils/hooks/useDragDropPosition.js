@@ -213,9 +213,23 @@ const useDragDropPosition = (
         
         //
         if (isClicked.current && ref.current && !keyPressed.current) {
+
+            const touches = e.touches;
+            let _x = '';
+            let _y = '';
+
+			if ( touches && touches.length ) {
+                _x = touches[0].pageX;
+				_y = touches[0].pageY;
+			} else {
+                _x = e.clientX;
+				_y = e.clientY;
+            }
+
+
             const halfWidth = Math.round(dimension / 2);
-            const x = e.clientX - halfWidth;
-            const y = e.clientY - halfWidth;
+            const x = _x - halfWidth;
+            const y = _y - halfWidth;
 
             const position = {
                 left: getLeft(x, dimension),
@@ -240,8 +254,7 @@ const useDragDropPosition = (
             ref.current = node;
             node.addEventListener("pointerdown", handlePointerDown);
             node.addEventListener("keydown", handlePointerDown);
-            node.addEventListener("pointerup", handlePointerUp);
-            node.addEventListener("keyup", handlePointerUp);
+            node.addEventListener("mouseup", handlePointerUp);  // DO NOT USE 'pointerup'
             node.style.touchAction = "none";
             const { left, top } = node.getBoundingClientRect();
             if (typeof onInit === 'function') onInit({
@@ -255,11 +268,13 @@ const useDragDropPosition = (
     useEffect(() => {
         // attach drag handlers if not pinned
         if (!pin) {
-            document.addEventListener("pointermove", onPointerMove);
+            document.addEventListener("mousemove", onPointerMove);
+            document.addEventListener("touchmove", onPointerMove);
 
             // cleanup
             return () => {
-                document.removeEventListener("pointermove", onPointerMove);
+                document.removeEventListener("mousemove", onPointerMove);
+                document.removeEventListener("touchmove", onPointerMove);
             };
         }
     }, []);
