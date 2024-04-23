@@ -55,9 +55,7 @@ function removeFirstSlash(input) {
     return input.replace(/\//, '');
 }
 
-
-// node & browser
-module.exports = {
+export {
     rmSpec,
     onlyNumAndLetter,
     rmAllSpace,

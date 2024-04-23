@@ -46,7 +46,7 @@ function throttle( fn, limit = 300 ) {
 }
 
 
-module.exports = {
+export {
     debounce,
     throttle
 }

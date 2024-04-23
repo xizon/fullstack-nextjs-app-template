@@ -1,4 +1,4 @@
-export = guid;
+export default guid;
 /**
  * Create GUID
  *

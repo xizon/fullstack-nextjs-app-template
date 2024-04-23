@@ -434,9 +434,7 @@ function timestampToDate(v, padZeroEnabled = true) {
 
 
 
-
-// node & browser
-module.exports = {
+export {
     getNow,
     padZero,
     dateFormat,

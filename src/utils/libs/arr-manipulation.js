@@ -56,6 +56,6 @@ function updateJsonNode(inputData, curIndex, nodes){
 
 
 
-module.exports = {
+export {
     updateJsonNode
 };

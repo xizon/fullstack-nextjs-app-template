@@ -1,4 +1,4 @@
-export = apiRemoteToLocal;
+export default apiRemoteToLocal;
 /**
  * Store remote resources as local
  *

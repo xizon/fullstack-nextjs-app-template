@@ -19,6 +19,6 @@ function getClassesMethods(obj) {
 }
 
 
-module.exports = {
+export {
     getClassesMethods
 }

@@ -32,6 +32,6 @@ function multipleClasses(...mixins) {
     }
 }
 
-module.exports = {
+export {
     multipleClasses
 }

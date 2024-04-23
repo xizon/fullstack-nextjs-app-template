@@ -106,6 +106,6 @@ function loadTextures(arr, perLoadedCallback) {
 }
 
 
-module.exports = {
+export {
     loadTextures
 }

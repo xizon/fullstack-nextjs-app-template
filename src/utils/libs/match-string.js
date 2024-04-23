@@ -17,6 +17,6 @@
 }
 
 
-module.exports = {
+export {
     matchAllFilesUrls
 }

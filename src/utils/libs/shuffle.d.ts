@@ -1,4 +1,4 @@
-export = shuffle;
+export default shuffle;
 /**
  * Generating non-repeating random numbers
  *

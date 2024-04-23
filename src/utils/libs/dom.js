@@ -71,7 +71,7 @@ function getChildren(el, filter = false || '', all = []) {
 }
 
 
-module.exports = {
+export {
     getNextSiblings,
     getPreviousSiblings,
     getAllSiblings,

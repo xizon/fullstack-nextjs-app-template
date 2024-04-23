@@ -150,5 +150,5 @@ const urls = process.env.NODE_ENV === "production"
 ? config 
 : localConfig;
 
-// node & browser
-module.exports = urls;
+
+export default urls;

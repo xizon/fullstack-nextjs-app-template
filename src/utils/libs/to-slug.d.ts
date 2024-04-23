@@ -1,4 +1,4 @@
-export = toSlug;
+export default toSlug;
 /**
  * Convert string to slug
  *

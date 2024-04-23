@@ -15,6 +15,6 @@ function renameFile(filepath) {
     
 }
 
-module.exports = {
+export {
     renameFile
 }

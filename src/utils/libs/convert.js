@@ -51,7 +51,7 @@ function convertArrToValByBraces(arr) {
 }
 
 
-module.exports = {
+export {
     convertStringByCommaToValByBrackets,
     convertArrToValByBrackets,
     convertStringByCommaToValByBraces,

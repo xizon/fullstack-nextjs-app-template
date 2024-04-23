@@ -137,7 +137,7 @@ function reverseAutop(str) {
     return str;
 }
 
-module.exports = {
+export {
     autop,
     reverseAutop
 }

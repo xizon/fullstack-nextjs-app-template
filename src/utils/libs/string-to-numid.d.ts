@@ -1,4 +1,4 @@
-export = strToNumId;
+export default strToNumId;
 /**
  * Convert string to numeric ID
  *

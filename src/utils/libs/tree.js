@@ -109,7 +109,7 @@ function addTreeIndent(arr, placeholder = '&nbsp;&nbsp;&nbsp;&nbsp;', lastPlaceh
     });
 }
 
-module.exports = {
+export {
     getAllDepth,
     convertTree,
     flatTree,

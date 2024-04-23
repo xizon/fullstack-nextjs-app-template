@@ -54,6 +54,6 @@ if ( typeof window !== "undefined" ) {
 }
 
 
-module.exports = {
+export {
     os
 };

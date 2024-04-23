@@ -68,7 +68,7 @@ function generateGradient(colorStart, target, diff){
 }
 
 
-module.exports = {
+export {
     RGBToHSL,
     HSLToRGB,
     generateGradient

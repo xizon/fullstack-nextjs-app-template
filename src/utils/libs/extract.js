@@ -56,7 +56,7 @@ function extractContentsOfParentheses(str, commaSeparated = false) {
 }
 
 
-module.exports = {
+export {
     extractContentsOfBrackets,
     extractContentsOfBraces,
     extractContentsOfParentheses

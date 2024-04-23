@@ -1,6 +1,6 @@
 
-const apiUrls = require('../../config/apiUrls');
-const axios = require('axios');
+import apiUrls from '../../config/apiUrls';
+import axios from 'axios';
 
 /**
  * Store remote resources as local
@@ -90,4 +90,4 @@ async function apiRemoteToLocal(orginData, remoteSources) {
 }
 
 
-module.exports = apiRemoteToLocal;
+export default apiRemoteToLocal;

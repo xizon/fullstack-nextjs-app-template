@@ -55,6 +55,6 @@ function serializeArray(form, types = ['input', 'textarea', 'select', 'checkbox'
 }
 
 
-module.exports = {
+export {
     serializeArray
 }

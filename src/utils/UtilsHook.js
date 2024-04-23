@@ -33,4 +33,4 @@ const Hooks = {
 };
 
 
-module.exports = Hooks;
+export default Hooks;

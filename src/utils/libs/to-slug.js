@@ -15,4 +15,4 @@ function toSlug(str) {
         .toLowerCase();
 };
 
-module.exports = toSlug;
+export default toSlug;

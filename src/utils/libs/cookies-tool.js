@@ -54,7 +54,7 @@ function delCookie(name, path = '/') {
 } 
 
 
-module.exports = {
+export {
     setCookie,
     getCookie,
     delCookie

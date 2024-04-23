@@ -55,7 +55,6 @@ function partition(items, left, right) {
 }
 
 
-// node & browser
-module.exports = {
+export {
     quickSort
 }

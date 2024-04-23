@@ -8,12 +8,12 @@ const windowScrollUpdate = CoreUtils.return('throttle', handleScrollEvent, 5);
 CoreUtils.call('delCookie', 'DATA_NAME', '/')
 
  */
-const CoreUtils = require('./UtilsHook');
-const { 
+import CoreUtils from './UtilsHook';
+import { 
     debounce, 
     throttle 
-} = require('./libs/performance');
-const { 
+} from './libs/performance';
+import { 
     easeLinear, 
     easeInQuad, 
     easeOutQuad, 
@@ -42,33 +42,33 @@ const {
     easeInBack, 
     easeOutBack, 
     easeInOutBack
-} = require('./libs/easing');
-const { 
+} from './libs/easing';
+import { 
     getCookie, 
     setCookie, 
     delCookie 
-} = require('./libs/cookies-tool');
-const { browser } = require('./libs/browser');
-const { os } = require('./libs/os');
-const apiRemoteToLocal = require('./libs/api-remote-to-local');
-const { matchAllFilesUrls } = require('./libs/match-string');
-const { renameFile } = require('./libs/rename');
-const { multipleClasses } = require('./libs/multiple-inheritance');
-const { getClassesMethods } = require('./libs/get-classes-methods');
-const { serializeArray } = require('./libs/formdata');
-const { 
+} from './libs/cookies-tool';
+import { browser } from './libs/browser';
+import { os } from './libs/os';
+import apiRemoteToLocal from './libs/api-remote-to-local';
+import { matchAllFilesUrls } from './libs/match-string';
+import { renameFile } from './libs/rename';
+import { multipleClasses } from './libs/multiple-inheritance';
+import { getClassesMethods } from './libs/get-classes-methods';
+import { serializeArray } from './libs/formdata';
+import { 
     getFilesFromHead, 
     getBodyCode 
-} = require('./libs/parse-htmlstr');
-const { loadTextures } = require('./libs/loader');
-const { 
+} from './libs/parse-htmlstr';
+import { loadTextures } from './libs/loader';
+import { 
     getNextSiblings, 
     getPreviousSiblings, 
     getAllSiblings, 
     getParents, 
     getChildren 
-} = require('./libs/dom');
-const { 
+} from './libs/dom';
+import { 
     rmSpec, 
     onlyNumAndLetter, 
     rmAllSpace, 
@@ -79,15 +79,15 @@ const {
     removeFirstLastSlash,
     removeTrailingSlash,
     removeFirstSlash
-} = require('./libs/format-string');
-const { 
+} from './libs/format-string';
+import { 
     getTransitionDuration, 
     getAbsoluteCoordinates, 
     getOffset, 
     getPosition,
     getAbsolutePositionOfStage
-} = require('./libs/get-element-property');
-const { 
+} from './libs/get-element-property';
+import { 
     isJSON,
     isEmpty,
     isNumber,
@@ -95,39 +95,39 @@ const {
     isEmail,
     isTel,
     isMobile
-} = require('./libs/validate');
-const { quickSort } = require('./libs/sort');
-const strToNumId = require('./libs/string-to-numid');
-const {
+} from './libs/validate';
+import { quickSort } from './libs/sort';
+import strToNumId from './libs/string-to-numid';
+import {
     htmlEncode,
     htmlDecode
-} = require('./libs/sanitize');
-const toSlug = require('./libs/to-slug');
-const {
+} from './libs/sanitize';
+import toSlug from './libs/to-slug';
+import {
     RGBToHSL,
     HSLToRGB,
     generateGradient
-} = require('./libs/color');
+} from './libs/color';
 
-const shuffle = require('./libs/shuffle');
-const {
+import shuffle from './libs/shuffle';
+import {
     getAllDepth,
     convertTree,
     flatTree,
     addTreeDepth,
     addTreeIndent
-} = require('./libs/tree');
+} from './libs/tree';
 
-const {
+import {
     addScript,
     removeScript
-} = require('./libs/use-script');
-const {
+} from './libs/use-script';
+import {
     addStyle,
     removeStyle
-} = require('./libs/use-style');
+} from './libs/use-style';
 
-const {
+import {
     base64ToArrayBuffer,
     arrayBufferToUint8Array,
     uint8arrayToArr,
@@ -139,48 +139,48 @@ const {
     blobToUint8array,
     arrayToStream,
     readStream    
-} = require('./libs/buffer');
+} from './libs/buffer';
 
-const {
+import {
     updateJsonNode
-} = require('./libs/arr-manipulation');
+} from './libs/arr-manipulation';
 
-const {
+import {
     evaluate
-} = require('./libs/math');
-const guid = require('./libs/guid');
+} from './libs/math';
+import guid from './libs/guid';
 
 
-const {
+import {
     JWT_SECRET,
     JWT_EXPIRES_IN,
-    sign: jwtSign,
-    decode: jwtDecode,
-    verify: jwtVerify
-} = require('./libs/jwt');
+    sign as jwtSign,
+    decode as jwtDecode,
+    verify as  jwtVerify
+} from './libs/jwt';
 
-const {
+import {
     autop,
     reverseAutop
-} = require('./libs/autop');
+} from './libs/autop';
 
 
-const {
+import {
     convertStringByCommaToValByBrackets,
     convertArrToValByBrackets,
     convertStringByCommaToValByBraces,
     convertArrToValByBraces
-} = require('./libs/convert');
+} from './libs/convert';
 
 
-const {
+import {
     extractContentsOfBrackets,
     extractContentsOfBraces,
     extractContentsOfParentheses
-} = require('./libs/extract');
+} from './libs/extract';
 
 
-const {
+import {
     getNow,
     padZero,
     dateFormat,
@@ -222,15 +222,21 @@ const {
     setDateMinutes,
     setDateDays,
     timestampToDate
-} = require('./libs/date');
+} from './libs/date';
 
 
-const {
+import {
     getTimeslots,
     getMinutesBetweenDates,
     getMinutesBetweenTime,
     convertTimeToMin
-} = require('./libs/time');
+} from './libs/time';
+
+import {
+    deepClone,
+    flatData
+} from './libs/object';
+
 
 
 // use these methods
@@ -387,10 +393,8 @@ CoreUtils.add('setDateHours', (...attrs) => setDateHours(...attrs));
 CoreUtils.add('setDateMinutes', (...attrs) => setDateMinutes(...attrs));
 CoreUtils.add('setDateDays', (...attrs) => setDateDays(...attrs));
 CoreUtils.add('timestampToDate', (...attrs) => timestampToDate(...attrs));
+CoreUtils.add('deepClone', (...attrs) => deepClone(...attrs));
+CoreUtils.add('flatData', (...attrs) => flatData(...attrs));
 
 
-
-
-
-// node & browser
-module.exports = CoreUtils;
+export default CoreUtils;

@@ -28,7 +28,7 @@ function removeScript(id) {
 }
 
 
-module.exports = {
+export {
     addScript,
     removeScript
 }

@@ -97,7 +97,7 @@ function convertTimeToMin(timeStr) {
 }
 
 
-module.exports = {
+export {
     getTimeslots,
     getMinutesBetweenDates,
     getMinutesBetweenTime,

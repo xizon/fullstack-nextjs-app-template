@@ -80,8 +80,7 @@ function isMobile(input) {
 }
 
 
-// node & browser
-module.exports = {
+export {
     isJSON,
     isEmpty,
     isNumber,

@@ -71,4 +71,4 @@ function md5(str) {
 }
 
 
-module.exports = strToNumId;
+export default strToNumId;

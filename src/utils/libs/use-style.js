@@ -26,7 +26,7 @@ function removeStyle(id) {
 }
 
 
-module.exports = {
+export {
     addStyle,
     removeStyle
 }

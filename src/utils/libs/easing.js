@@ -168,7 +168,7 @@ function easeInOutBack (t, b, c, d) {
 }
 
 
-module.exports = { 
+export { 
     easeLinear, 
     easeInQuad, 
     easeOutQuad, 

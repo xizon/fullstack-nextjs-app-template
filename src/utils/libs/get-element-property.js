@@ -142,7 +142,7 @@ function getAbsolutePositionOfStage(domElement, left = 0, top = 0) {
 
 
 
-module.exports = { 
+export { 
     getTransitionDuration, 
     getAbsoluteCoordinates, 
     getOffset, 

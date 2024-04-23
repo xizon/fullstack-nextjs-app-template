@@ -30,6 +30,6 @@ if ( typeof window !== "undefined" ) {
 }
 
 
-module.exports = {
+export {
     browser
 };

@@ -25,4 +25,4 @@ function shuffle(arr) {
 
 
 
-module.exports = shuffle;
+export default shuffle;

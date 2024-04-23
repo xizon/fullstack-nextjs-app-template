@@ -1,5 +1,5 @@
 
-const privateKey = require('../../config/jwt');
+import privateKey from '../../config/jwt';
 
 /**
  * JWT
@@ -57,6 +57,7 @@ const decode = (token) => {
                 .join('')
         );
 
+
         if (verifiedSignature !== signature) {
             throw new Error('Invalid signature');
         }
@@ -104,7 +105,7 @@ const verify = (token, privateKey) => {
 };
 
 
-module.exports = {
+export {
     JWT_SECRET,
     JWT_EXPIRES_IN,
     sign,

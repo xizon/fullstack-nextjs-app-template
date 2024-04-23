@@ -48,6 +48,6 @@ function evaluate(str) {
     return s;
 }
 
-module.exports = {
+export {
     evaluate
 };

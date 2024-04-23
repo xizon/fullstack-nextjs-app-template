@@ -252,7 +252,7 @@ async function readStream(data) {
 
 
 
-module.exports = {
+export {
     base64ToArrayBuffer,
     arrayBufferToUint8Array,
     uint8arrayToArr,

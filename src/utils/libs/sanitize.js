@@ -53,7 +53,7 @@ function htmlDecode(str) {
 
 
 
-module.exports = {
+export {
     htmlEncode,
     htmlDecode
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+#### = 1.2.5 (April 23, 2024) =
+
+* Upgraded: nextjs to 4.2.2+.
+* New: Added some minor utilities.
+* Tweak: Change some files via ESM.
+
 
 
 #### = 1.1.3 (November 20, 2023) =

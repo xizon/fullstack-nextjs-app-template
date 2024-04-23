@@ -12,5 +12,5 @@ function guid() {
     }).toLocaleUpperCase();
 }
 
-module.exports = guid;
+export default guid;
 
