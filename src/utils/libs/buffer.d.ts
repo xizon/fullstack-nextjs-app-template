@@ -42,10 +42,10 @@ export function decodeBase64Str(data: string): string;
 export function toBinary(data: number): string;
 /**
  * array to blob
- * @param {Array} data
+ * @param {Uint8Array} uint8ArrayData
  * @returns {Blob}
  */
-export function arrayToBlob(data: any[]): Blob;
+export function arrayToBlob(uint8ArrayData: Uint8Array): Blob;
 /**
  * blob to uint8array
  * @param {Blob} data

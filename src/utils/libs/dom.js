@@ -71,11 +71,96 @@ function getChildren(el, filter = false || '', all = []) {
 }
 
 
+function isRootElement(element) {
+    return element.matches('html,body');
+}
+
+function getDocument(node) {
+    if (typeof node === 'undefined') {
+        return document;
+    } else {
+        return node.ownerDocument;
+    }
+}
+
+
+
+function getWindow(node) {
+    if (typeof node === 'undefined') {
+        return window;
+    } else {
+        return node.ownerDocument.defaultView;
+    }
+}
+
+function isNode(value) {
+    return value instanceof Node || value instanceof getWindow(value).Node;
+}
+
+function isElement(value) {
+    return value instanceof Element || value instanceof getWindow(value).Element;
+}
+
+function isHTMLElement(value) {
+    return (
+        value instanceof HTMLElement ||
+        value instanceof getWindow(value).HTMLElement
+    );
+}
+
+function isShadowRoot(value) {
+    // Browsers without `ShadowRoot` support.
+    if (typeof ShadowRoot === 'undefined') {
+        return false;
+    }
+
+    return (
+        value instanceof ShadowRoot || value instanceof getWindow(value).ShadowRoot
+    );
+}
+
+
+/* console.log(nodeContains(document.body, document.getElementById('obj'))) */
+function nodeContains(parent, child) {
+    if (!parent || !child) {
+        return false;
+    }
+
+    const rootNode = child.getRootNode?.();
+
+    // First, attempt with faster native method
+    if (parent.contains(child)) {
+        return true;
+    }
+
+    // then fallback to custom implementation with Shadow DOM support
+    if (rootNode && isShadowRoot(rootNode)) {
+        let next = child;
+        while (next) {
+            if (parent === next) {
+                return true;
+            }
+            // @ts-ignore
+            next = next.parentNode || next.host;
+        }
+    }
+
+    // Give up, the result is false
+    return false;
+}
+
 export {
     getNextSiblings,
     getPreviousSiblings,
     getAllSiblings,
     getParents,
-    getChildren
+    getChildren,
+    isRootElement,
+    getDocument,
+    isNode,
+    isElement,
+    isHTMLElement,
+    isShadowRoot,
+    nodeContains
 }
 

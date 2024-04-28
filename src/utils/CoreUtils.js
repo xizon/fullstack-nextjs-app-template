@@ -66,7 +66,14 @@ import {
     getPreviousSiblings, 
     getAllSiblings, 
     getParents, 
-    getChildren 
+    getChildren,
+    isRootElement,
+    getDocument,
+    isNode,
+    isElement,
+    isHTMLElement,
+    isShadowRoot,
+    nodeContains
 } from './libs/dom';
 import { 
     rmSpec, 
@@ -291,6 +298,13 @@ CoreUtils.add('getPreviousSiblings', (...attrs) => getPreviousSiblings(...attrs)
 CoreUtils.add('getAllSiblings', (...attrs) => getAllSiblings(...attrs));
 CoreUtils.add('getParents', (...attrs) => getParents(...attrs));
 CoreUtils.add('getChildren', (...attrs) => getChildren(...attrs));
+CoreUtils.add('isRootElement', (...attrs) => isRootElement(...attrs));
+CoreUtils.add('getDocument', (...attrs) => getDocument(...attrs));
+CoreUtils.add('isNode', (...attrs) => isNode(...attrs));
+CoreUtils.add('isElement', (...attrs) => isElement(...attrs));
+CoreUtils.add('isHTMLElement', (...attrs) => isHTMLElement(...attrs));
+CoreUtils.add('isShadowRoot', (...attrs) => isShadowRoot(...attrs));
+CoreUtils.add('nodeContains', (...attrs) => nodeContains(...attrs));
 CoreUtils.add('rmSpec', (...attrs) => rmSpec(...attrs));
 CoreUtils.add('onlyNumAndLetter', (...attrs) => onlyNumAndLetter(...attrs));
 CoreUtils.add('rmAllSpace', (...attrs) => rmAllSpace(...attrs));

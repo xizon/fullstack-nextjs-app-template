@@ -142,14 +142,15 @@ function toBinary(data) {
 
 /**
  * array to blob
- * @param {Array} data 
+ * @param {Uint8Array} uint8ArrayData 
  * @returns {Blob}
  */
-function arrayToBlob(data) {
+function arrayToBlob(uint8ArrayData) {
     return new Blob(uint8ArrayData, {
         type: "text/plain"
     });
 }
+
 
 
 
@@ -164,7 +165,7 @@ function blobToUint8array(data) {
         reader.addEventListener("loadend", () => {
             resolve(reader.result); // ArrayBuffer(xxxx)
         });
-        reader.readAsArrayBuffer(blob);
+        reader.readAsArrayBuffer(data);
     });
 }
 
