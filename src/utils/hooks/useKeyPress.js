@@ -13,7 +13,7 @@ const App = () => {
             // await xxxxx();
             console.log(key);
         }
-    });
+    }, []);
 
     const multiplePressed = useKeyPress({
         keyCode: ['ArrowUp', 'ArrowDown', 'Enter', 'NumpadEnter'],
@@ -23,7 +23,7 @@ const App = () => {
             event.preventDefault();
             console.log(key);
         }
-    });
+    }, [myDep1, myDep2]);
 
 
     return (
@@ -38,7 +38,7 @@ const useKeyPress = ({
     keyCode,
     handleDown,
     handleUp
-}) => {
+}, deps) => {
     const [keyPressed, setKeyPressed] = useState(false);
     const multipleKeys = Array.isArray(keyCode);
 
@@ -86,7 +86,7 @@ const useKeyPress = ({
             window.removeEventListener('keydown', eventHandlerDown);
             window.removeEventListener('keyup', eventHandlerUp);
         };
-    }, []);
+    }, deps);
 
     return keyPressed;
 };

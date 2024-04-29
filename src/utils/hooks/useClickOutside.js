@@ -13,7 +13,7 @@ const App = () => {
             // do something
             //...
         }
-    });
+    }, []);
 };
 
  */
@@ -25,7 +25,7 @@ function useClickOutside({
     enabled,
     isOutside,
     handle
-}) {
+}, deps) {
     const isOutsideRef = useRef(isOutside);
     const handleRef = useRef(handle);
 
@@ -53,7 +53,7 @@ function useClickOutside({
                 document.removeEventListener('pointerdown', eventHandler);
             };
         }
-    }, [enabled]);
+    }, [enabled].concat(deps));
 }
 
 
