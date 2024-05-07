@@ -8,13 +8,13 @@ const App = () => {
     const [value, setValue] = useState("");
     const el = useRef<HTMLTextAreaElement>(null);
 
-    useAutosizeTextArea(
-        el.current, 
-        value,
-        (res) => {
-            onResize?.(event, valRef.current, res);
+    useAutosizeTextArea({
+        el: el.current, 
+        value: value,
+        cb: (res) => {
+            console.log('dimensions: ', res);
         }
-    );
+    });
 
     const handleChange = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
         const val = evt.target?.value;
@@ -41,11 +41,11 @@ const App = () => {
 import { useEffect, useState } from "react";
 
 // Updates the height of a <textarea> when the value changes.
-const useAutosizeTextArea = (
+const useAutosizeTextArea = ({
     el,
     value,
     cb
-) => {
+}) => {
 
     const [defaultRowHeight, setDefaultRowHeight] = useState(0);
     const [defaultRowHeightInit, setDefaultRowHeightInit] = useState(false);
@@ -85,7 +85,10 @@ const useAutosizeTextArea = (
             }
             
             //
-            cb?.([_controlWidth, scrollHeight]);
+            if (typeof cb === 'function') {
+                cb([_controlWidth, scrollHeight]);
+            }
+            
         }
     }, [el, value]);
 };
