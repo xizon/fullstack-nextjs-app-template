@@ -12,7 +12,8 @@ const App = () => {
         handle: (event: any) => {
             // do something
             //...
-        }
+        },
+        spyElement: document
     }, []);
 };
 
@@ -24,7 +25,8 @@ import { useEffect, useRef } from 'react';
 function useClickOutside({
     enabled,
     isOutside,
-    handle
+    handle,
+    spyElement
 }, deps) {
     const isOutsideRef = useRef(isOutside);
     const handleRef = useRef(handle);
@@ -47,11 +49,15 @@ function useClickOutside({
                 }
             };
 
-            document.addEventListener('pointerdown', eventHandler);
+            if (spyElement) {
+                spyElement.addEventListener('pointerdown', eventHandler);
 
-            return () => {
-                document.removeEventListener('pointerdown', eventHandler);
-            };
+                return () => {
+                    spyElement.removeEventListener('pointerdown', eventHandler);
+                };
+            }
+
+
         }
     }, [enabled].concat(deps));
 }

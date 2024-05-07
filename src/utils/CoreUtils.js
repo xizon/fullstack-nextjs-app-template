@@ -240,6 +240,7 @@ import {
 } from './libs/time';
 
 import {
+    removeArrDuplicateItems,
     deepClone,
     flatData
 } from './libs/object';
@@ -407,6 +408,7 @@ CoreUtils.add('setDateHours', (...attrs) => setDateHours(...attrs));
 CoreUtils.add('setDateMinutes', (...attrs) => setDateMinutes(...attrs));
 CoreUtils.add('setDateDays', (...attrs) => setDateDays(...attrs));
 CoreUtils.add('timestampToDate', (...attrs) => timestampToDate(...attrs));
+CoreUtils.add('removeArrDuplicateItems', (...attrs) => removeArrDuplicateItems(...attrs));
 CoreUtils.add('deepClone', (...attrs) => deepClone(...attrs));
 CoreUtils.add('flatData', (...attrs) => flatData(...attrs));
 

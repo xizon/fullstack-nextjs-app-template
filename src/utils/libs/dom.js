@@ -83,28 +83,17 @@ function getDocument(node) {
     }
 }
 
-
-
-function getWindow(node) {
-    if (typeof node === 'undefined') {
-        return window;
-    } else {
-        return node.ownerDocument.defaultView;
-    }
-}
-
 function isNode(value) {
-    return value instanceof Node || value instanceof getWindow(value).Node;
+    return value instanceof Node;
 }
 
 function isElement(value) {
-    return value instanceof Element || value instanceof getWindow(value).Element;
+    return value instanceof Element;
 }
 
 function isHTMLElement(value) {
     return (
-        value instanceof HTMLElement ||
-        value instanceof getWindow(value).HTMLElement
+        value instanceof HTMLElement
     );
 }
 
@@ -115,7 +104,7 @@ function isShadowRoot(value) {
     }
 
     return (
-        value instanceof ShadowRoot || value instanceof getWindow(value).ShadowRoot
+        value instanceof ShadowRoot
     );
 }
 

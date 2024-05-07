@@ -12,7 +12,8 @@ const App = () => {
             event.preventDefault();
             // await xxxxx();
             console.log(key);
-        }
+        },
+        spyElement: window
     }, []);
 
     const multiplePressed = useKeyPress({
@@ -22,7 +23,8 @@ const App = () => {
             // do something
             event.preventDefault();
             console.log(key);
-        }
+        },
+        spyElement: window
     }, [myDep1, myDep2]);
 
 
@@ -37,7 +39,8 @@ import { useEffect, useState } from "react";
 const useKeyPress = ({
     keyCode,
     handleDown,
-    handleUp
+    handleUp,
+    spyElement
 }, deps) => {
     const [keyPressed, setKeyPressed] = useState(false);
     const multipleKeys = Array.isArray(keyCode);
@@ -79,13 +82,16 @@ const useKeyPress = ({
     };
 
     useEffect(() => {
-        window.addEventListener('keydown', eventHandlerDown);
-        window.addEventListener('keyup', eventHandlerUp);
+        if (spyElement) {
+            spyElement.addEventListener('keydown', eventHandlerDown);
+            spyElement.addEventListener('keyup', eventHandlerUp);
 
-        return () => {
-            window.removeEventListener('keydown', eventHandlerDown);
-            window.removeEventListener('keyup', eventHandlerUp);
-        };
+            return () => {
+                spyElement.removeEventListener('keydown', eventHandlerDown);
+                spyElement.removeEventListener('keyup', eventHandlerUp);
+            };
+        }
+
     }, deps);
 
     return keyPressed;
