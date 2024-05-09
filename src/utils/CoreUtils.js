@@ -245,6 +245,10 @@ import {
     flatData
 } from './libs/object';
 
+import {
+    isInViewport
+} from './libs/viewport';
+
 
 
 // use these methods
@@ -411,6 +415,7 @@ CoreUtils.add('timestampToDate', (...attrs) => timestampToDate(...attrs));
 CoreUtils.add('removeArrDuplicateItems', (...attrs) => removeArrDuplicateItems(...attrs));
 CoreUtils.add('deepClone', (...attrs) => deepClone(...attrs));
 CoreUtils.add('flatData', (...attrs) => flatData(...attrs));
+CoreUtils.add('isInViewport', (...attrs) => isInViewport(...attrs));
 
 
 export default CoreUtils;
