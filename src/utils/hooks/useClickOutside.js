@@ -4,8 +4,12 @@
  * @usage:
 
 const App = () => {
+
+    const [show, setShow] = useState<boolean>(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
     useClickOutside({
-        enabled: true,
+        enabled: show && dropdownRef.current,
         isOutside: (event: any) => {
             return event.target.closest(`.test__wrapper`) === null && event.target.closest(`.test__wrapper2`) === null;
         },
@@ -14,8 +18,9 @@ const App = () => {
             //...
         },
         spyElement: document
-    }, []);
+    }, [show, dropdownRef]);
 };
+
 
  */
 
