@@ -96,7 +96,7 @@ router.post('/', async (req, res) => {
     
     try {
         
-        //  const cssContent = read(path.resolve(__dirname, '../testfiles/1.css'), 'utf8');
+        // const cssContent = read(path.resolve(__dirname, '../testfiles/1.css'), 'utf8');
         // const jsContent = read(path.resolve(__dirname, '../testfiles/1.js'), 'utf8');
         // const htmlContent = read(path.resolve(__dirname, '../testfiles/1.html'), 'utf8');
 
@@ -125,92 +125,98 @@ router.post('/', async (req, res) => {
             // ############################################################
             let cssErr = '';
             let cssCheckedContent = '';
-        
-        
-            try {
+            let oldRepStr = [];
+            let newRepStr = [];
+            let newCssContent = {css: ''};
 
-        
-                // 1. CSS lint
-                //------------------
-                const csslint = await postcss([
-                    stylelint()
-                ]).process(cssContent, {
-                    from: undefined,
-                    to: undefined
-                });
-        
-        
-                // 2. Check ok
-                //------------------
-                console.log('--> css ok!');
-                cssCheckedContent = csslint.css;
-
-        
-            } catch (err) {
-                cssErr = `ERR: ${err.reason}: line -> ${err.line}, column -> ${err.column}`;
-            }
-        
+            if (cssContent !== '' && cssContent !== null && typeof cssContent !== 'undefined') {
             
-        
-            // 3. Get all selectors
-            //------------------
-            const newCssContent = await postcss([
-                rename({
-                    prefix: CUS_PREFIX,
-                    ids: true  // Whether to rename ID selectors as well as class selectors
+                try {
+
+            
+                    // 1. CSS lint
+                    //------------------
+                    const csslint = await postcss([
+                        stylelint()
+                    ]).process(cssContent, {
+                        from: undefined,
+                        to: undefined
+                    });
+            
+            
+                    // 2. Check ok
+                    //------------------
+                    console.log('--> css ok!');
+                    cssCheckedContent = csslint.css;
+
+            
+                } catch (err) {
+                    cssErr = `ERR: ${err.reason}: line -> ${err.line}, column -> ${err.column}`;
+                }
+            
+                
+            
+                // 3. Get all selectors
+                //------------------
+                newCssContent = await postcss([
+                    rename({
+                        prefix: CUS_PREFIX,
+                        ids: true  // Whether to rename ID selectors as well as class selectors
+                    })
+                ]).process(cssCheckedContent, {
+                    from: undefined,
+                    to: undefined
                 })
-            ]).process(cssCheckedContent, {
-                from: undefined,
-                to: undefined
-            })
-        
-            let oldSelectorList;
-            await postcss(listSelectorsPlugin({ include: ['ids', 'classes'] }, (list) => {
-                oldSelectorList = list;
-            }))
-            .process(cssCheckedContent, {
-                from: undefined,
-                to: undefined
-            });
-        
-            // console.log(oldSelectorList);
-            /*
-            {
-                ids: [],
-                classes: [
-                    '.fade',
-                    '.modal',
-                    '.modal-dialog',
-                    '.show'
-                ]
-            }
-            */  
-        
-        
-            let newSelectorList;
-            await postcss(listSelectorsPlugin({ include: ['ids', 'classes'] }, (list) => {
-                newSelectorList = list;
-            }))
-                .process(newCssContent, {
+            
+                let oldSelectorList;
+                await postcss(listSelectorsPlugin({ include: ['ids', 'classes'] }, (list) => {
+                    oldSelectorList = list;
+                }))
+                .process(cssCheckedContent, {
                     from: undefined,
                     to: undefined
                 });
-        
-            // console.log(newSelectorList);
-            /*
-            {
-                ids: [],
-                classes: [
-                    '.mytest-fade',
-                    '.mytest-modal',
-                    '.mytest-modal-dialog',
-                    '.mytest-show'
-                ]
+            
+                // console.log(oldSelectorList);
+                /*
+                {
+                    ids: [],
+                    classes: [
+                        '.fade',
+                        '.modal',
+                        '.modal-dialog',
+                        '.show'
+                    ]
+                }
+                */  
+            
+            
+                let newSelectorList;
+                await postcss(listSelectorsPlugin({ include: ['ids', 'classes'] }, (list) => {
+                    newSelectorList = list;
+                }))
+                    .process(newCssContent, {
+                        from: undefined,
+                        to: undefined
+                    });
+            
+                // console.log(newSelectorList);
+                /*
+                {
+                    ids: [],
+                    classes: [
+                        '.mytest-fade',
+                        '.mytest-modal',
+                        '.mytest-modal-dialog',
+                        '.mytest-show'
+                    ]
+                }
+                */
+            
+                oldRepStr = typeof oldSelectorList.ids !== 'undefined' ? oldSelectorList.ids.concat(oldSelectorList.classes).map((v) => v.replace(/\.|\#/g, '')) : [];
+                newRepStr = typeof newSelectorList.ids !== 'undefined' ? newSelectorList.ids.concat(newSelectorList.classes).map((v) => v.replace(/\.|\#/g, '')) : [];
             }
-            */
-        
-            const oldRepStr = oldSelectorList.ids.concat(oldSelectorList.classes).map((v) => v.replace(/\.|\#/g, ''));
-            const newRepStr = newSelectorList.ids.concat(newSelectorList.classes).map((v) => v.replace(/\.|\#/g, ''));
+
         
         
             // ############################################################
@@ -426,7 +432,7 @@ router.post('/', async (req, res) => {
             const jsContentBeautified = await beautifyCode(jsCheckedContent, 'babel');
             const htmlContentBeautified = await beautifyCode(htmlCheckedContent, 'html');
             
-    
+
             // ############################################################
             // STEP SIX. MINIFY CODE
             // ############################################################
@@ -449,15 +455,15 @@ router.post('/', async (req, res) => {
             })();
             */
 
-            const cssContentMinified = await minify({
+            const cssContentMinified = newCssContent.css === '' ? '' : await minify({
                 compressor: cleanCSS,
                 content: newCssContent.css
             });
-            const jsContentMinified = await minify({
+            const jsContentMinified = jsCheckedContent === '' ? '' : await minify({
                 compressor: uglifyjs,
                 content: jsCheckedContent
             });
-            const htmlContentMinified = await minify({
+            const htmlContentMinified = htmlCheckedContent === '' ? '' : await minify({
                 compressor: htmlMinifier,
                 content: htmlCheckedContent
             });
