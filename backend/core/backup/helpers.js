@@ -83,6 +83,7 @@ const getFileStats = () => {
             sizeMegabytes: fileSizeInBytes,
             sizeBytes: fileSizeInMegabytes,
             createTime: fileStats.ctime,
+            lastModified: fileStats.mtime,
             mimeType: mimeType,
             port: PORT,
             path: `${STATIC_FILES_DIR}/`
