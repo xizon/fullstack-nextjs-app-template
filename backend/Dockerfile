@@ -92,6 +92,10 @@ RUN ls -la /app-demo-server/call
 
 # 
 COPY ./package.json /app-demo-server
+# COPY ./eslint.config.mjs /app-demo-server
+# COPY ./.htmlvalidate.json /app-demo-server
+# COPY ./.stylelintrc.json /app-demo-server
+
 
 #
 COPY ./server-php.js /app-demo-server

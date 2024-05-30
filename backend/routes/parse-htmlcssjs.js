@@ -3,12 +3,15 @@ const router = express.Router();
 const path = require('path');
 
 // precompile
+/* 
+npm install --save-dev --save-exact eslint html-validate list-selectors postcss postcss-plugin-namespace postcss-rename stylelint stylelint-config-standard-scss
+*/
 const fs = require('fs'), read = fs.readFileSync;
 const postcss = require('postcss');  //@https://postcss.org/
 const namespace = require('postcss-plugin-namespace');
-const stylelint = require("stylelint");  //@https://stylelint.io/
+const stylelint = require("stylelint");  //@https://stylelint.io/ 
 const rename = require('postcss-rename'); //@https://github.com/google/postcss-rename
-const { ESLint } = require('eslint'); //@https://eslint.org/
+const { ESLint } = require('eslint'); //@https://eslint.org/ 
 const listSelectors = require('list-selectors');
 const listSelectorsPlugin = listSelectors.plugin;
 const { HtmlValidate } = require('html-validate');  // @https://html-validate.org/guide/api/getting-started.html
@@ -31,25 +34,37 @@ const {
 
 /*
 Add configuration to the root directory:
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+When using Docker, remember to copy the configuration file to the container
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------
+eslint.config.mjs:
+--------
+import globals from "globals";
+import pluginJs from "@eslint/js";
 
-.eslintrc.json:
-{
-    "parserOptions": {
-        "ecmaVersion": "latest"
-    },
-    "env": {
-        "es6": true
+
+export default [
+    { languageOptions: { globals: globals.browser } },
+    pluginJs.configs.recommended,
+    {
+        "rules": {
+            "no-unused-vars": "off",
+        }
     }
-}
+];
+
 
 --------
 .stylelintrc.json:
+--------
 {
     "extends": "stylelint-config-standard-scss"
 }
 
 --------
 .htmlvalidate.json:
+--------
 {
   "extends": [
     "html-validate:recommended"
@@ -93,7 +108,8 @@ router.post('/', async (req, res) => {
 
     const { cssCode, jsCode, htmlCode } = req.body;
 
-    
+    const eslint = new ESLint();  // !!! `new ESLint()` should not be written inside `try { ... }catch (err) {}`
+
     try {
         
         // const cssContent = read(path.resolve(__dirname, '../testfiles/1.css'), 'utf8');
@@ -228,8 +244,6 @@ router.post('/', async (req, res) => {
         
             try {
         
-                const eslint = new ESLint();
-        
                 // 1. Lint files.
                 //------------------
                 // const results = await eslint.lintFiles([path.resolve(__dirname, './1.js')]);
@@ -237,16 +251,11 @@ router.post('/', async (req, res) => {
         
                 // 2. Format the results.
                 //------------------        
-                const formatter = await eslint.loadFormatter("stylish");
-                const resultText = formatter.format(results);
-                
-                // 3. Output it. (if has errors)
+                jsErr = results[0].messages.map((v, i) => `ERR: ${v.message}: line -> ${v.line}, column -> ${v.column} ` + "\n").join('');
+
+                // 3. generate new string
                 //------------------
-                jsErr = resultText;
-        
-                // 4. generate new string
-                //------------------
-                if (resultText === '') {
+                if (jsErr === '') {
                     console.log('--> js ok!');
         
                     // match new names
@@ -436,25 +445,7 @@ router.post('/', async (req, res) => {
             // ############################################################
             // STEP SIX. MINIFY CODE
             // ############################################################
-            async function Code(string, type) {
-                //@https://prettier.io/docs/en/options.html
-                const formatted = await prettier.format(string, {
-                    parser: type,  // css, html, babel
-                    plugins: plugins
-                });
-
-                return formatted;
-            }
-
-            /*
-            (async () => {
-                const formatted = await prettier.format("type Query { hello: String }", {
-                    parser: "xxxx",
-                    plugins,
-                });
-            })();
-            */
-
+    
             const cssContentMinified = newCssContent.css === '' ? '' : await minify({
                 compressor: cleanCSS,
                 content: newCssContent.css
