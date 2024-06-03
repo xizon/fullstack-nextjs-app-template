@@ -7,7 +7,10 @@
 const App = () => {
     const [dragContentHandle, dragHandle] = useDraggable({
         enabled: true,   // if `false`, drag and drop is disabled
-        preventOutsideScreen: true,
+        preventOutsideScreen: {
+            xAxis: true,
+            yAxis: true
+        },
         onStart: (coordinates: Record<string, number>, handleEl: HTMLElement | null, contentEl: HTMLElement | null) => {
             
         },
