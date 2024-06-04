@@ -5,7 +5,11 @@
 
 
 const App = () => {
-    const [dragContentHandle, dragHandle] = useDraggable({
+    const {
+        dragContentHandle, 
+        dragHandle,
+        resetPosition
+    }: any = useDraggable({
         enabled: true,   // if `false`, drag and drop is disabled
         preventOutsideScreen: {
             xAxis: true,
@@ -22,6 +26,10 @@ const App = () => {
 
         }
     });
+
+    const resetModal = () => {
+        resetPosition?.();
+    };
 
     return (
         <div className="container" ref={dragContentHandle}>
@@ -217,7 +225,15 @@ const useDraggable = ({
         }
     }, [targetNode, dx, dy]);
 
-    return [ref, targetRef];
+
+    return {
+        dragContentHandle: ref,
+        dragHandle: targetRef,
+        resetPosition: () => {
+            // reset position
+            setOffset({ dx: 0, dy: 0 });
+        }
+    };
 }
 
 export default useDraggable;
