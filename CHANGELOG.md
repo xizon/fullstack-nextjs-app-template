@@ -1,11 +1,23 @@
 # Changelog
 
+#### = 1.2.7 (June 11, 2024) =
+
+* New: Add HTML/CSS/JS checker to the node service.
+* New: Add some new custom hooks:
+  - `useKeyPress()`
+  - `useAutosizeTextArea()`
+  - `useClickOutside()`
+  - `useDraggable()`
+  - ...
+
+* Fixed: JWT scripts from nodejs.
+
+
 #### = 1.2.5 (April 23, 2024) =
 
 * Upgraded: nextjs to 4.2.2+.
 * New: Added some minor utilities.
 * Tweak: Change some files via ESM.
-
 
 
 #### = 1.1.3 (November 20, 2023) =

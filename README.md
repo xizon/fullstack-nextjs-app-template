@@ -58,7 +58,7 @@ List my progress here:
 | Remote Download | ✅ |
 | Fully Static HTML Files Generation | ✅ |
 | Custom Server | ✅ |
-| Custom Hooks (auth, redux, etc.) | ✅ |
+| Custom Hooks (auth, redux, draggable, keypress etc.) | ✅ |
 | Frontend Page Interacts With Node | ✅ |
 | Alias Support | ✅ |
 | Local PHP Service Association | ✅ |

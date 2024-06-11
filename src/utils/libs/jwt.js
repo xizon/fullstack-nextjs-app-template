@@ -26,10 +26,7 @@ const sign = (payload, privateKey, header) => {
         );
         res = `${encodedHeader}.${encodedPayload}.${signature}`;
 
-    } catch (e) {
-        console.error(e.toString());
-    }
-
+    } catch (e) {}
 
 
     return res;
@@ -62,9 +59,7 @@ const decode = (token) => {
             throw new Error('Invalid signature');
         }
 
-    } catch (e) {
-        console.error(e.toString());
-    }
+    } catch (e) {}
 
 
     return payload;
@@ -96,9 +91,7 @@ const verify = (token, privateKey) => {
         if (verifiedSignature !== signature) {
             throw new Error('The signature is invalid!');
         }
-    } catch (e) {
-        console.error(e.toString());
-    }
+    } catch (e) {}
 
 
     return payload;

@@ -16,6 +16,9 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
 
+    // disable source map 
+    productionBrowserSourceMaps: true,
+
     // !!! for docker (`output: 'standalone'`)
     // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
     
