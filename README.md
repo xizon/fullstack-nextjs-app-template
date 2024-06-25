@@ -701,6 +701,14 @@ $ docker build -t fullstack-nextjs-app-template:v1 .
 [The first deployment takes a few minutes because it needs other docker libraries, and it only takes tens of seconds after that]
 
 
+> ❌ **If 401 Unauthorized error, first run:**
+>
+> ```sh
+> $ docker pull node:18.17.0-alpine3.17 
+> ```
+> 
+
+
 ### 👣 (Step 5) Run your application. Based on the tags you gave your Dockerfile, you can now run them with the docker run command.
 
 The -p flag exposes the container's ports to services outside of docker (the first port is the port exposed to the outside). Use of multiple ports: `docker run -p <host_port1>:<container_port1> -p <host_port2>:<container_port2>`
