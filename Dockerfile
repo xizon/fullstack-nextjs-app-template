@@ -12,8 +12,23 @@ FROM node:18.17.0-alpine3.17 AS base
 FROM base AS deps
 
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-
 RUN apk add --no-cache libc6-compat
+
+# if using `node:20.15.0`
+# RUN apt-get update && \
+#     apt-get install -y \
+#       curl \
+#       jq \
+#       git \
+#       wget \
+#       openssl \
+#       bash \
+#       tar \
+#       net-tools && \
+#     rm -rf /var/lib/apt/lists/*
+
+
+# The WORKDIR instruction sets the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow it in the Dockerfile
 WORKDIR /fullstack-nextjs-app-template
 
 
