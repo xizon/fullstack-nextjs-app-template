@@ -2,7 +2,8 @@
 
 # Use official Node mirrors.
 # https://hub.docker.com
-FROM node:18.14.2-alpine3.17 AS base
+# first run `docker pull node:18.17.0-alpine3.17`
+FROM node:18.17.0-alpine3.17 AS base
 
 
 # ==========================================
