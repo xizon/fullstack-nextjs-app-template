@@ -6,7 +6,7 @@ const glob = require('glob');
 const mwsExtract = require('mws-extract-document');
 const fs = require('fs');
 const AdmZip = require("adm-zip");
-
+const compression = require('compression');
 
 const { 
     LANG,
@@ -38,6 +38,11 @@ const {
 
 const port = PORT;
 const app = express();
+
+
+// enable compression middleware
+// you could see "Content-Encoding: gzip" from "Response Headers"
+app.use(compression());
 
 //add other middleware
 // HTTP request logger middleware for node.js

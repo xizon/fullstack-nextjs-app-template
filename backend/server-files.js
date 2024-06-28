@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
+const compression = require('compression');
+
 
 const { 
     LANG,
@@ -14,6 +16,11 @@ const {
 
 const port = PORT;
 const app = express();
+
+
+// enable compression middleware
+// you could see "Content-Encoding: gzip" from "Response Headers"
+app.use(compression());
 
 //add other middleware
 // HTTP request logger middleware for node.js
@@ -109,6 +116,7 @@ app.post('/upload-merge-api', async (req, res) => {
 
 
         //
+        res.set('Cache-Control', 'max-age=604800');  // 7 days
         res.send({
             "data": { "mergeInfo": LANG.en.sendOk, "newData": getApiFileNames() },
             "message": LANG.en.sendOk,
@@ -192,6 +200,7 @@ app.post('/delete-merge-api-files', async (req, res) => {
             const newFileNames = remainingElements(oldFileNames, inputFiles);
 
             //
+            res.set('Cache-Control', 'max-age=604800');  // 7 days
             res.send({
                 "data": { "deleteInfo": LANG.en.sendOk, "newData": newFileNames },
                 "message": LANG.en.sendOk,

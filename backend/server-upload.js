@@ -7,6 +7,8 @@ const path = require('path');
 const fs = require('fs');
 const md5 = require('md5');
 const sizeOf = require('image-size');
+const compression = require('compression');
+
 
 const { 
     LANG,
@@ -34,6 +36,11 @@ const {
 
 const port = PORT;
 const app = express();
+
+
+// enable compression middleware
+// you could see "Content-Encoding: gzip" from "Response Headers"
+app.use(compression());
 
 // enable files upload
 app.use(fileUpload({
