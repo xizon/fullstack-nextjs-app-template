@@ -39,7 +39,7 @@
     "destroy": "pm2 stop ecosystem.config.js & pm2 delete ecosystem.config.js"
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.7.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "next": "^14.2.3",

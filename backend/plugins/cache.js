@@ -5,15 +5,27 @@ const pageStaticAssetsCache = new NodeCache(); // seconds
 const md5 = require('md5');
 
 const expire = 86400 * 180; //seconds (24 hours * 180)
-const timeNow = new Date();
-const cacheStart = timeNow.toLocaleString();
-const cacheEnd = new Date(timeNow.getTime() +  expire*1000).toLocaleString();
+
+const millisecondToTime = (milliseconds) => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    return {
+        days: days,
+        hours: hours
+    };
+}
+
+const expireTime = (key) => {
+    const _data = millisecondToTime(pageStaticAssetsCache.getTtl(key) - Date.now());
+    return `${_data.days} days and ${_data.hours} hours`;
+}
 
 
-const fileCache = (file) => {
+const fileCache = (file, dynamicSymbol) => {
     if (!fs.existsSync(file)) return null;
 
-    const key = md5(file);
+    const key = md5(dynamicSymbol);
     let res = null;
 
     const getFileContent = pageStaticAssetsCache.get(key);  // <Buffer 2f 2a 21 20 46 ...>
@@ -22,7 +34,7 @@ const fileCache = (file) => {
         const fileContent = fs.readFileSync(file); // If the second parameter is set to 'utf8'. it will be turned into a string instead of <Buffer 2f 2a 21 20 46 ...>
         pageStaticAssetsCache.set(key, fileContent, expire ); 
     } else {
-        res = `/*-------- Cache Hash ${key} (start: ${cacheStart} expire: ${cacheEnd} ) -------*/` + getFileContent;
+        res = `/*-------- Cache Hash ${key}  (expire: ${expireTime(key)} ) -------*/` + getFileContent;
     }
 
     return res;
@@ -37,12 +49,13 @@ const setStringCache = (dynamicSymbol, content) => {
 };
 
 const getStringCache = (dynamicSymbol) => {
+
     const key = md5(dynamicSymbol);
     const getFileContent = pageStaticAssetsCache.get(key);  // <Buffer 2f 2a 21 20 46 ...>
     if ( typeof getFileContent === 'undefined') {
         return null;
     } else {
-        return `/*-------- Cache Hash ${key} (start: ${cacheStart} expire: ${cacheEnd} ) -------*/` + getFileContent;
+        return `/*-------- Cache Hash ${key}  (expire: ${expireTime(key)} ) -------*/` + getFileContent;
     }  
 };
 

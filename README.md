@@ -96,6 +96,8 @@ fullstack-nextjs-app-template/
 ├── docker-compose.yml
 ├── out/  
 ├── backend/  
+│   ├── server-php.js   # test server
+│   └── ...             # All other files are optional
 ├── scripts/  
 ├── public/  
 ├── pages/ 

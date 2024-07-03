@@ -116,7 +116,7 @@ app.post('/upload-merge-api', async (req, res) => {
 
 
         //
-        res.set('Cache-Control', 'max-age=604800');  // 7 days
+        res.set('Cache-Control', 'max-age=300');  // 5 minutes
         res.send({
             "data": { "mergeInfo": LANG.en.sendOk, "newData": getApiFileNames() },
             "message": LANG.en.sendOk,
@@ -200,7 +200,7 @@ app.post('/delete-merge-api-files', async (req, res) => {
             const newFileNames = remainingElements(oldFileNames, inputFiles);
 
             //
-            res.set('Cache-Control', 'max-age=604800');  // 7 days
+            res.set('Cache-Control', 'max-age=300');  // 5 minutes
             res.send({
                 "data": { "deleteInfo": LANG.en.sendOk, "newData": newFileNames },
                 "message": LANG.en.sendOk,

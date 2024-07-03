@@ -71,7 +71,7 @@ app.use(morgan('dev'));
 // !!! CODE NEEDS TO BE PLACED HERE （BEFORE `app.use('/xxxx', express.static(xxxx))`） !!!
 app.use(require('./routes/cache-static-assets'));
 app.use('/cache-delete-static-assets', require('./routes/cache-delete-static-assets'));
-
+app.use('/cache-delete-static-assets-spec', require('./routes/cache-delete-static-assets-spec'));
 
 
 // Note: `app.use(..., express.static(...))` cannot be placed before `app.use(cors())`
