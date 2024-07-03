@@ -70,6 +70,7 @@ List my progress here:
 | Additional Node.js Services | ✅ |
 | Request Cache Demo | ✅ |
 | Authentication of Microservices | ✅ |
+| NestJS Support | 🕒 |
 | End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [Funda UI](https://github.com/xizon/funda-ui) |
 
