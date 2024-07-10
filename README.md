@@ -72,6 +72,7 @@ List my progress here:
 | Additional Node.js Services | ✅ |
 | Request Cache Demo | ✅ |
 | Authentication of Microservices | ✅ |
+| Markdown Render Demo | ✅ |
 | NestJS Support | 🕒 |
 | End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [Funda UI](https://github.com/xizon/funda-ui) |
@@ -101,8 +102,8 @@ fullstack-nextjs-app-template/
 ├── backend/  
 │   ├── server-php.js   # test server
 │   └── ...             # All other files are optional
-├── scripts/  
-├── public/  
+├── scripts/            # Node Script Library
+├── public/             # Contains static resources, PHP remote test files, .md files for markdown rendering, etc.
 ├── pages/ 
 │   ├── api/
 │   └── *.tsx
@@ -241,6 +242,7 @@ $ npm run export:test
 <details>
   <summary><h4> 👉🏼 (💎 Incremental Guide) Migrating from Pages Router to App Router</h4></summary>
   
+Check out [this article](https://clerk.com/blog/migrating-pages-router-to-app-router-an-incremental-guide)
 
 ### [0\. Create the /app directory](#0-create-the-app-directory)
 

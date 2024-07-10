@@ -23,6 +23,11 @@ export default function handler(
                 link: "/nested-routes.html"
             },
             {
+                title: "Markdown Render",
+                icon: false,
+                link: "/md-render.html"
+            },
+            {
                 title: "Posts",
                 icon: false,
                 link: "/posts.html"

@@ -25,6 +25,11 @@ $res = array(
             'link' => '/nested-routes.html',
         ),
         array(
+            'title' => 'Markdown Render',
+            'icon' => false,
+            'link' => '/md-render.html',
+        ),
+        array(
             'title' => 'Posts',
             'icon' => false,
             'link' => '/posts.html',

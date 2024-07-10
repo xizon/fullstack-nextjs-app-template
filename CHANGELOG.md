@@ -2,6 +2,7 @@
 
 #### = 1.2.9 (July 10, 2024) =
 
+* New: Add a demo page of Markdown Render.
 * New: update `cache` utils of Nodejs and add `request.js` of axios.
 * New: Add a guide of Migrating from Pages Router to App Router.
 * Upgraded: Update Dockerfile.
