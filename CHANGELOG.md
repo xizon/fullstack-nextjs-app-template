@@ -1,5 +1,14 @@
 # Changelog
 
+#### = 1.2.9 (July 10, 2024) =
+
+* New: update `cache` utils of Nodejs and add `request.js` of axios.
+* New: Add a guide of Migrating from Pages Router to App Router.
+* Upgraded: Update Dockerfile.
+* Upgraded: Update the cache and compression sample code for the node service
+
+
+
 #### = 1.2.7 (June 11, 2024) =
 
 * New: Add HTML/CSS/JS checker to the node service.

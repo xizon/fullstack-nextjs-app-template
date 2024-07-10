@@ -13,7 +13,7 @@ const config = {
 	 TYPE: Site Configuration
 	 ------------------------------------------
 	*/
-	"MENU": "https://uiux.cc/server/navigation.php",
+	"MENU": "http://localhost:3000/api/navigation",
 
 	/*
 	 TYPE: Posts
@@ -83,7 +83,7 @@ const localConfig = {
 	 TYPE: Site Configuration
 	 ------------------------------------------
 	*/
-	"MENU": "http://localhost:4000/navigation.php",
+	"MENU": "http://localhost:3000/api/navigation",
 
 
 	/*

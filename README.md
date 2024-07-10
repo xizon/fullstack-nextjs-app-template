@@ -13,6 +13,8 @@
 * [File Structures](#file-structures)
 * [Getting Started](#getting-started)
 * [Further Help](#further-help)
+*  - [(💎 Incremental Guide) Migrating from Pages Router to App Router](#---incremental-guide-migrating-from-pages-router-to-app-router)
+*  - [Deploy on Custom Server](#--deploy-on-custom-server)
 *  - [Deploy on Custom Server](#--deploy-on-custom-server)
 *  - [Node.js Port 3000 already in use but it actually isn't?](#--nodejs-port-3000-already-in-use-but-it-actually-isnt)
 *  - [Change the Favicon](#--change-the-favicon)
@@ -235,6 +237,304 @@ $ npm run export:test
 
 
 ## Further Help
+
+<details>
+  <summary><h4> 👉🏼 (💎 Incremental Guide) Migrating from Pages Router to App Router</h4></summary>
+  
+
+### [0\. Create the /app directory](#0-create-the-app-directory)
+
+Before you can get started with the App Router, you will first need to create a **/app** directory as a sibling to your **/pages** directory.
+
+### [1\. Migrate /pages/\_document to the App Router](#1-migrate-pages-document-to-the-app-router)
+
+If you have a [Custom Document](https://nextjs.org/docs/pages/building-your-application/routing/custom-document) at **/pages/\_document.tsx**, it should look something like this, though likely with some customization:
+
+/pages/\_document.tsx
+```js
+import { Html, Head, Main, NextScript } from 'next/document'
+
+export default function Document() {
+    return (
+    <Html>
+        <Head />
+        <body>
+        <Main />
+        <NextScript />
+        </body>
+    </Html>
+    )
+}
+```
+We need to convert this into a [Root Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#root-layout-required), which can be treated as a 1-to-1 corollary to a Custom Document:
+
+1.  Clone **/pages/\_document.tsx** into **/app/layout.tsx**. We will keep both files since we're doing incremental adoption. (If you use .jsx that is no problem, you can use layout.jsx instead)
+2.  Remove the **next/document** import line entirely
+3.  Replace `<Html>` and `</Html>` with the lowercase, HTML equivalent `<html>` and `</html>`. For accessibility, it's best to add a language to your opening tag, like `<html lang="en">`
+4.  Replace `<Head>` and `</Head>` with the lowercase, HTML equivalent `<head>` and `</head>`. If you only have a self-closing `<Head />`, you can remove it entirely
+5.  Replace `<Main />` with `{children}`, and update the default function export to accept a `{children}` argument. For Typescript users, `children` is of type `React.ReactNode`
+6.  Remove `<NextScript />` entirely
+
+When complete, **/app/layout.tsx** should look more like this, plus your customizations:
+
+/app/layout.tsx
+```js
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+    return (
+    <html lang="en">
+        <body>{children}</body>
+    </html>
+    )
+}
+```
+**Important: /app/layout.tsx is required** in the **/app** directory. If you do not have a Custom Document, you can copy-paste the above sample directly into **/app/layout.tsx**.
+
+### [2\. Migrate /pages/\_app.tsx to the App Router](#2-migrate-pages-app-tsx-to-the-app-router)
+
+**Note:** If you do not have a file at **/pages/\_app.tsx** you can skip to Step 3.
+
+If you have a [Custom App](https://nextjs.org/docs/pages/building-your-application/routing/custom-app) at **/pages/\_app.tsx**, it should look something like this, though likely with some customization:
+
+/pages/\_app.tsx
+```js
+import type { AppProps } from 'next/app'
+
+export default function MyApp({ Component, pageProps }: AppProps) {
+    return <Component {...pageProps} />
+}
+```
+The **/app** directory does not have a 1-to-1 corollary for a Custom App, but it can easily be expressed in the new structure:
+
+1.  Clone **/pages/\_app.tsx** into **/app/ClientLayout.tsx**. We will keep both files since we're doing incremental adoption. (If you use .jsx that is no problem, you can use ClientLayout.jsx instead)
+2.  Add a new line to the top of the file that reads `"use client"` (with the quotes)
+3.  Replace the default export's function signature. Instead of taking `Component` and `pageProps` arguments, it should only take a `children` argument. For Typescript users, `children` is of type `React.ReactNode`.
+4.  Replace `<Component {...pageProps} />` with `<>{children}</>`, or just `{children}` if you have another wrapping element
+5.  If there are any remaining references to `pageProps`, please comment them out for now, and revisit them on a page-by-page basis. Next.js has added a new [metadata API](https://nextjs.org/docs/app/building-your-application/optimizing/metadata) that should normally be used in place of accessing `pageProps` here
+6.  We recommend changing the default export name from `MyApp` to `ClientLayout`. It is not strictly necessary, but it is more conventional
+
+When complete, **/app/ClientLayout.tsx** should look more like this, plus your customizations:
+
+/app/ClientLayout.tsx
+```js
+'use client'
+
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
+    return <>{children}</>
+}
+```
+Now, this is where things get a little different:
+
+*   In the Pages Router, **/pages/\_app.tsx** is a "magic" layout file that is automatically added to the React tree
+*   In the App Router, the only layout file automatically added to the React tree is the Root Layout from Step 1. So, we will need to manually import and mount our `ClientLayout` inside **/app/layout.tsx**
+
+Open **/app/layout.tsx**, import ClientLayout, and use it to wrap `{children}`. When complete, your Root Layout should look like this, plus any customizations from Step 1:
+
+/app/layout.tsx
+```js
+import ClientLayout from './ClientLayout'
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+    return (
+    <html lang="en">
+        <body>
+        <ClientLayout>{children}</ClientLayout>
+        </body>
+    </html>
+    )
+}
+```
+### [3\. Migrate each page to the App Router](#3-migrate-each-page-to-the-app-router)
+
+Now that your layout has been copied into the App Router, it's time to start migrating your pages one-by-one. There will be a few steps for each page:
+
+1.  Create a directory for the page
+2.  Create one file to handle data fetching
+3.  Create one file to render the page
+4.  Remove the Pages Router page
+
+For the avoidance of doubt: yes, we will be splitting your Pages Router page into two files: one for data fetching and one for rendering.
+
+#### [3.1. Create a directory for the page](#3-1-create-a-directory-for-the-page)
+
+Both the Pages Router and the App Router are "filesystem routers," but they are organized slightly differently. In the App Router, each page gets its own directory. Here is how to determine the directory name:
+
+*   If your file is named **index.tsx**, create the same parent directory structure
+    
+    *   For **/pages/foo/index.tsx**, create **/app/foo**
+    *   For **/pages/index.tsx**, you already have **/app**
+    
+*   If your file is **not** named **index.tsx**, create a directory with that filename
+    
+    *   For **/pages/bar.tsx**, create **/app/bar**
+    *   For **/pages/baz/\[slug\].tsx**, create **/app/baz/\[slug\]**
+    *   For **/pages/baz/\[\[...slug\].tsx**, create **/app/baz/\[\[...slug\]\]**
+    
+
+#### [3.2. Create a file to handle data fetching](#3-2-create-a-file-to-handle-data-fetching)
+
+Inside your page directory, create a file called **page.tsx** to handle data fetching. Copy-paste the following snippet as the foundation of this file (**Note:** we will create **ClientPage.tsx** in 3.3.):
+
+page.tsx
+```js
+import ClientPage from './ClientPage'
+
+export default async function Page() {
+    return <ClientPage />
+}
+```
+If your Pages Router file does not have any data fetching, you can continue on to the next step. Otherwise, find your data fetcher below to learn how it can be migrated:
+
+**Migrating getStaticProps to the App Router**
+
+Consider the following is your implementation of `getStaticProps`:
+```js
+export const getStaticProps: GetStaticProps<PageProps> = async () => {
+    const res = await fetch('https://api.github.com/repos/vercel/next.js')
+    const repo = await res.json()
+    return { props: { repo } }
+}
+```
+To migrate this with as little modification as possible, we will:
+
+1.  Copy-paste `getStaticProps` into **page.tsx**
+2.  Call `getStaticProps` from within our `Page` component
+3.  Add `export const dynamic = "force-static"` so the page data is fetched once and cached, not refetched on every load
+4.  Pass the result to our (not yet created) `ClientPage` component
+
+Here is the end result:
+
+page.tsx
+```js
+import ClientPage from './ClientPage'
+
+export const getStaticProps: GetStaticProps<PageProps> = async () => {
+    const res = await fetch('https://api.github.com/repos/vercel/next.js')
+    const repo = await res.json()
+    return { props: { repo } }
+}
+
+export const dynamic = 'force-static'
+
+export default async function Page() {
+    const { props } = await getStaticProps()
+    return <ClientPage {...props} />
+}
+```
+**Migrating getServerSideProps to the App Router**
+
+Consider the following implementation of `getServerSideProps`:
+```js
+import { getAuth } from '@clerk/nextjs/server'
+
+export const getServerSideProps: GetServerSideProps<PageProps> = async ({ req }) => {
+    const { userId } = getAuth(req)
+
+    const res = await fetch('https://api.example.com/foo', {
+    headers: {
+        Authorization: `Bearer: ${process.env.API_KEY}`,
+    },
+    })
+    const data = await res.json()
+    return { props: { data } }
+}
+```
+To migrate this with as little modification as possible, we will:
+
+1.  Copy-paste `getServerSideProps` into **page.tsx**
+2.  Add `export const dynamic = "force-dynamic"` so the page data is refetched on every load
+3.  Replace any usage of `req` with the App Router equivalent
+4.  Our example uses [Clerk for authentication](/solutions/nextjs-authentication), so the end result will replace this line with its App Router-compatible replacement
+5.  Replace `req.headers` with the new [headers() helper](https://nextjs.org/docs/app/api-reference/functions/headers)
+6.  Replace `req.cookies` with the new [cookies() helper](https://nextjs.org/docs/app/api-reference/functions/headers)
+7.  Replace `req.url.searchParams` with the new [searchParams helper](https://nextjs.org/docs/app/api-reference/file-conventions/page#searchparams-optional)
+8.  Replace any Dynamic Route segment usage with the new [params helper](https://nextjs.org/docs/app/api-reference/file-conventions/page#params-optional)
+9.  Call `getServerSideProps` from within our `Page` component
+10.  Pass the result to our (not yet created) `ClientPage` component
+
+Here is the end result:
+
+page.tsx
+```js
+import { auth } from '@clerk/nextjs'
+import ClientPage from './ClientPage'
+
+export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
+    const { userId } = auth()
+
+    const res = await fetch('https://api.example.com/foo', {
+    headers: {
+        Authorization: `Bearer: ${process.env.API_KEY}`,
+    },
+    })
+    const data = await res.json()
+    return { props: { data } }
+}
+
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
+    const { props } = await getServerSideProps()
+    return <ClientPage {...props} />
+}
+```
+**Migrating getStaticPaths to the App Router**
+
+Consider the following implementation of `getStaticPaths`:
+```js
+export async function getStaticPaths() {
+    return {
+    paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
+    }
+}
+```
+In the App Router, this implementation barely changes. It's simply given a new name (`generateStaticParams`) and the output is transformed to something simpler. That means you can use your old implementation directly, and simply transform the output.
+
+Here is the end result – we included an example of how it can be used in tandem with `getStaticProps`:
+
+page.tsx
+```js
+import ClientPage from './ClientPage'
+
+export async function getStaticPaths() {
+    return {
+    paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
+    }
+}
+
+export async function generateStaticParams() {
+    const staticPaths = await getStaticPaths()
+    return staticPaths.paths.map((x) => x.params)
+}
+
+export const getStaticProps: GetStaticProps<PageProps> = async ({ params }) => {
+    const res = await fetch(`https://api.example.com/foo/${params.id}`)
+    const data = await res.json()
+    return { props: { data } }
+}
+
+export default async function Page({ params }) {
+    const { props } = await getStaticProps({ params })
+    return <ClientPage {...props} />
+}
+```
+#### [3.3. Create a file to render the page](#3-3-create-a-file-to-render-the-page)
+
+Now that data fetching is ready, we need to configure the rendering. To accomplish this:
+
+*   Copy your original Pages Router page into **ClientPage.tsx**
+*   Remove any data fetching code, since it now lives in **page.tsx**
+
+That's it! We have already configured **page.tsx** to mount this file and pass props, so it should be working.
+
+#### [3.4. Remove the Pages Router page](#3-4-remove-the-pages-router-page)
+
+Now that your page is ready in the App Router, you can delete the old Pages Router variant.
+
+
+[MORE: App Router Incremental Adoption Guide](https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration)
+
+</details>
+
 
 
 <details>
