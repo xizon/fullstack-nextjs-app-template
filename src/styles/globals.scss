@@ -17,10 +17,6 @@
     }
 }
 
-html {
-    // To prevent page jitter caused by the scroll bar in windows, add `overflow-y: scroll`
-    // overflow-y: scroll;
-}
 
 html,
 body {
@@ -30,6 +26,9 @@ body {
 
 body {
     font-size: 16px;
+
+    // To prevent page jitter caused by the scroll bar in windows, add `overflow-y: scroll`
+    // overflow-y: scroll; 
 }
 
 .container {

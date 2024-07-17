@@ -1,11 +1,10 @@
-import { useRouter } from 'next/router';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 /*-- Apply this component styles --*/
 import myStyles from '@/components/MultilevelDropdownMenu/styles/index.module.scss';
 
 import CoreUtils from '@/utils/CoreUtils';
-import useRouterChange from '@/utils/hooks/useSafePush';
 import useDebounce from '@/utils/hooks/useDebounce';
 
 
@@ -20,7 +19,7 @@ type MenuListProps = {
 export default function MenuList(props: MenuListProps) {
 
     const router = useRouter();
-    const { safePush } = useRouterChange();
+    const pathname = usePathname();
     const vmenuRef = useRef<any>(null);
 
     
@@ -77,7 +76,7 @@ export default function MenuList(props: MenuListProps) {
         // route switching
         //=====================
         if ( typeof hyperlink.parentNode.dataset.router !== 'undefined' ) {
-            safePush(url);
+            router.push(url);
         }
 
         
@@ -158,7 +157,7 @@ export default function MenuList(props: MenuListProps) {
                     );
                     if (item.link.indexOf('#') >= 0 || item.link.indexOf('http') >= 0 ) {
                         return (
-                            <li key={'primaey-menu' + i} className={ (router.asPath === item.link || router.asPath.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
+                            <li key={'primaey-menu' + i} className={ (pathname === item.link || pathname.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
                                 <a className="m-item" tabIndex={-1} href={item.link === '#' ? `${item.link}-${i}` : item.link} aria-expanded="false" onClick={(e) => {
                                     e.preventDefault();
                                     handleClickSafe(e);
@@ -171,7 +170,7 @@ export default function MenuList(props: MenuListProps) {
                             );
                     } else {
                         return (
-                            <li data-router="true" key={'primaey-menu' + i} className={ (router.asPath === item.link || router.asPath.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
+                            <li data-router="true" key={'primaey-menu' + i} className={ (pathname === item.link || pathname.indexOf(item.link.replace(/\/[\d]+\.html|\.html/ig,'')) >= 0 && item.link !== '/') ?  `${myStyles['is-active']} is-active` : ''}>
                                 <a className="m-item" tabIndex={-1} href={item.link === '#' ? `${item.link}-${i}` : item.link} onClick={(e) => {
                                     e.preventDefault();
                                     handleClickSafe(e);

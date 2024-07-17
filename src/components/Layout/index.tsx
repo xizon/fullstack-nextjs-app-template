@@ -4,7 +4,6 @@
  *************************************
  */
 import { useEffect, useState, useMemo } from 'react';
-import Loader from '@/components/Loader';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
@@ -25,6 +24,13 @@ function PrimaryMenu(props: any) {
 
 export default function Layout(props) {
 
+    const {
+        ssrNav,
+        isHome,
+        pageTitle,
+        contentComponent
+    } = props;
+
     const [primaryMenuData, setPrimaryMenuData] = useState<any[]>([]);
 
     // Get store
@@ -33,14 +39,14 @@ export default function Layout(props) {
     const storeData = useSelector((state: any) => {
         return state.menuData.menuItems;
     });
-    
+
 
     //
     useEffect(() => {
 
-         // Get store
-         //-----
-         const fetchStore = async () => {
+        // Get store
+        //-----
+        const fetchStore = async () => {
             if (!dispatchUpdate) {
 
                 // Support for using multiple actions
@@ -48,18 +54,18 @@ export default function Layout(props) {
                     getMenuData(), // {type: 'RECEIVE_DEMO_MENU', payload: [...]}
                 ]).then((values) => {
                     const resMenu = values[0];
-                    
+
                     setDispatchUpdate(true);
                     dispatch(resMenu);
                 });
-        
+
             }
         };
 
         if (storeData === null) {
             fetchStore();
         } else {
-   
+
             let menuAll = storeData;
 
             //update menu data
@@ -75,24 +81,22 @@ export default function Layout(props) {
 
             <main>
 
-                <Loader />
-
                 {/*<!-- PAGE -->*/}
                 <div className="page">
-                    
-                    <Header menu={<PrimaryMenu data={props.ssrNav ? props.ssrNav : primaryMenuData} />} />
 
-                    
-                    <section className={props.isHome ? `intro` : `intro intro-subpage`}>
+                    <Header menu={<PrimaryMenu data={ssrNav ? ssrNav : primaryMenuData} />} />
+
+
+                    <section className={isHome ? `intro` : `intro intro-subpage`}>
                         <div className="container">
-                            {props.isHome ? <h1>{props.pageTitle}</h1> : <h2>{props.pageTitle}</h2>}
-                            {props.contentComponent}
+                            {pageTitle === null ? null : <>{isHome ? <h1>{pageTitle}</h1> : <h2>{pageTitle}</h2>}</>}
+                            {contentComponent}
                         </div>
                     </section>
 
                 </div>
                 {/*<!-- /PAGE -->*/}
-
+                
                 <Footer />
 
             </main>

@@ -3,7 +3,7 @@
  * <!-- Pagination -->
  *************************************
  */
- import useRouterChange from '@/utils/hooks/useSafePush';
+import { useRouter } from 'next/navigation';
 
 /*-- Apply this component styles --*/
 import myStyles from '@/components/Pagination/styles/index.module.scss';
@@ -58,8 +58,6 @@ type PaginationProps = {
 
 export default function Pagination(props: PaginationProps) {
 
-    const { safePush } = useRouterChange();
-
     const { 
         apiUrl,
         gotoPageClickEvent, 
@@ -82,6 +80,8 @@ export default function Pagination(props: PaginationProps) {
         symmetry
     } = props;
 
+    const router = useRouter();
+
 
     function handleNavigateClick(parameter) {
         const { 
@@ -93,23 +93,23 @@ export default function Pagination(props: PaginationProps) {
         switch (parameter) {
             case "prev":
                 gotoPageClickEvent(activePage - 1);
-                safePush(apiUrl.replace('{page}',(activePage - 1) as any));
+                router.push(apiUrl.replace('{page}',(activePage - 1) as any));
                 break;
             case "next":
                 gotoPageClickEvent(activePage + 1);
-                safePush(apiUrl.replace('{page}',(activePage + 1) as any));
+                router.push(apiUrl.replace('{page}',(activePage + 1) as any));
                 break;
             case "first":
                 gotoPageClickEvent(1);
-                safePush(apiUrl.replace('{page}','1'));
+                router.push(apiUrl.replace('{page}','1'));
                 break;
             case "last":
                 gotoPageClickEvent(totalPages);
-                safePush(apiUrl.replace('{page}',totalPages as any));
+                router.push(apiUrl.replace('{page}',totalPages as any));
                 break;
             default:
                 gotoPageClickEvent(1);
-                safePush(apiUrl.replace('{page}','1'));
+                router.push(apiUrl.replace('{page}','1'));
                 break;
         }
     }
@@ -167,7 +167,7 @@ export default function Pagination(props: PaginationProps) {
                         <a href={apiUrl.replace('{page}', item)} onClick={(e) => {
                             e.preventDefault(); 
                             gotoPageClickEvent(item);  
-                            safePush(apiUrl.replace('{page}',item as any));
+                            router.push(apiUrl.replace('{page}',item as any));
                         }}>{item}</a>
                     </li>
                 );
@@ -205,7 +205,7 @@ export default function Pagination(props: PaginationProps) {
                                     <a href={apiUrl.replace('{page}', item)} onClick={(e) => { 
                                         e.preventDefault(); 
                                         gotoPageClickEvent(item); 
-                                        safePush(apiUrl.replace('{page}',item as any));
+                                        router.push(apiUrl.replace('{page}',item as any));
                                     }}>{item}</a>
                                 </li>
                             );

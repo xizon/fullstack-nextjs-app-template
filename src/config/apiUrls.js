@@ -6,14 +6,18 @@ const prodUrl = (myProtocol, myHostname, myPort, specifiedPort = '') => {
     }
 };
 
-
+/*
++++ Warning: +++
+When using `npm run export` of `npm run build` command, the request URL in the server-side components 
+cannot be "http://localhost:3000/api/xxx"
+*/
 const config = {
 
 	/*
 	 TYPE: Site Configuration
 	 ------------------------------------------
 	*/
-	"MENU": "http://localhost:3000/api/navigation",
+	"MENU": `https://uiux.cc/server/navigation.php`,
 
 	/*
 	 TYPE: Posts
@@ -55,8 +59,8 @@ const config = {
 	 TYPE: Dynamic Routes
 	 ------------------------------------------
 	*/
-    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
-    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page2`,
+    "DYNAMIC_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
+    "DYNAMIC_ROUTE_2": `http://localhost:3000/api/dynamic-routes/page2`,
 
 	/*
 	 TYPE: Nodejs Services (fixed port:45000 - remote port)
@@ -83,7 +87,7 @@ const localConfig = {
 	 TYPE: Site Configuration
 	 ------------------------------------------
 	*/
-	"MENU": "http://localhost:3000/api/navigation",
+	"MENU": `http://localhost:3000/api/navigation`,
 
 
 	/*
@@ -129,8 +133,8 @@ const localConfig = {
 	 TYPE: Dynamic Routes
 	 ------------------------------------------
 	*/
-    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
-    "Dynamic_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page2`,
+    "DYNAMIC_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
+    "DYNAMIC_ROUTE_2": `http://localhost:3000/api/dynamic-routes/page2`,
 
 
 	/*

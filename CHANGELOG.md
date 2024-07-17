@@ -1,5 +1,20 @@
 # Changelog
 
+#### = 1.4.0 (July 17, 2024) =
+
+* New: Add the Authorization header identifier in the middleware after login.
+* New: Add App Router Template and save Pages Router Template.
+  - rename the folder `pages` to `@pages`
+  - add new folder `app`
+  - To enable **Pages Router**, you need to rename the folder `@pages` to `pages`, and delete `app`
+  - remove hook `useSafePush`
+
+* Tweak: `next/router` migrated to `next/navigation`, adapted to page and app router.
+* Tweak: remove demo of dynamic component using `next/dynamic`.
+* Tweak: Other optimizations.
+
+
+
 #### = 1.2.9 (July 10, 2024) =
 
 * New: Add a demo page of Markdown Render.

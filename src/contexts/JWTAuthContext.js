@@ -234,6 +234,7 @@ export const AuthProvider = (props) => {
     const logout = async () => {
         setSession(null);
         dispatch({ type: 'LOGOUT' });
+        CoreUtils.call('delCookie', 'SITE_DATA_LOGIN_COOKIE');
     };
 
 

@@ -9,6 +9,7 @@ import { NextResponse } from 'next/server';
 export function middleware(req) {
 
     const { pathname } = req.nextUrl;
+    const authCookie = req.cookies.get('SITE_DATA_LOGIN_COOKIE');
 
     // Determine whether you have permission to enter the dashboard
     // If you use Docker, please do not directly use the server jump `/`
@@ -17,20 +18,23 @@ export function middleware(req) {
     // if (
     //     /\/\d+\/(.*?)\@admin/.test(pathname) ||
     // ) {
-       
+
     // }
 
 
     //----------------------------------------------------------------
     if (pathname.startsWith('/dashboard')) {
         // If user is not logged in, return login component
-        const authCookie = req.cookies.get('SITE_DATA_LOGIN_COOKIE');
         if (!authCookie) return NextResponse.redirect(new URL("/sign-in.html", req.nextUrl));
     }
 
 
 
     //----------------------------------------------------------------
-    return NextResponse.next();
+    const response = NextResponse.next();
+    if (authCookie !== undefined) {
+        response.headers.set('Authorization', `JWT ${authCookie.value}`);
+    }
 
+    return response;
 }

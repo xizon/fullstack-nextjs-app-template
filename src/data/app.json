@@ -1,4 +1,5 @@
 {
+    "siteName": "Website Title",
     "siteUrl": "http://localhost:3000",
     "copyright": "Copyright &copy; Website Title 2024.  |  All rights reserved. Created by <a href=\"https://uiux.cc\">UIUX Lab</a>."
 }

@@ -21,12 +21,13 @@ const nextConfig = {
 
     // !!! for docker (`output: 'standalone'`)
     // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
-    
-    output: dockerDeploymentEnabled ? 'standalone' : !exportHtmlEnabled ? undefined : 'export', 
+
+    output: dockerDeploymentEnabled ? 'standalone' : !exportHtmlEnabled ? undefined : 'export',
+
 
     // image optimize
     images: {
-      unoptimized: true
+        unoptimized: true
     },
 
 
@@ -40,6 +41,7 @@ const nextConfig = {
             test: /\.svg$/,
             use: ["@svgr/webpack"]
         });
+
 
         return config;
     },
