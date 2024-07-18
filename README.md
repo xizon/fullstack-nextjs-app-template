@@ -76,6 +76,8 @@ List my progress here:
 | NestJS Support | 🕒 |
 | 🍗 End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | 🍗 React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [Funda UI](https://github.com/xizon/funda-ui) |
+| 🍗 Nextjs Doc Template | ⚠️ *unbundled* 👉🏼 [Nextjs Doc Template](https://github.com/xizon/nextjs-doc-template) |
+
 
 
 
