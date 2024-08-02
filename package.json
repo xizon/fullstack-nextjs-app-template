@@ -32,7 +32,7 @@
     "export:test": "node scripts/paths-static-page.js && node scripts/server-generated-static-site.js",
     "lint": "next lint",
     "action:phpserver": "node backend/server-php.js",
-    "action:rootdir": "nod scripts/config-rootdir-of-publishing-source.js",
+    "action:rootdir": "node scripts/config-rootdir-of-publishing-source.js",
     "action:theme": "node scripts/generate-css-files.js",
     "deploy:dev": "cross-env NODE_ENV=development pm2 start ecosystem.config.js",
     "deploy:prod": "cross-env NODE_ENV=production pm2 start ecosystem.config.js",

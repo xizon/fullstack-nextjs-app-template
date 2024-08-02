@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 
+const isProd = process.env.NODE_ENV === 'production';
+
 // Docker deployment
 // To add support for Docker to an existing project, 
 // you can directly set the `dockerDeploymentEnabled` property to `true`
@@ -15,6 +17,14 @@ if (dockerDeploymentEnabled) exportHtmlEnabled = false;
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
+
+
+    // Use the "https://yourusername.github.io/my-subdirectory/ " in production and localhost for development.
+    // !!!IMPORTANT: You need to modify the relevant paths in the "scripts/config-rootdir-of-publishing-source.js" at the same time
+    /*
+    basePath: isProd ? '/my-subdirectory' : undefined,
+    assetPrefix: isProd ? '/my-subdirectory/' : undefined,
+    */
 
     // disable source map 
     productionBrowserSourceMaps: true,

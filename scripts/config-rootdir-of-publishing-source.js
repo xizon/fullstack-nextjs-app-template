@@ -2,19 +2,6 @@
  * Configure the root directory of publishing source 
  */
 
-/*
-Batch replace the following fields:
-
-"/_next     ==>  "/<package_name>/_next
-"/assets    ==>  "/<package_name>/assets
-"/index     ==>  "/<package_name>/index
-"/post      ==>  "/<package_name>/post
-"/about     ==>  "/<package_name>/about
-"/otherpagename     ==>  "/<package_name>/otherpagename
-"/"         ==>  "/<package_name>/"          ----------    [only .html files]
-href:"/"    ==>  href:"/<package_name>/"     ----------    [only .js files]
-
-*/
 
 const path = require('path');
 const glob = require('glob');
@@ -66,22 +53,19 @@ if (fs.existsSync(path.resolve(__dirname, '../out'))) {
             const filepath = file.replace(path.resolve(__dirname, '../'), '');
 
             // (Asynchronous) change all files' absolute URL
+            // replace the base path with the new path (refer to "public/" directory)
+            // Do not modify the paths associated with "_next"
+            // !!!IMPORTANT: You need to modify the relevant paths in the "next.config.js" at the same time
             // ----------------------------------
             fs.readFile(file, 'utf8', function (err, data) {
                 if (err) return console.log(err);
 
                 const ext = getExtension(file);
-                let result = data.replace(/\"\/_next/g, `"/${json.name}/_next`)
-                                .replace(/\"\/assets/g, `"/${json.name}/assets`)
-                                .replace(/\"\/index/g, `"/${json.name}/index`)
-                                .replace(/\"\/post/g, `"/${json.name}/post`)
-                                .replace(/\"\/about/g, `"/${json.name}/about`);
+                let result = data.replace(/\"\/assets/g, `"/my-subdirectory/assets`)
+                                .replace(/\"\/static-remote/g, `"/my-subdirectory/static-remote`)
+                                .replace(/\"\/static-dist/g, `"/my-subdirectory/static-dist`)
 
 
-                if ( ext === 'html' ) result = result.replace(/\"\/\"/g, `"/${json.name}/"`);
-                if ( ext === 'js' ) result = result.replace(/href\:\"\/\"/g, `href:"/${json.name}/"`);
-
-   
                 fs.writeFile(file, result, 'utf8', function (err) {
                     if (err) return console.log(err);
 

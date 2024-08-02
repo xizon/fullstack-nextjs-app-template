@@ -20,6 +20,7 @@
 *  - [Change the Favicon](#--change-the-favicon)
 *  - [Customize Menu](#--customize-menu)
 *  - [Set port in next.js](#--set-port-in-nextjs)
+*  - [Set basePath for a static exported](#--set-basepath-for-a-static-exported)
 *  - [Site URL (Root Directory) Configurations](#--site-url-root-directory-configurations)
 *  - [Deploy Using Docker (build a single next.js program image)](#--deploy-using-docker-build-a-single-nextjs-program-image)
 *  - [Deploy Using Docker (Build composite image that include other custom images)](#--deploy-using-docker-build-composite-image-that-include-other-custom-images)
@@ -909,6 +910,24 @@ $ PORT=8080 npm run dev
 ```
 
 </details>
+
+
+<details>
+  <summary><h4> 👉🏼 Set basePath for a static exported</h4></summary>
+  
+Locate both `next.config.js` and `scripts/config-rootdir-of-publishing-source.js`.
+
+a) **next.config.js**: Change attributes `basePath` and `assetPrefix`
+
+b) **scripts/config-rootdir-of-publishing-source.js**: Change the paths related to the folder directory in `public/`, such as `assets/`
+
+c) run
+```sh
+$ npm run action:rootdir
+```
+</details>
+
+
 
 
 <details>
