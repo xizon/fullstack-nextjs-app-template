@@ -188,6 +188,7 @@ import {
 
 
 import {
+    isTimeString,
     getNow,
     padZero,
     dateFormat,
@@ -398,6 +399,7 @@ CoreUtils.add('getTimeslots', (...attrs) => getTimeslots(...attrs));
 CoreUtils.add('getMinutesBetweenDates', (...attrs) => getMinutesBetweenDates(...attrs));
 CoreUtils.add('getMinutesBetweenTime', (...attrs) => getMinutesBetweenTime(...attrs));
 CoreUtils.add('convertTimeToMin', (...attrs) => convertTimeToMin(...attrs));
+CoreUtils.add('isTimeString', (...attrs) => isTimeString(...attrs));
 CoreUtils.add('getNow', (...attrs) => getNow(...attrs));
 CoreUtils.add('padZero', (...attrs) => padZero(...attrs));
 CoreUtils.add('dateFormat', (...attrs) => dateFormat(...attrs));

@@ -3,6 +3,11 @@
  */
 export type JSON = string;
 /**
+ * The check string contains only hours, minutes, and seconds
+ * @returns {Boolean}
+ */
+export function isTimeString(str: any): boolean;
+/**
  * Get now
  * @returns {Date}  // Wed Apr 17 2024 14:31:36 GMT+0800 (China Standard Time)
  */

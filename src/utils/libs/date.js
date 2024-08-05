@@ -1,4 +1,15 @@
 /**
+ * The check string contains only hours, minutes, and seconds
+ * @returns {Boolean}  
+ */
+function isTimeString(str) {
+    // match "HH:mm:ss"
+    const timePattern = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+    return timePattern.test(str);
+}
+
+
+/**
  * Get now
  * @returns {Date}  // Wed Apr 17 2024 14:31:36 GMT+0800 (China Standard Time)
  */
@@ -435,6 +446,7 @@ function timestampToDate(v, padZeroEnabled = true) {
 
 
 export {
+    isTimeString,
     getNow,
     padZero,
     dateFormat,
