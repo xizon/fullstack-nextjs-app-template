@@ -110,6 +110,32 @@ function dateFormat(v) {
     return date;
 }
 
+/**
+ * Get date details
+ * @param {Date | String} v 
+ * @param {Boolean} padZeroEnabled 
+ * @typedef {Object} JSON
+ */
+function getDateDetails(v, padZeroEnabled = true) {
+
+    const date = dateFormat(v);
+    const year = date.getFullYear();
+    const month = padZero(date.getMonth() + 1, padZeroEnabled);
+    const day = padZero(date.getDate(), padZeroEnabled);
+    const hours = padZero(date.getHours(), padZeroEnabled);
+    const minutes = padZero(date.getMinutes(), padZeroEnabled);
+    const seconds = padZero(date.getSeconds(), padZeroEnabled);
+
+    return {
+        year: String(year),
+        month,
+        day,
+        hours,
+        minutes,
+        seconds
+    };
+}
+
 
 /**
  * Get calendar date
@@ -334,7 +360,7 @@ function getFirstAndLastMonthDay(year, padZeroEnabled = true) {
 /**
  * Get current date
  * @param {Boolean} padZeroEnabled 
- * @typedef {String} JSON
+ * @typedef {Object} JSON
  */
 function getCurrentDate(padZeroEnabled = true) {
 
@@ -450,6 +476,7 @@ export {
     getNow,
     padZero,
     dateFormat,
+    getDateDetails,
 
     //
     isValidDate,

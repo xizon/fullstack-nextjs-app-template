@@ -1,7 +1,7 @@
 /**
- * Get current date
+ * Get date details
  */
-export type JSON = string;
+export type JSON = any;
 /**
  * The check string contains only hours, minutes, and seconds
  * @returns {Boolean}
@@ -25,6 +25,20 @@ export function padZero(num: number, padZeroEnabled?: boolean): string;
  * @returns {String}  yyyy-MM-dd
  */
 export function dateFormat(v: Date | string): string;
+/**
+ * Get date details
+ * @param {Date | String} v
+ * @param {Boolean} padZeroEnabled
+ * @typedef {Object} JSON
+ */
+export function getDateDetails(v: Date | string, padZeroEnabled?: boolean): {
+    year: string;
+    month: string;
+    day: string;
+    hours: string;
+    minutes: string;
+    seconds: string;
+};
 /**
  * Check if the string is legitimate
  * @param {String} v
@@ -121,7 +135,7 @@ export function getCurrentDay(padZeroEnabled?: boolean): number;
 /**
  * Get current date
  * @param {Boolean} padZeroEnabled
- * @typedef {String} JSON
+ * @typedef {Object} JSON
  */
 export function getCurrentDate(padZeroEnabled?: boolean): {
     today: string;
