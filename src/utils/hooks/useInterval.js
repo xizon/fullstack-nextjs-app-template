@@ -5,20 +5,35 @@
 
 const App = () => {
     const [count, setCount] = useState(0);
+    const [list, setList] = useState([]);
 
     const { startTimer, stopTimer } = useInterval(() => {
         setCount(count + 1);
     }, 1000);
 
+    const { startTimer: startTimerGetList, stopTimer: stopTimerGetList } = useInterval(() => {
+        setList((prevState) => {
+            return [...prevState, Math.random()]
+        });
+    }, 1000, false);
+
+    const handleGetList = () => {
+        startTimerGetList();
+    };
+
+    useEffect(() => {
+        handleGetList();
+    }, []);
+
     return (
-        <div className="app">{count}</div>
+        <div className="app">{count}{list.join(',')}</div>
     );
 };
 
  */
 import { useEffect, useRef, useCallback } from "react";
 
-const useInterval = (fn, delay) => {
+const useInterval = (fn, delay, enabled = true) => {
     const ref = useRef(null);
   
     const intervalIdRef = useRef(null);
@@ -38,10 +53,11 @@ const useInterval = (fn, delay) => {
     }, [fn]);
 
     useEffect(() => {
-        startTimer();
-        return () => stopTimer();
-    }, []);
-
+        if (enabled) {
+            startTimer();
+            return () => stopTimer();
+        }
+    }, [enabled]);
 
     return {
         startTimer,
