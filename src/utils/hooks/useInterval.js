@@ -6,37 +6,48 @@
 const App = () => {
     const [count, setCount] = useState(0);
 
-    useInterval(() => {
+    const { startTimer, stopTimer } = useInterval(() => {
         setCount(count + 1);
     }, 1000);
 
     return (
-        <div className="app"></div>
+        <div className="app">{count}</div>
     );
 };
 
  */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 const useInterval = (fn, delay) => {
     const ref = useRef(null);
+  
+    const intervalIdRef = useRef(null);
+    const startTimer = useCallback(() => {
+        intervalIdRef.current = setInterval(() => {
+            ref.current && ref.current();
+        }, delay);
+    }, [ref]);
+
+    const stopTimer = useCallback(() => {
+        clearInterval(intervalIdRef.current);
+        intervalIdRef.current = null;
+    }, []);
 
     useEffect(() => {
         ref.current = fn;
     }, [fn]);
 
     useEffect(() => {
-        function tick() {
-            ref.current && ref.current();
-        }
-        
-        if (delay !== null && delay > 0) {
-            let id = setInterval(tick, delay);
-            return () => clearInterval(id);
-        } else {
-            tick();
-        }
-    }, [delay]);
+        startTimer();
+        return () => stopTimer();
+    }, []);
+
+
+    return {
+        startTimer,
+        stopTimer
+    };
+
 };
 
 export default useInterval;
