@@ -1031,7 +1031,7 @@ $ docker build -t fullstack-nextjs-app-template:v1 .
 > ❌ **If 401 Unauthorized error, first run:**
 >
 > ```sh
-> $ docker pull node:18.17.0-alpine3.17 
+> $ docker pull node:18.20.4-alpine3.20
 > ```
 > 
 
@@ -1206,7 +1206,45 @@ Next, save the newly packaged image as a tar file, run `docker save <image_name:
 $ docker save fullstack-nextjs-app-template:v1 -o ./fullstack-nextjs-app-template-v1.tar
 ```
 
+
+### 👣 (Step 11) Package into an application for the arm64 architecture (Optional)
+
+To package a Next.js app using Docker for ARM architecture, follow these steps:
+
+#### （1）`Dockerfile`
+
+```sh
+...
+
+# A base image for the ARM architecture, such as the arm64 version of Node.js
+FROM node:18.20.4-alpine3.20 AS base
+
+...
+```
+
+
+#### （2）build command
+
+```sh
+$ docker build --platform linux/arm64 -t fullstack-nextjs-app-template-arm64:v1 .
+```
+
+Cross-platform:
+
+```sh
+$ docker buildx create --use
+$ docker buildx build --platform linux/arm64 -t fullstack-nextjs-app-template-arm64:v1 .
+```
+
+
+
+> **Notes**
+>   - Docker Buildx enables multi-platform builds. Ensure that Docker is set up to use Buildx by running `docker buildx create --use`.
+>   - Using the `alpine` version of the Node.js base image helps keep the image size small and reduces dependencies, which is beneficial for ARM devices.
+>   - If you're using packages that include native modules (such as `sharp`), make sure they are correctly compiled or installed for the ARM architecture.
+
 </details>
+
 
 
 <details>

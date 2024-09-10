@@ -1,8 +1,8 @@
 
 # Use official Node mirrors.
 # https://hub.docker.com
-# first run `docker pull node:18.17.0-alpine3.17`
-FROM node:18.17.0-alpine3.17 AS base
+# first run `docker pull node:18.20.4-alpine3.20`
+FROM node:18.20.4-alpine3.20 AS base
 
 
 # ==========================================
@@ -80,7 +80,7 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /fullstack-nextjs-app-template
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 
 # ==========================================
@@ -89,7 +89,7 @@ ENV NODE_ENV production
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
+# ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -111,7 +111,7 @@ USER nextjs
 # ==========================================
 # Declare port 3000, just tell the mirror user the default port, the actual mapping will be informed below
 EXPOSE 3000
-ENV PORT 3000
+ENV PORT=3000
 
 # Execute a single file
 CMD ["node", "server.js"]

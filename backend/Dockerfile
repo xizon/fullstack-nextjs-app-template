@@ -2,8 +2,8 @@
 
 # Use official Node mirrors.
 # https://hub.docker.com
-# first run `docker pull node:18.17.0-alpine3.17`
-FROM node:18.17.0-alpine3.17 AS base
+# first run `docker pull node:18.20.4-alpine3.20`
+FROM node:18.20.4-alpine3.20 AS base
 
 
 # ==========================================
@@ -76,7 +76,7 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app-demo-server
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 
 # ==========================================
@@ -136,7 +136,7 @@ COPY --from=deps /app-demo-server/node_modules ./node_modules
 
 #  Declare 4000 ports, just tell the mirror user the default port, the actual mapping will be informed below
 EXPOSE 4000
-ENV PORT 4000
+ENV PORT=4000
 
 # Execute a single file
 CMD ["node", "server-php.js"]
