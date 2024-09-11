@@ -34,16 +34,6 @@ const padZero = (num, padZeroEnabled = true) => {
 
 
 /**
- * Number validation
- * @param {*} v 
- * @returns {Boolean}  
- */
-const isNumeric = (v) => {
-    return !isNaN(parseFloat(v)) && isFinite(v);
-};
-
-
-/**
  * Hours validation
  * @param {*} v 
  * @returns {Boolean}  
@@ -480,7 +470,6 @@ export {
 
     //
     isValidDate,
-    isNumeric,
     isValidHours,
     isValidMinutesAndSeconds,
     isValidYear,

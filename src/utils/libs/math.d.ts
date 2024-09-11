@@ -1,6 +1,11 @@
-/**
- * Evaluating a string as a mathematical expression
- * @param {String} str      - An input string
- * @returns {Number}   - New calculation result.
- */
-export function evaluate(str: string): number;
+export function evaluate(s: any): number;
+export function calcAdd(num1: any, num2: any): number;
+export function calcSub(num1: any, num2: any): string;
+export function calcMul(num1: any, num2: any): number;
+export function calcDiv(num1: any, num2: any): number;
+export function isNumeric(s: any): boolean;
+export function isDecimal(num: any): boolean;
+export function truncateDecimals(num: any, decimalPlaces: any): number;
+export function numZeroPad(n: any, decimalPlaces?: number): string;
+export function exceedDecimalPlaces(s: any, decimalPlaces: any): boolean;
+export function formatNumber(inputValue: any, decimalPlaces?: number, inputMin?: any, inputMax?: any): string;

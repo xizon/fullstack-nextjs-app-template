@@ -46,12 +46,6 @@ export function getDateDetails(v: Date | string, padZeroEnabled?: boolean): {
  */
 export function isValidDate(v: string): boolean;
 /**
- * Number validation
- * @param {*} v
- * @returns {Boolean}
- */
-export function isNumeric(v: any): boolean;
-/**
  * Hours validation
  * @param {*} v
  * @returns {Boolean}

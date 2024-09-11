@@ -153,7 +153,17 @@ import {
 } from './libs/arr-manipulation';
 
 import {
-    evaluate
+    evaluate,
+    calcAdd,
+    calcSub,
+    calcMul,
+    calcDiv,
+    isDecimal,
+    isNumeric,
+    truncateDecimals,
+    numZeroPad,
+    exceedDecimalPlaces,
+    formatNumber
 } from './libs/math';
 import guid from './libs/guid';
 
@@ -195,7 +205,6 @@ import {
 
     //
     isValidDate,
-    isNumeric,
     isValidHours,
     isValidMinutesAndSeconds,
     isValidYear,
@@ -364,6 +373,16 @@ CoreUtils.add('arrayToStream', (...attrs) => arrayToStream(...attrs));
 CoreUtils.add('readStream', (...attrs) => readStream(...attrs));
 CoreUtils.add('updateJsonNode', (...attrs) => updateJsonNode(...attrs));
 CoreUtils.add('evaluate', (...attrs) => evaluate(...attrs));
+CoreUtils.add('calcAdd', (...attrs) => calcAdd(...attrs));
+CoreUtils.add('calcSub', (...attrs) => calcSub(...attrs));
+CoreUtils.add('calcMul', (...attrs) => calcMul(...attrs));
+CoreUtils.add('calcDiv', (...attrs) => calcDiv(...attrs));
+CoreUtils.add('isDecimal', (...attrs) => isDecimal(...attrs));
+CoreUtils.add('isNumeric', (...attrs) => isNumeric(...attrs));
+CoreUtils.add('truncateDecimals', (...attrs) => truncateDecimals(...attrs));
+CoreUtils.add('numZeroPad', (...attrs) => numZeroPad(...attrs));
+CoreUtils.add('exceedDecimalPlaces', (...attrs) => exceedDecimalPlaces(...attrs));
+CoreUtils.add('formatNumber', (...attrs) => formatNumber(...attrs));
 CoreUtils.add('guid', (...attrs) => guid(...attrs));
 CoreUtils.add('JWT_SECRET', () => JWT_SECRET);
 CoreUtils.add('JWT_EXPIRES_IN', () => JWT_EXPIRES_IN);
@@ -403,7 +422,6 @@ CoreUtils.add('isTimeString', (...attrs) => isTimeString(...attrs));
 CoreUtils.add('getNow', (...attrs) => getNow(...attrs));
 CoreUtils.add('padZero', (...attrs) => padZero(...attrs));
 CoreUtils.add('dateFormat', (...attrs) => dateFormat(...attrs));
-CoreUtils.add('isNumeric', (...attrs) => isNumeric(...attrs));
 CoreUtils.add('isValidHours', (...attrs) => isValidHours(...attrs));
 CoreUtils.add('isValidMinutesAndSeconds', (...attrs) => isValidMinutesAndSeconds(...attrs));
 CoreUtils.add('isValidYear', (...attrs) => isValidYear(...attrs));
