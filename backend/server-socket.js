@@ -44,6 +44,7 @@ const app = express();
 
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
+    maxHttpBufferSize: 10 * 1024 * 1024,  // maxPayload is "10M"
     cors: {
         origin: '*'
     }
