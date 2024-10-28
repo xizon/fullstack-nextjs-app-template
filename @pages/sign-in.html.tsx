@@ -146,15 +146,15 @@ const SignIn = () => {
 
     }
 
-    function handleUserChange(e) {
+    function handleUserChange(e: React.ChangeEvent<HTMLInputElement>) {
         setUsername(e.target.value);
     };
 
-    function handlePassChange(e) {
+    function handlePassChange(e: React.ChangeEvent<HTMLInputElement>) {
         setPassword(e.target.value);
     }
 
-    function signOut(e) {
+    function signOut(e: React.MouseEvent) {
         e.preventDefault();
         logout();
 
