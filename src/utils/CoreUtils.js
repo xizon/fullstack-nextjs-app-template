@@ -202,6 +202,7 @@ import {
     getNow,
     padZero,
     dateFormat,
+    getDateDetails,
 
     //
     isValidDate,
@@ -238,7 +239,12 @@ import {
     setDateHours,
     setDateMinutes,
     setDateDays,
-    timestampToDate
+    timestampToDate,
+
+    // get dates list
+    getMonthDates,
+    getWeekDatesFromSun,
+    getWeekDatesFromMon
 } from './libs/date';
 
 
@@ -422,6 +428,7 @@ CoreUtils.add('isTimeString', (...attrs) => isTimeString(...attrs));
 CoreUtils.add('getNow', (...attrs) => getNow(...attrs));
 CoreUtils.add('padZero', (...attrs) => padZero(...attrs));
 CoreUtils.add('dateFormat', (...attrs) => dateFormat(...attrs));
+CoreUtils.add('getDateDetails', (...attrs) => getDateDetails(...attrs));
 CoreUtils.add('isValidHours', (...attrs) => isValidHours(...attrs));
 CoreUtils.add('isValidMinutesAndSeconds', (...attrs) => isValidMinutesAndSeconds(...attrs));
 CoreUtils.add('isValidYear', (...attrs) => isValidYear(...attrs));
@@ -432,6 +439,9 @@ CoreUtils.add('setDateHours', (...attrs) => setDateHours(...attrs));
 CoreUtils.add('setDateMinutes', (...attrs) => setDateMinutes(...attrs));
 CoreUtils.add('setDateDays', (...attrs) => setDateDays(...attrs));
 CoreUtils.add('timestampToDate', (...attrs) => timestampToDate(...attrs));
+CoreUtils.add('getMonthDates', (...attrs) => getMonthDates(...attrs));
+CoreUtils.add('getWeekDatesFromSun', (...attrs) => getWeekDatesFromSun(...attrs));
+CoreUtils.add('getWeekDatesFromMon', (...attrs) => getWeekDatesFromMon(...attrs));
 CoreUtils.add('removeArrDuplicateItems', (...attrs) => removeArrDuplicateItems(...attrs));
 CoreUtils.add('deepClone', (...attrs) => deepClone(...attrs));
 CoreUtils.add('flatData', (...attrs) => flatData(...attrs));

@@ -460,6 +460,72 @@ function timestampToDate(v, padZeroEnabled = true) {
 
 
 
+/**
+ * Get the date of the specified month
+ * @param {Number} year 
+ * @param {Number} month 
+ * @returns {Array<string>} 
+ */
+function getMonthDates(year, month) {
+    const dates = [];
+
+    // Get the total number of days in the month
+    const daysInMonth = new Date(year, month, 0).getDate();
+
+   
+    for (let day = 1; day <= daysInMonth; day++) {
+        dates.push(`${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`); // 'YYYY-MM-DD'
+    }
+
+    return dates;
+}
+
+/**
+ * Get the date of the specified week (From Sunday)
+ * @param {Number} weekOffset 
+ * @returns {Array<Date>} 
+ */
+function getWeekDatesFromSun(weekOffset) {
+    const dates = [];
+    const currentDate = new Date();
+
+    // Calculate the date of Sunday
+    const dayOfWeek = currentDate.getDay(); // 0 is Sunday
+    currentDate.setDate(currentDate.getDate() - dayOfWeek + weekOffset * 7);
+
+    // Get the date of the week
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(currentDate);
+        date.setDate(currentDate.getDate() + i);
+        dates.push(date);
+    }
+
+    return dates;
+}
+
+/**
+ * Get the date of the specified week (From Monday)
+ * @param {Number} weekOffset 
+ * @returns {Array<Date>} 
+ */
+function getWeekDatesFromMon(weekOffset) {
+    const dates = [];
+    const currentDate = new Date();
+
+    // Set the date to Monday
+    const dayOfWeek = currentDate.getDay();
+    const diffToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+    currentDate.setDate(currentDate.getDate() + diffToMonday + weekOffset * 7);
+
+    // Get the date of the week
+    for (let i = 0; i < 7; i++) {
+        const date = new Date(currentDate);
+        date.setDate(currentDate.getDate() + i);
+        dates.push(date);
+    }
+
+    return dates;
+}
 
 export {
     isTimeString,
@@ -503,5 +569,10 @@ export {
     setDateHours,
     setDateMinutes,
     setDateDays,
-    timestampToDate
+    timestampToDate,
+
+    // get dates list
+    getMonthDates,
+    getWeekDatesFromSun,
+    getWeekDatesFromMon
 }

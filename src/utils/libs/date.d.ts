@@ -210,3 +210,22 @@ export function setDateDays(v: Date | string, offset: number, padZeroEnabled?: b
  * @returns {String}  yyyy-MM-dd HH:mm:ss
  */
 export function timestampToDate(v: number, padZeroEnabled?: boolean): string;
+/**
+ * Get the date of the specified month
+ * @param {Number} year
+ * @param {Number} month
+ * @returns {Array<string>}
+ */
+export function getMonthDates(year: number, month: number): Array<string>;
+/**
+ * Get the date of the specified week (From Sunday)
+ * @param {Number} weekOffset
+ * @returns {Array<Date>}
+ */
+export function getWeekDatesFromSun(weekOffset: number): Array<Date>;
+/**
+ * Get the date of the specified week (From Monday)
+ * @param {Number} weekOffset
+ * @returns {Array<Date>}
+ */
+export function getWeekDatesFromMon(weekOffset: number): Array<Date>;
