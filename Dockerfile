@@ -96,6 +96,11 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /fullstack-nextjs-app-template/public ./public
 
+# Next.js Directory permission settings (IF arm64 to amd64)
+RUN ls -ld ./public
+RUN chmod -R 755 ./public
+
+
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
