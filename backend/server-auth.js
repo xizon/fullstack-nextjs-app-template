@@ -80,6 +80,10 @@ axios({
 });
     
 */
+
+//!!! IMPORTANT !!!
+// If you use "https" to forward the service. Please do not use `express-jwt` for form upload.
+
 app.post('/verify-token', jwtVerify({ secret: getSecret, algorithms: ALGORITHMS }), async (req, res) => {
 
     // console.log(req.auth); // { name: 'admin', role: '[ADMIN_SYS]', iat: 1694188712 }
@@ -103,9 +107,7 @@ app.post('/verify-token', jwtVerify({ secret: getSecret, algorithms: ALGORITHMS 
 
 
 
-//
-//!!! IMPORTANT !!!
-// Please do not use `express-jwt` for form upload. If you add Authorization to the header, 
+// If you add Authorization to the header, 
 // the [boundary] will be lost and the content of FormData cannot be obtained correctly.
 // the headers are correctly set `Content-Type:multipart/form-data; boundary=----WebKitFormBoundaryxxxxxxxxxx`
 app.post('/upload-plugin-security', async (req, res) => {
