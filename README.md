@@ -1318,6 +1318,8 @@ socketIOClient(someUrl, {transports: ['websocket']});
 
 TLS termination is handled at the Envoy Proxy, ensuring secure communication between the browser and the proxy. Here’s the simple configuration block you need within the HttpConnectionManager section to enable WebSocket support:
 
+[check out here](https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/websocket)
+
 
 ```yml
 upgrade_configs: 
