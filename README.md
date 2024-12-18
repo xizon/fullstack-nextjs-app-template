@@ -1314,7 +1314,18 @@ socketIOClient(someUrl, {transports: ['websocket']});
 ```
 
 
-#### 2. Other platforms
+#### 2. Configure WebSockets with Envoy Proxy
+
+TLS termination is handled at the Envoy Proxy, ensuring secure communication between the browser and the proxy. Here’s the simple configuration block you need within the HttpConnectionManager section to enable WebSocket support:
+
+
+```yml
+upgrade_configs: 
+ upgrade_type: "websocket"
+```
+
+
+#### 3. Other platforms
 
 Refer to: [Using multiple nodes](https://socket.io/docs/v4/using-multiple-nodes/)
 
