@@ -22,7 +22,16 @@ function serializeArray(form, types = ['input', 'textarea', 'select', 'checkbox'
                 const _arrFieldValue = [];
                 for (let j = 0; j < inputs.length; j++) {
                     const _arrField = inputs[j];
-                    _arrFieldValue.push(_arrField.value);
+                    //if checkbox or radio
+                    if (_arrField.type === "radio" || _arrField.type === "checkbox") {
+                        if (_arrField.checked === true) {
+                            _arrFieldValue.push(_arrField.value);
+                        } else {
+                            _arrFieldValue.push("");
+                        }
+                    } else {
+                        _arrFieldValue.push(_arrField.value);
+                    }
                 }
 
                 _value = _arrFieldValue;
