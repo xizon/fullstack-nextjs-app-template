@@ -19,3 +19,7 @@ export function getCookie(name: string): string;
  * @param {?String} path    A String indicating the path where the cookie is visible.
  */
 export function delCookie(name: string, path?: string | null): void;
+/**
+ * Clear All Cookies
+ */
+export function clearAllCookies(): void;

@@ -46,7 +46,8 @@ import {
 import { 
     getCookie, 
     setCookie, 
-    delCookie 
+    delCookie,
+    clearAllCookies
 } from './libs/cookies-tool';
 import { browser } from './libs/browser';
 import { os } from './libs/os';
@@ -303,6 +304,7 @@ CoreUtils.add('easeInOutBack', (...attrs) => easeInOutBack(...attrs));
 CoreUtils.add('getCookie', (...attrs) => getCookie(...attrs));
 CoreUtils.add('setCookie', (...attrs) => setCookie(...attrs));
 CoreUtils.add('delCookie', (...attrs) => delCookie(...attrs));
+CoreUtils.add('clearAllCookies', (...attrs) => clearAllCookies(...attrs));
 CoreUtils.add('browser', () => browser);
 CoreUtils.add('os', () => os);
 CoreUtils.add('matchAllFilesUrls', (...attrs) => matchAllFilesUrls(...attrs));

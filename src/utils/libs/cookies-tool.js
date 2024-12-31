@@ -53,9 +53,20 @@ function delCookie(name, path = '/') {
     }
 } 
 
+/**
+ * Clear All Cookies
+ */
+function clearAllCookies() {
+    document.cookie.split(";").forEach(function (cookie) {
+        document.cookie = cookie
+            .replace(/^ +/, "") // Remove the opening space
+            .replace(/=.*/, "=;expires=" + new Date(0).toUTCString() + ";path=/");
+    });
+}
 
 export {
     setCookie,
     getCookie,
-    delCookie
+    delCookie,
+    clearAllCookies
 }
