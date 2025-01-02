@@ -27,10 +27,11 @@ export async function generateStaticParams() {
 async function getServerSideProps(params) {
 
 
-    const id = params.id?.replace('.html', '');
+    const { id: myId, comment: myComment } = await params;
+    const id = myId.replace('.html', '');
 
     //
-    const id2 = params.comment?.replace('.html', '');
+    const id2 = myComment.replace('.html', '');
     const currentData2 = id2.replace('.html', '');
     
     return [id, currentData2];

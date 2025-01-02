@@ -7,7 +7,7 @@ import pageData from "@/data/page.json";
 
 export async function generateMetadata({ params }) {
 
-    const page = params.page;
+    const { page } = await params;
     const curPage: any = isNaN(page.replace('.html','')) ? 1 : page.replace('.html','');
 
     return {
@@ -38,7 +38,7 @@ export async function generateStaticParams() {
 
 async function getServerSideProps(params) {
 
-    const page = params.page;
+    const { page } = await params;
     const curPage: any = isNaN(page.replace('.html','')) ? 1 : page.replace('.html','');
 
 
@@ -58,7 +58,7 @@ async function getServerSideProps(params) {
 
 export default async function PostsPagination({ params }) {
 
-    const page = params.page;
+    const { page } = await params;
     const curPage: any = isNaN(page.replace('.html','')) ? 1 : page.replace('.html','');
     const data = await getServerSideProps(params);
 

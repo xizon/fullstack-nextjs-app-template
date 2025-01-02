@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 // - ...
 async function getServerSideProps(params) {
 
-    const id = params.id;
+    const { id } = await params;
     return id.replace('.html', '');
 }
 

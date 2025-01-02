@@ -20,7 +20,7 @@ async function getServerSideProps() {
     // to avoid `npm run export` command aborting with the error "couldn't be rendered statically because it used headers"
     try {
             
-        const headersList = headers();
+        const headersList = await headers();
         const host = headersList.get('host');
 
         console.log('Local Url: ', `//${host}`);

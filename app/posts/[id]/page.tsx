@@ -8,7 +8,8 @@ import ClientPage from "./ClientPage";
 
 export async function generateMetadata({ params }) {
 
-    const id = params.id?.replace('.html', '');
+    const { id: myId } = await params;
+    const id = myId.replace('.html', '');
     let res: any = null;
     let currentData: any = null;
   
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }) {
         openGraph: {
             title: `${currentData.name} - Posts`,
             description: `${currentData.name} - Posts`,
-            url: `${appData.siteUrl}/posts/${params.id}`,
+            url: `${appData.siteUrl}/posts/${myId}`,
             siteName: `${appData.siteName}`,
             images: [
                 {
@@ -46,11 +47,11 @@ export async function generateMetadata({ params }) {
 // Incremental Static Regeneration. (Next.js will attempt to re-generate the page:)
 // @https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
 // !!! IMPORTANT:  Error: ISR cannot be used with "output: export"
-export const dynamicParams = true;
-export const revalidate = process.env.exportHtml == 'true' ? undefined : 10; // In seconds 
 export const dynamic = "force-static"; // the page data is fetched once and cached, not refetched on every load
 
-export async function generateStaticParams() {
+export async function generateStaticParams({ params }) {
+    const { id } = await params;
+    
     if (process.env.SKIP_BUILD_STATIC_GENERATION) {
         return [];
     } else {
@@ -91,7 +92,7 @@ export async function generateStaticParams() {
 // - ...
 async function getServerSideProps(params) {
 
-    const id = params.id;
+    const { id } = await params;
 
     let res: any = null;
     let currentData: any = null;

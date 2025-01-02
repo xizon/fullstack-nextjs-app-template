@@ -33,7 +33,7 @@ export async function POST(req) {
             });
 
             const b64string = Buffer.from(response.data, 'binary').toString('base64');
-            let fileData = Buffer.from(b64string, 'base64');
+            let fileData: any = Buffer.from(b64string, 'base64');
 
             // from  `.next/server/...`
             mkdirsSync(path.resolve(__dirname, publicDir + 'static-remote/'));

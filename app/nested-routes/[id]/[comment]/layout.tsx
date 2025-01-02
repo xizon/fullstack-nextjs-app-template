@@ -1,10 +1,11 @@
 
 export async function generateMetadata({ params }) {
 
-    const id = params.id?.replace('.html', '');
+    const { id: myId, comment: myComment } = await params;
+    const id = myId.replace('.html', '');
 
     //
-    const id2 = params.comment?.replace('.html', '');
+    const id2 = myComment.replace('.html', '');
     const currentData2 = id2.replace('.html', '');
 
     return {
@@ -20,10 +21,7 @@ export default function NestedRoutesChildChildLayout({
     params
 }: {
     children: React.ReactNode,
-    params: {
-        id: string,
-        comment: string
-    }
+    params: Promise<Record<string, string>>
 }) {
 
     return <div className="app-nested-container--child">{children}</div>

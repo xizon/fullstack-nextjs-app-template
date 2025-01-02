@@ -1,5 +1,5 @@
 'use client'
-
+import * as React from 'react'
 import Layout from '@/components/Layout';
 
 export default function ClientLayout({
@@ -7,13 +7,12 @@ export default function ClientLayout({
     params
 }: {
     children: React.ReactNode,
-    params: {
-        id: string
-    }
+    params: Promise<Record<string, string>>
 }) {
     
-  
-    const id = params.id?.replace('.html', '');
+  // asynchronous access of `params.id`.
+  const { id: myId } = (React as any).use(params);
+    const id = myId.replace('.html', '');
     const currentData = id.replace('.html', '');
 
     return (

@@ -1,5 +1,13 @@
 # Changelog
 
+#### = 1.4.2 (January 2, 2025) =
+
+* Upgraded: nextjs to 15.1.3.
+* Upgraded: react to 19.0.0.
+* Tweak: Optimized the adaptability of "export" scripts from `package.json`.
+* Tweak: Other minor tweaks.
+
+
 #### = 1.4.0 (July 17, 2024) =
 
 * New: Add the Authorization header identifier in the middleware after login.

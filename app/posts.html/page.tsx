@@ -13,6 +13,12 @@ export async function generateMetadata({ params }) {
 
 
 
+// Incremental Static Regeneration. (Next.js will attempt to re-generate the page:)
+// @https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating
+// !!! IMPORTANT:  Error: ISR cannot be used with "output: export"
+// Exclude the "api/" directory
+export const dynamic = "force-static"; // the page data is fetched once and cached, not refetched on every load
+
 async function getServerSideProps() {
 
     let res: any = null;
