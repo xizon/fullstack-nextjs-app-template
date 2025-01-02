@@ -32,6 +32,14 @@ app.use('/api', express.static(STATIC_FILES_DIR));
 // app.use('/api', express.static(path.join(__dirname, '..', '/uploads/api')));
 
 
+// Intercept direct access requests to /api/private/
+app.use((req, res, next) => {
+    if (req.url.startsWith('/api/private')) {
+        return res.status(403).send('Direct access to files is forbidden');
+    }
+    next();
+});
+
 // utilities
 const remainingElements = require('./utils/remaining-elements');
 
