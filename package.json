@@ -49,15 +49,15 @@
     "php-express": "0.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-redux": "^8.0.5",
-    "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.3.1",
     "@types/node": "18.7.13",
-    "@types/react": "18.0.17",
-    "@types/react-dom": "18.0.6",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
     "cross-env": "^7.0.3",
     "eslint": "8.22.0",
     "eslint-config-next": "^15.1.3",
