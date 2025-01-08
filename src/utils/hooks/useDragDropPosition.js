@@ -126,7 +126,7 @@ const App2 = () => {
                 <div
                     ref={setup}
                     className="float-btn"
-                    style={{ position: 'fixed', left: '50%', top: '50%', zIndex: 1000, background: 'red' }}
+                    style={{ position: 'absolute', left: '50%', top: '50%', zIndex: 1000, background: 'red' }}
 
                 >Move Here<small>{JSON.stringify(objPosition)}</small><br /><strong>{show ? 'Clicked' : 'None'}</strong></div>
 
