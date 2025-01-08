@@ -24,8 +24,10 @@ const App = () => {
 
 
     const { setup, ref } = useDragDropPosition({
+        // usePercentage: true, // Enable percentage values
         dimension,
-        onDragEnd: ({ left, top }) => {
+        onDragEnd: ({position, hasContainer}) => {
+            const { left, top } = position;
             setObjPosition({
                 x: left || 0,
                 y: (top || 0),
@@ -36,7 +38,8 @@ const App = () => {
             // click event here (restore)
             setShow(false);
         },
-        onDragStart: ({ left, top }) => {
+        onDragStart: ({position, hasContainer}) => {
+            const { left, top } = position;
             setObjPosition({
                 x: left || 0,
                 y: (top || 0),
@@ -46,7 +49,8 @@ const App = () => {
             // click event here (restore)
             setShow(false);
         },
-        onInit: ({ left, top }) => {
+        onInit: ({position, hasContainer}) => {
+            const { left, top } = position;
             setObjPosition({
                 x: left || 0,
                 y: (top || 0),
@@ -62,7 +66,8 @@ const App = () => {
             setShow((prev) => !prev);
             
         }, []),
-        onMove: ({ left, top }) => {
+        onMove: ({position, hasContainer}) => {
+            const { left, top } = position;
             setObjPosition({
                 x: left || 0,
                 y: (top || 0),
@@ -86,7 +91,48 @@ const App = () => {
                 
             >Move Here<small>{JSON.stringify(objPosition)}</small><br /><strong>{show ? 'Clicked' : 'None'}</strong></div>
 
-            
+        </>
+    )
+}
+
+
+
+
+const App2 = () => {
+
+    const dragdropContainerRef = useRef<HTMLDivElement>(null);
+    ....
+
+    const { setup, ref } = useDragDropPosition({
+        container: dragdropContainerRef.current,  // If there is a container with a drag range
+        ...
+    });
+
+
+    return (
+
+        <>
+
+            <div
+                ref={dragdropContainerRef}
+                style={{
+                    width: '300px',
+                    height: '300px',
+                    border: '1px solid #ddd',
+                    background: '#efefef',
+                    position: 'relative'
+                }}
+            >
+                <div
+                    ref={setup}
+                    className="float-btn"
+                    style={{ position: 'fixed', left: '50%', top: '50%', zIndex: 1000, background: 'red' }}
+
+                >Move Here<small>{JSON.stringify(objPosition)}</small><br /><strong>{show ? 'Clicked' : 'None'}</strong></div>
+
+            </div> 
+
+
 
         </>
     )
@@ -101,6 +147,7 @@ const useDragDropPosition = (
     settings
 ) => {
     const {
+        container = null,
         onPointerDown,
         onPointerUp,
         onDragStart,
@@ -109,7 +156,8 @@ const useDragDropPosition = (
         dimension = 0,
         onInit,
         pin,
-        moveDelay = 150
+        moveDelay = 150,
+        usePercentage = false  // option to return percentage values
     } = settings;
 
     const ref = useRef(null);
@@ -117,27 +165,78 @@ const useDragDropPosition = (
     const isDragged = useRef(false);
     const keyPressed = useRef(false);
 
+    
+    // Convert pixel position to percentage
+    const convertToPercentage = useCallback((position) => {
+        if (usePercentage) {
+            if (!container) return {
+                position,
+                hasContainer: container
+            };
+
+            const containerDim = getContainerDimensions();
+            return {
+                position: {
+                    left: (position.left / containerDim.width) * 100,
+                    top: (position.top / containerDim.height) * 100
+                },
+                hasContainer: container
+            };
+        } else {
+            return {
+                position,
+                hasContainer: false
+            };
+        }
+
+    });
+
+
+    const getContainerDimensions = () => {
+      
+        if (!container) {
+            return {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                left: 0,
+                top: 0
+            };
+        }
+
+        const rect = container.getBoundingClientRect();
+        return {
+            width: rect.width,
+            height: rect.height,
+            left: rect.left,
+            top: rect.top
+        };
+    };
 
     const getLeft = (left, dimension) => {
-        if (left < 0) {
-            return 0;
-        } else if (left + dimension > window.innerWidth) {
-            return window.innerWidth - dimension;
-        } else {
-            return left;
+        const containerDim = getContainerDimensions();
+        const minLeft = container ? 0 : containerDim.left;
+        const maxLeft = containerDim.width - dimension;
+
+        if (left < minLeft) {
+            return minLeft;
+        } else if (left > maxLeft) {
+            return maxLeft;
         }
+        return left;
     };
 
     const getTop = (top, dimension) => {
-        if (top < 0) {
-            return 0;
-        } else if (top + dimension > window.innerHeight) {
-            return window.innerHeight - dimension;
-        } else {
-            return top;
-        }
-    };
+        const containerDim = getContainerDimensions();
+        const minTop = container ? 0 : containerDim.top;
+        const maxTop = containerDim.height - dimension;
 
+        if (top < minTop) {
+            return minTop;
+        } else if (top > maxTop) {
+            return maxTop;
+        }
+        return top;
+    };
 
 
 
@@ -166,6 +265,28 @@ const useDragDropPosition = (
         top: 0,
     });
 
+    // Handles relative position calculations
+    const calculateRelativePosition = (clientX, clientY) => {
+        const containerDim = getContainerDimensions();
+        const halfWidth = Math.round(dimension / 2);
+
+        let x = clientX;
+        let y = clientY;
+
+        if (container) {
+            // Calculate the position relative to the container
+            x = clientX - containerDim.left;
+            y = clientY - containerDim.top;
+        }
+
+        return {
+            x: x - halfWidth,
+            y: y - halfWidth
+        };
+    };
+
+
+
     // ev: PointerEvent | KeyboardEvent
     const handlePointerDown = (ev) => {
         moveDelayInit();
@@ -188,64 +309,59 @@ const useDragDropPosition = (
     // ev: PointerEvent | KeyboardEvent
     const handlePointerUp = (ev) => {
         moveDelayInitClear();
-
-        //
         isClicked.current = false;
 
-        const ele = ev.target;
-
         if (ev instanceof PointerEvent) {
+            const ele = ev.target;
             ele.releasePointerCapture(ev.pointerId);
         }
 
+        if (typeof onDragEnd === 'function') {
+            // Convert final position to percentage if needed
+            const finalPosition = convertToPercentage(positionRef.current);
+            onDragEnd(finalPosition);
+        }
+        
         if (!isDragged.current) {
-            if (typeof onPointerDown === 'function') onPointerUp();
+            if (typeof onPointerUp === 'function') onPointerUp();
         } else {
             isDragged.current = false;
-            if (typeof onPointerDown === 'function') onDragEnd(positionRef.current);
         }
     };
 
     // e: PointerEvent
     const onPointerMove = (e) => {
+        if (moveDisabled.current || !isClicked.current || !ref.current || keyPressed.current) {
+            return;
+        }
 
-        if (moveDisabled.current) return;
+        const touches = e.touches;
+        const clientX = touches && touches.length ? touches[0].clientX : e.clientX;
+        const clientY = touches && touches.length ? touches[0].clientY : e.clientY;
+
+        const { x, y } = calculateRelativePosition(clientX, clientY);
+
+        const position = {
+            left: getLeft(x, dimension),
+            top: getTop(y, dimension),
+        };
+
+        if (!isDragged.current) {
+            isDragged.current = true;
+            if (typeof onDragStart === 'function') {
+                const startPosition = convertToPercentage(position);
+                onDragStart(startPosition);
+            }
+        }
+
+        positionRef.current = position;
         
-        //
-        if (isClicked.current && ref.current && !keyPressed.current) {
+        // Always use pixels for actual positioning
+        ref.current.style.cssText += `top: ${position.top}px;left: ${position.left}px;`;
 
-            const touches = e.touches;
-            let _x = '';
-            let _y = '';
-
-			if ( touches && touches.length ) {
-                _x = touches[0].pageX;
-				_y = touches[0].pageY;
-			} else {
-                _x = e.clientX;
-				_y = e.clientY;
-            }
-
-
-            const halfWidth = Math.round(dimension / 2);
-            const x = _x - halfWidth;
-            const y = _y - halfWidth;
-
-            const position = {
-                left: getLeft(x, dimension),
-                top: getTop(y, dimension),
-            };
-
-            if (!isDragged.current) {
-                isDragged.current = true;
-                if (typeof onPointerDown === 'function') onDragStart(position);
-            }
-
-            positionRef.current = position;
-            ref.current.style.cssText += `top: ${position.top}px;left: ${position.left}px;`;
-
-
-            if (typeof onMove === 'function') onMove(position);
+        if (typeof onMove === 'function') {
+            const movePosition = convertToPercentage(position);
+            onMove(movePosition);
         }
     };
 
@@ -254,16 +370,23 @@ const useDragDropPosition = (
             ref.current = node;
             node.addEventListener("pointerdown", handlePointerDown);
             node.addEventListener("keydown", handlePointerDown);
-            node.addEventListener("mouseup", handlePointerUp);  // DO NOT USE 'pointerup'
+            node.addEventListener("mouseup", handlePointerUp);
             node.style.touchAction = "none";
-            const { left, top } = node.getBoundingClientRect();
-            if (typeof onInit === 'function') onInit({
-                left,
-                top,
-            });
-        }
 
-    }, []);
+            // Get initial position
+            const rect = node.getBoundingClientRect();
+            const containerDim = getContainerDimensions();
+            const initialPosition = {
+                left: container ? rect.left - containerDim.left : rect.left,
+                top: container ? rect.top - containerDim.top : rect.top,
+            };
+
+            if (typeof onInit === 'function') {
+                const initPosition = convertToPercentage(initialPosition);
+                onInit(initPosition);
+            }
+        }
+    }, [container]);  // need dependence "container"
 
     useEffect(() => {
         // attach drag handlers if not pinned
@@ -277,7 +400,7 @@ const useDragDropPosition = (
                 document.removeEventListener("touchmove", onPointerMove);
             };
         }
-    }, []);
+    }, [container]);  // need dependence "container"
 
 
     useEffect(() => {
