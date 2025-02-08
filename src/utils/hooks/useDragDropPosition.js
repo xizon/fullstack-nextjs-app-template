@@ -3,8 +3,6 @@
  * 
  * @usage:
 
-import { useState, useCallback } from 'react';
-import { useDragDropPosition } from '@/utils/hooks/useDragDropPosition';
 
 const App = () => {
 
