@@ -1,6 +1,9 @@
 export default useAutosizeTextArea;
-declare function useAutosizeTextArea({ el, value, cb }: {
+declare function useAutosizeTextArea({ el, value, maxHeight, cb }: {
     el: any;
     value: any;
+    maxHeight?: number;
     cb: any;
-}): void;
+}): {
+    reset: () => void;
+};
