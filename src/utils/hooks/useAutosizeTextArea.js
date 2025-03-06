@@ -77,7 +77,12 @@ const useAutosizeTextArea = ({
 
             // initialize default row height
             if (el.scrollHeight > 0 && !defaultRowHeightInit) {
-                setDefaultRowHeight(el.scrollHeight + parseInt(style.borderTopWidth) + parseInt(style.borderBottomWidth));
+                let _defaultRowHeight = el.scrollHeight + parseInt(style.borderTopWidth) + parseInt(style.borderBottomWidth);
+                if (maxHeight != 0 && _defaultRowHeight >= maxHeight) {
+                    _defaultRowHeight = maxHeight;
+                }
+
+                setDefaultRowHeight(_defaultRowHeight);
                 setDefaultRowHeightInit(true);
             }
 
@@ -94,11 +99,12 @@ const useAutosizeTextArea = ({
 
             // !!! Compare initial height and changed height
             if (scrollHeight > defaultRowHeight && defaultRowHeight > 0) {
-                if (maxHeight != 0 && scrollHeight >= maxHeight) {
-                    el.style.height = maxHeight + "px";
-                } else {
-                    el.style.height = scrollHeight + "px";
+                let _scrollHeight = scrollHeight;
+                if (maxHeight != 0 && _scrollHeight >= maxHeight) {
+                    _scrollHeight = maxHeight;
                 }
+                
+                el.style.height = _scrollHeight + "px";
             }
 
             cb?.([_controlWidth, scrollHeight]);
