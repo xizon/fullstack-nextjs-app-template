@@ -49,69 +49,75 @@
 
 import { useEffect, useState, useCallback } from "react";
 
+
 const useAutosizeTextArea = ({
     el,
     value,
     maxHeight = 0,
     cb
 }) => {
-    const [defaultRowHeight, setDefaultRowHeight] = useState(0);
+
     const [defaultRowHeightInit, setDefaultRowHeightInit] = useState(false);
 
     // Reset function to restore default height
     const reset = useCallback(() => {
-        if (el && defaultRowHeight > 0) {
-            el.style.height = defaultRowHeight + "px";
-            
-            // Get current dimensions after reset
-            const style = el.currentStyle || window.getComputedStyle(el);
-            const _controlWidth = el.scrollWidth + parseInt(style.borderLeftWidth) + parseInt(style.borderRightWidth);
-            cb?.([_controlWidth, defaultRowHeight]);
-        }
-    }, [el, defaultRowHeight, cb]);
+        if (!el) return;
+        
+        const scrollHeight = el.scrollHeight;
+        el.style.height = scrollHeight + "px";
+        
+        // Get current dimensions after reset
+        const style = window.getComputedStyle(el);
+        const _controlWidth = el.scrollWidth + parseInt(style.borderLeftWidth) + parseInt(style.borderRightWidth);
+        cb?.([_controlWidth, scrollHeight]);
+    }, [el, cb]);
 
     useEffect(() => {
-        if (el) {
-            const style = el.currentStyle || window.getComputedStyle(el);
-            const _controlWidth = el.scrollWidth + parseInt(style.borderLeftWidth) + parseInt(style.borderRightWidth);
+        if (!el) return;
 
-            // initialize default row height
-            if (el.scrollHeight > 0 && !defaultRowHeightInit) {
-                let _defaultRowHeight = el.scrollHeight + parseInt(style.borderTopWidth) + parseInt(style.borderBottomWidth);
-                if (maxHeight != 0 && _defaultRowHeight >= maxHeight) {
-                    _defaultRowHeight = maxHeight;
-                }
+        // Initialize default height
+        if (!defaultRowHeightInit) {
+            el.style.height = 'auto';
+            const initialHeight = el.scrollHeight;
+            setDefaultRowHeightInit(true);
 
-                setDefaultRowHeight(_defaultRowHeight);
-                setDefaultRowHeightInit(true);
+            // If the height is 0, set it to "auto"
+            if (initialHeight === 0) {
+                el.style.height = "auto";
+            } else {
+                el.style.height = initialHeight + "px";
             }
 
-            // restore default row height
-            if (defaultRowHeight > 0) {
-                el.style.height = defaultRowHeight + "px";
-            }
-
-            // reset the height momentarily to get the correct scrollHeight for the textarea
-            const scrollHeight = el.scrollHeight;
-
-            // then set the height directly, outside of the render loop
-            // Trying to set this with state or a ref will product an incorrect value.
-
-            // !!! Compare initial height and changed height
-            if (scrollHeight > defaultRowHeight && defaultRowHeight > 0) {
-                let _scrollHeight = scrollHeight;
-                if (maxHeight != 0 && _scrollHeight >= maxHeight) {
-                    _scrollHeight = maxHeight;
-                }
-                
-                el.style.height = _scrollHeight + "px";
-            }
-
-            cb?.([_controlWidth, scrollHeight]);
         }
-    }, [el, value]);
+
+        // Get dimensions
+        const style = window.getComputedStyle(el);
+        const _controlWidth = el.scrollWidth + parseInt(style.borderLeftWidth) + parseInt(style.borderRightWidth);
+
+        // Calculate height
+        el.style.height = 'auto';
+        let finalHeight = el.scrollHeight;
+        
+        // Apply max height limit if needed
+        if (maxHeight > 0 && finalHeight > maxHeight) {
+            finalHeight = maxHeight;
+        }
+
+        // Set final height
+        // If the height is 0, set it to "auto"
+        if (finalHeight === 0) {
+            el.style.height = "auto";
+        } else {
+            el.style.height = finalHeight + "px";
+        }
+
+
+        // Callback
+        cb?.([_controlWidth, finalHeight]);
+
+    }, [el, value, maxHeight, defaultRowHeightInit]);
 
     return { reset };
 };
 
-export default useAutosizeTextArea; 
+export default useAutosizeTextArea;
