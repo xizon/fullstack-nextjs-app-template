@@ -4,5 +4,6 @@ declare function useHistoryTracker(props: any): {
     currentUrl: string;
     firstUrl: string;
     clearHistory: () => void;
+    goToHistory: (index: number) => void;
     isReady: boolean;
 };

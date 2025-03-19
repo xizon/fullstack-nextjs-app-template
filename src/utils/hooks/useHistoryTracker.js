@@ -9,7 +9,7 @@ const App = () => {
         currentUrl, 
         firstUrl, 
         clearHistory, 
-        isReady 
+        goToHistory
     } = useHistoryTracker({
         onChange: ({ history, currentUrl, firstUrl }) => {
             console.log('--> URL changed:', {
@@ -83,6 +83,13 @@ const App = () => {
             <button onClick={clearHistory}>
                 Clear History
             </button>
+
+            <button onClick={() => {
+                goToHistory(0);
+            }}>
+                Jump to a history
+            </button>
+
 
             <button onClick={() => {
                 window.history.go(-1);
@@ -222,11 +229,23 @@ const useHistoryTracker = (props) => {
         });
     }, [onChange]); // only "onChange"
 
+    const goToHistory = useCallback((index) => {
+        if (typeof window === 'undefined') return;
+        if (index < 0 || index >= historyRef.current.length) return;
+        
+        const targetUrl = historyRef.current[index];
+        if (targetUrl && targetUrl !== window.location.href) {
+            window.location.href = targetUrl;
+        }
+    }, []);
+
+
     return {
         history: historyRef.current,
         currentUrl,
         firstUrl: firstUrlRef.current,
         clearHistory,
+        goToHistory,
         isReady
     };
 };
