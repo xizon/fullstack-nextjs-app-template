@@ -16,9 +16,24 @@ if ( typeof window !== "undefined" ) {
     document.addEventListener("test", null, { get passive() { supportsPassive = true }});
     } catch(e) {}
 
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const mobileKeywords = [
+        'android',
+        'iphone',
+        'ipad',
+        'ipod',
+        'webos',
+        'blackberry',
+        'windows phone',
+        'opera mini',
+        'mobile',
+        'tablet'
+    ];
+
+    
     browser = {
-        isTablet        : /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(navigator.userAgent.toLowerCase()),
-        isMobile        : /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+        isTablet        : /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent),
+        isMobile        : mobileKeywords.some(keyword => userAgent.includes(keyword)),
         isAndroid       : /(android)/i.test(navigator.userAgent),
         isPC            : !navigator.userAgent.match(/(iPhone|iPod|Android|ios|Mobile)/i),
         isSafari        : !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/), /*Test to 9, 10. */

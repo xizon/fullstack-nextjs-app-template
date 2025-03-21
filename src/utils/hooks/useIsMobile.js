@@ -28,13 +28,35 @@ const useIsMobile = (breakpoint = 768) => {
     const [isMobile, setIsMobile] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
+    const checkUserAgent = () => {
+        if (!window) return false;
+        
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        const mobileKeywords = [
+            'android',
+            'iphone',
+            'ipad',
+            'ipod',
+            'webos',
+            'blackberry',
+            'windows phone',
+            'opera mini',
+            'mobile',
+            'tablet'
+        ];
+
+        return mobileKeywords.some(keyword => userAgent.includes(keyword));
+    };
+
     useEffect(() => {
         // Set the mounted state to true after the component has mounted
         setIsMounted(true);
 
         const handleResize = () => {
             if (window) {
-                setIsMobile(window.innerWidth <= breakpoint);
+                const isMobileSize = window.innerWidth <= breakpoint;
+                const isMobileDevice = checkUserAgent();
+                setIsMobile(isMobileSize || isMobileDevice);
             }
         };
 
