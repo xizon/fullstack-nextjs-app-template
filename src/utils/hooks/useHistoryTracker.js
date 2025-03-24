@@ -6,61 +6,44 @@
 const App = () => {
     const { 
         history, 
+        forwardHistory,
         currentUrl, 
         firstUrl, 
-        clearHistory, 
-        goToHistory
+        clearHistory,
+        goBack
     } = useHistoryTracker({
-        onChange: ({ history, currentUrl, firstUrl }) => {
-            console.log('--> URL changed:', {
-                firstUrl,
-                history,
-                currentUrl
-            });
+        onChange: ({ 
+            isReady,
+            history, 
+            forwardHistory,
+            currentUrl, 
+            firstUrl, 
+            canGoBack,
+            canGoForward
+        } : { 
+            isReady: boolean;
+            history: string[];
+            forwardHistory: string[];
+            currentUrl: string;
+            firstUrl: string;
+            canGoBack: boolean;
+            canGoForward: boolean;
+        }) => {
+            console.log('--> onChange: ',
+                isReady,
+                history, 
+                forwardHistory,
+                currentUrl, 
+                firstUrl, 
+                canGoBack,
+                canGoForward
+            );
         }
     });
 
-    const updateHistory = (data: any) => {
-        const history = data.history;
-
-        if (
-            data.firstUrl && 
-            history.length >= 2 
-        ) {
-            const firstRecord = history[0];
-            const secondRecord = history[1];
-
-            const hasContainRelation =
-                firstRecord.includes(secondRecord) || secondRecord.includes(firstRecord);
-
-            if (!hasContainRelation) {
-                history.shift();
-                data.firstUrl = history[0] || '';
-            }
-        }
-
-        return data;
-    };
-
-    const lastHistoryHasRelation = (data: any) => {
-        const { history } = data;
-        if (history.length < 2) return false; 
-
-        const lastRecord = history[history.length - 1];
-        const otherRecords = history.slice(0, -1);
-
-        // Check whether lastRecord is related to any otherRecord
-        const hasRelation = otherRecords.some(record =>
-            record.includes(lastRecord) || lastRecord.includes(record)
-        );
-
-        return hasRelation;
-    };
-
     return (
         <div>
-            <h2>History Tracker</h2>
-            
+
             <div>
                 <h3>First URL:</h3>
                 <p>{firstUrl}</p>
@@ -80,43 +63,52 @@ const App = () => {
                 </ul>
             </div>
 
+            <div>
+                <h3>Forward History ({forwardHistory.length}):</h3>
+                <ul>
+                    {forwardHistory.map((url, index) => (
+                        <li key={index}>{url}</li>
+                    ))}
+                </ul>
+            </div>
+
+
+            
             <button onClick={clearHistory}>
                 Clear History
             </button>
 
-            <button onClick={() => {
-                goToHistory(0);
+            <button onClick={async () => {
+                try {
+                    const { 
+                        isReady,
+                        history, 
+                        forwardHistory,
+                        canGoBack,
+                        canGoForward
+                    } : { 
+                        isReady: boolean;
+                        history: string[];
+                        forwardHistory: string[];
+                        canGoBack: boolean;
+                        canGoForward: boolean;
+                    } = await goBack();
+
+                    console.log('--> goBack: ', 
+                        isReady,
+                        history, 
+                        forwardHistory,
+                        currentUrl, 
+                        firstUrl, 
+                        canGoBack,
+                        canGoForward
+                    );
+                } catch (error) {
+                    console.error('Navigation failed', error);
+                }
+
             }}>
-                Jump to a history
-            </button>
-
-
-            <button onClick={() => {
-                window.history.go(-1);
-
-                setTimeout(() => {
-                    const _c = updateHistory({
-                        firstUrl,
-                        history,
-                        currentUrl
-                    });
-    
-                    if (!lastHistoryHasRelation({
-                        firstUrl,
-                        history,
-                        currentUrl
-                    }) || firstUrl === currentUrl) {
-                        
-                        clearHistory();
-                        
-                        // do something...
-                        // ...
-                        
-                    }
-
-                }, 150); 
-            }}>
-                Back
+               Back
             </button>
 
         </div>
@@ -136,6 +128,7 @@ const useHistoryTracker = (props) => {
 
     const [isReady, setIsReady] = useState(false);
     const historyRef = useRef([]);
+    const forwardHistoryRef = useRef([]);
     const firstUrlRef = useRef('');
     const [currentUrl, setCurrentUrl] = useState('');
     
@@ -149,6 +142,17 @@ const useHistoryTracker = (props) => {
             firstUrlRef.current = currentLocation;
             historyRef.current = [currentLocation];
             setCurrentUrl(currentLocation);
+
+            onChange?.({
+                isReady: false,
+                history: [currentLocation],
+                forwardHistory: [],
+                currentUrl: currentLocation,
+                firstUrl: currentLocation,
+                canGoBack: false,
+                canGoForward: false
+            });
+
         }
         
         setIsReady(true);
@@ -157,6 +161,149 @@ const useHistoryTracker = (props) => {
     useIsomorphicLayoutEffect(() => {
         initialize();
     }, [initialize]);
+
+
+    const clearHistory = useCallback(() => {
+        if (typeof window === 'undefined') return;
+    
+        historyRef.current = [];
+        forwardHistoryRef.current = [];
+        firstUrlRef.current = '';
+        setCurrentUrl('');
+        
+        onChange?.({
+            isReady: true,
+            history: [],
+            forwardHistory: [],
+            currentUrl: '',
+            firstUrl: '',
+            canGoBack: false,
+            canGoForward: false
+
+        });
+    }, [onChange]); // only "onChange"
+
+    const goToHistory = useCallback((index) => {
+        if (typeof window === 'undefined') return;
+        if (index < 0 || index >= historyRef.current.length) return;
+        
+        const targetUrl = historyRef.current[index];
+        if (targetUrl && targetUrl !== window.location.href) {
+            window.location.href = targetUrl;
+        }
+    }, []);
+
+    const goBack = useCallback(() => {
+        if (typeof window === 'undefined') return Promise.reject('Window is undefined');
+        if (historyRef.current.length <= 1) return Promise.reject('Cannot go back');
+        
+        return new Promise((resolve) => {
+            // Moves the current URL into the forward history
+            const removedUrl = historyRef.current.pop();
+            forwardHistoryRef.current.push(removedUrl);
+            
+            const newCurrentUrl = historyRef.current[historyRef.current.length - 1];
+            setCurrentUrl(newCurrentUrl);
+    
+            // Create initial data object
+            const data = {
+                isReady: true,
+                history: [...historyRef.current],
+                forwardHistory: [...forwardHistoryRef.current],
+                currentUrl: newCurrentUrl,
+                firstUrl: firstUrlRef.current,
+                canGoBack: canGoBack(),
+                canGoForward: canGoForward()
+            };
+            
+            // Notify about the history change
+            onChange?.(data);
+            
+            // Create one-time listener for popstate
+            const handlePopState = () => {
+                // Remove the listener after it's called
+                window.removeEventListener('popstate', handlePopState);
+                
+                // Get the final data after URL has changed
+                const finalData = {
+                    isReady: true,
+                    history: [...historyRef.current],
+                    forwardHistory: [...forwardHistoryRef.current],
+                    currentUrl: window.location.href,
+                    firstUrl: firstUrlRef.current,
+                    canGoBack: canGoBack(),
+                    canGoForward: canGoForward()
+                };
+                
+                resolve(finalData);
+            };
+    
+            // Add the listener
+            window.addEventListener('popstate', handlePopState);
+            
+            // Trigger the navigation
+            window.history.go(-1);
+        });
+    }, [onChange]);
+    
+    const goForward = useCallback(() => {
+        if (typeof window === 'undefined') return Promise.reject('Window is undefined');
+        if (forwardHistoryRef.current.length === 0) return Promise.reject('Cannot go forward');
+        
+        return new Promise((resolve) => {
+            // Take the URL from the forward history and add it to the main history
+            const nextUrl = forwardHistoryRef.current.pop();
+            historyRef.current.push(nextUrl);
+            setCurrentUrl(nextUrl);
+            
+            // Create initial data object
+            const data = {
+                isReady: true,
+                history: [...historyRef.current],
+                forwardHistory: [...forwardHistoryRef.current],
+                currentUrl: nextUrl,
+                firstUrl: firstUrlRef.current,
+                canGoBack: canGoBack(),
+                canGoForward: canGoForward()
+            };
+            
+            onChange?.(data);
+            
+            // Create one-time listener for popstate
+            const handlePopState = () => {
+                // Remove the listener after it's called
+                window.removeEventListener('popstate', handlePopState);
+                
+                // Get the final data after URL has changed
+                const finalData = {
+                    isReady: true,
+                    history: [...historyRef.current],
+                    forwardHistory: [...forwardHistoryRef.current],
+                    currentUrl: window.location.href,
+                    firstUrl: firstUrlRef.current,
+                    canGoBack: canGoBack(),
+                    canGoForward: canGoForward()
+                };
+                
+                resolve(finalData);
+            };
+    
+            // Add the listener
+            window.addEventListener('popstate', handlePopState);
+            
+            // Trigger the navigation
+            window.history.go(1);
+        });
+    }, [onChange]);
+
+    const canGoBack = useCallback(() => {
+        return historyRef.current.length > 1;
+    }, []);
+
+    const canGoForward = useCallback(() => {
+        return forwardHistoryRef.current.length > 0;
+    }, []);
+
 
     const handleUrlChange = useCallback(() => {
         if (typeof window === 'undefined') return;
@@ -171,12 +318,19 @@ const useHistoryTracker = (props) => {
         // Avoid recording the same URL
         if (historyRef.current[historyRef.current.length - 1] !== newUrl) {
             historyRef.current.push(newUrl);
+            
+            // Clear the advance history, as new navigation invalidates the advance history
+            forwardHistoryRef.current = [];
             setCurrentUrl(newUrl);
             
             onChange?.({
+                isReady: true,
                 history: [...historyRef.current],
+                forwardHistory: [...forwardHistoryRef.current],
                 currentUrl: newUrl,
-                firstUrl: firstUrlRef.current || newUrl // Make sure there is always a value
+                firstUrl: firstUrlRef.current || newUrl, // Make sure there is always a value
+                canGoBack: canGoBack(),
+                canGoForward: canGoForward()
             });
         }
     }, [onChange]); // only "onChange"
@@ -191,7 +345,7 @@ const useHistoryTracker = (props) => {
         // Listen for hashchange events
         window.addEventListener('hashchange', handleUrlChange);
 
-        // Create a MutationObserver to listen for URL changes
+        // Listen for DOM and property changes
         const observer = new MutationObserver((mutations) => {
             mutations.forEach((mutation) => {
                 if (mutation.type === 'childList' || mutation.type === 'attributes') {
@@ -202,10 +356,10 @@ const useHistoryTracker = (props) => {
 
     
         observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['href']
+            childList: true, // monitor the addition and deletion of child nodes
+            subtree: true, // monitor all descendant nodes
+            attributes: true, // monitor attribute changes
+            attributeFilter: ['href'] // only monitor changes in the href attribute
         });
 
         return () => {
@@ -215,38 +369,19 @@ const useHistoryTracker = (props) => {
         };
     }, [handleUrlChange]);
 
-    const clearHistory = useCallback(() => {
-        if (typeof window === 'undefined') return;
-    
-        historyRef.current = [];
-        firstUrlRef.current = '';
-        setCurrentUrl('');
-        
-        onChange?.({
-            history: [],
-            currentUrl: '',
-            firstUrl: ''
-        });
-    }, [onChange]); // only "onChange"
-
-    const goToHistory = useCallback((index) => {
-        if (typeof window === 'undefined') return;
-        if (index < 0 || index >= historyRef.current.length) return;
-        
-        const targetUrl = historyRef.current[index];
-        if (targetUrl && targetUrl !== window.location.href) {
-            window.location.href = targetUrl;
-        }
-    }, []);
-
 
     return {
+        isReady,
         history: historyRef.current,
+        forwardHistory: forwardHistoryRef.current,
         currentUrl,
         firstUrl: firstUrlRef.current,
         clearHistory,
         goToHistory,
-        isReady
+        goBack,
+        goForward,
+        canGoBack,
+        canGoForward
     };
 };
 
