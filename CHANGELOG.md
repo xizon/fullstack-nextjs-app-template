@@ -1,7 +1,7 @@
 # Changelog
 
 
-#### = 1.4.3 (March 25, 2025) =
+#### = 1.4.4 (March 25, 2025) =
 
 * New: NestJS Server Demo.
 * New: Add new hook `useHistoryTracker()` 
