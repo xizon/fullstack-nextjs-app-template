@@ -39,4 +39,5 @@ next-env.d.ts
 .docusaurus/
 
 #
-/backend/node_modules
+/backend/node_modules/
+/backend@nest/node_modules/

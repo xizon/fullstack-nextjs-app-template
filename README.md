@@ -74,7 +74,7 @@ List my progress here:
 | Request Cache Demo | ✅ |
 | Authentication of Microservices | ✅ |
 | Markdown Render Demo | ✅ |
-| NestJS Support | 🕒 |
+| NestJS Server Demo | ✅ 👉🏼 Go to the folder [backend@nest](backend@nest) |
 | 🍗 End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | 🍗 React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [Funda UI](https://github.com/xizon/funda-ui) |
 | 🍗 Nextjs Doc Template | ⚠️ *unbundled* 👉🏼 [Nextjs Doc Template](https://github.com/xizon/nextjs-doc-template) |
@@ -177,14 +177,38 @@ $ npm run start
 ```
 
 
-### Start the PHP server independently:
 
-Please install php on your computer first.
+### Run PHP server independently (Separate start port 4000 service)**
 
+Please install php on your computer first. Once enabled, you can test the background management features.
+
+**a) for `Express`**
 ```sh
 $ npm run action:phpserver
 ```
-Please use a PHP server environment with a local port of 4000, check the file at `./backend/server-php.js`
+
+
+**b) for `NestJS` in "./backend@nest" **
+```sh
+$ cd backend@nest
+
+# generate an executable file (you can run "npm run action:phpserver:nest")
+$ npm run build
+
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+
+Please use a PHP server environment with a local port of 4000, check the file at `./backend/server-php.js` (for Express) or `./backend@nest/dist/main.js` (for NestJS)
+
+With is command file will be compiled and it will be loaded on local server [http://localhost:4000](http://localhost:4000).
 
 
 
