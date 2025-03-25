@@ -10,23 +10,7 @@ export function middleware(req) {
 
     const { pathname } = req.nextUrl;
     const authCookie = req.cookies.get('SITE_DATA_LOGIN_COOKIE');
-    const userAgent = req.headers.get('user-agent').toLowerCase() || '';
-    const mobileKeywords = [
-        'android',
-        'iphone',
-        'ipad',
-        'ipod',
-        'webos',
-        'blackberry',
-        'windows phone',
-        'opera mini',
-        'mobile',
-        'tablet'
-    ];
-
-    const isMobile = mobileKeywords.some(keyword => userAgent.includes(keyword));
-
-
+   
 
     // Determine whether you have permission to enter the dashboard
     // If you use Docker, please do not directly use the server jump `/`
