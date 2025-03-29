@@ -12,7 +12,8 @@
 axios({
     method: 'get',
     url: 'http://xxxxx.(png|js|xxxx)',
-    responseType: 'arraybuffer'
+    responseType: 'arraybuffer',
+    // headers: {'X-Custom-Auth': 'your-secret-key'}
 })
 .then(function (response) {
     const b64string = CoreUtils.return('uint8arrayToBase64Str', response.data);

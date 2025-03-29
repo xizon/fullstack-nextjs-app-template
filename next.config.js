@@ -66,7 +66,13 @@ const nextConfig = {
             {
                 source: '/core-api/posts',
                 destination: '/api/posts',
-            }
+            },
+            // Wildcard writing (such as: /core-api/hls/123/playlist.m3u8, /core-api/hls/123/enc.key)
+            {
+                source: '/core-api/hls/:id/:slug',
+                destination: '/api/hls/:id(\\d+)/:slug',
+            },
+
         ]
     },
 

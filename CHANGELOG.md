@@ -1,5 +1,13 @@
 # Changelog
 
+#### = 1.4.5 (March 29, 2025) =
+
+* Tweak: Optimized commands for debugging projects to `npm run dev & npm run action:phpserver  `.
+* New: Add new NestJS Server Demo. Go to the folder [backend@nest](backend@nest)
+* New: Change README. add new script "Compress and optimize all files in a folder",  [imgop](https://github.com/xizon/imgop)
+* New: Change README. add Video stream demo (normal, encryption and decryption modes),  Check out the Next API directory and [src/components/VideoPlayer](src/components/VideoPlayer)
+
+
 
 #### = 1.4.4 (March 25, 2025) =
 

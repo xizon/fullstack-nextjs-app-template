@@ -29,7 +29,8 @@ export async function POST(req) {
         // download remote assets
         try {
             const response = await axios.get(filepath, {
-                responseType: 'arraybuffer'
+                responseType: 'arraybuffer',
+                // headers: {'X-Custom-Auth': 'your-secret-key'}
             });
 
             const b64string = Buffer.from(response.data, 'binary').toString('base64');

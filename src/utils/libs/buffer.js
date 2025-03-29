@@ -75,7 +75,8 @@ function uint8arrayToArr(data) {
 axios({
     method: 'get',
     url: 'http://xxxx',
-    responseType: 'arraybuffer'
+    responseType: 'arraybuffer',
+    // headers: {'X-Custom-Auth': 'your-secret-key'}
 })
 .then(function (res) {
     //res.data ==>  ArrayBuffer(xxxx)

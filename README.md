@@ -74,7 +74,9 @@ List my progress here:
 | Request Cache Demo | ✅ |
 | Authentication of Microservices | ✅ |
 | Markdown Render Demo | ✅ |
+| Video stream demo (normal, encryption and decryption modes) | ✅ 👉🏼 Check out the Next API directory and [src/components/VideoPlayer](src/components/VideoPlayer) |
 | NestJS Server Demo | ✅ 👉🏼 Go to the folder [backend@nest](backend@nest) |
+| 🍗 Compress and optimize all files in a folder. | ⚠️ *unbundled* 👉🏼 [imgop](https://github.com/xizon/imgop) |
 | 🍗 End-to-end typesafe API (gRPC) | ⚠️ *unbundled* 👉🏼 [gRPC Getting Started](https://github.com/xizon/grpc-getting-started) |
 | 🍗 React UI Components Libraries | ⚠️ *unbundled* 👉🏼 [Funda UI](https://github.com/xizon/funda-ui) |
 | 🍗 Nextjs Doc Template | ⚠️ *unbundled* 👉🏼 [Nextjs Doc Template](https://github.com/xizon/nextjs-doc-template) |
@@ -150,8 +152,10 @@ check out [here](https://nextjs.org/docs/pages/building-your-application/upgradi
 
 ### Run Project in development mode:
 
+> A php service assisted test was launched.
+
 ```sh
-$ npm run dev
+$ npm run dev & npm run action:phpserver  
 ```
 With is command file will be compiled and it will be loaded on local server [http://localhost:3000](http://localhost:3000).
 
@@ -1415,18 +1419,29 @@ $ npm cache verify
 
 ## Contributing
 
+**Generics (!!Required):**
 - [React](https://reactjs.org/)
 - [nextjs](https://nextjs.org/)
 - [redux](https://redux.js.org/)
 - [axios](https://github.com/axios/axios)
 - [Express](http://expressjs.com/)
-- [php-express](https://github.com/fnobi/php-express)
 - [next-cookies](https://github.com/matthewmueller/next-cookies)
 - [pm2](https://pm2.keymetrics.io/)
 
+**Video plugins:**
+- [fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg)
+- [HLS](https://github.com/video-dev/hls.js)
+
+
+**PHP server:**
+- [php-express](https://github.com/fnobi/php-express)
+
+**Markdown parser:**
+- [markdown-it](https://github.com/markdown-it/markdown-it)
 
 
 
+markdown-it
 ## Supported development environment
 
 - Next.js 13.0.0 to 15+

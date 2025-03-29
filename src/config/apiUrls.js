@@ -50,6 +50,13 @@ const config = {
 	"CRUD_DATA_INIT": `https://uiux.cc/server/curd-data-init.php`,
 	
 	/*
+	 TYPE: Video
+	 ------------------------------------------
+	*/
+	"VIDEO_URL": `http://localhost:3000/core/video-stream`,
+    "HLS_VIDEO_URL":  `http://localhost:3000/core/hls/{id}/{slug}`,
+
+	/*
 	 TYPE: Downlaod remote file
 	 ------------------------------------------
 	*/
@@ -121,6 +128,13 @@ const localConfig = {
 	"CRUD_SERVICE": `http://localhost:4000/curd.php`,
 	"CRUD_DATA_INIT": `http://localhost:4000/curd-data-init.php`,
 	
+
+	/*
+	 TYPE: Video
+	 ------------------------------------------
+	*/
+	"VIDEO_URL": `http://localhost:3000/core/video-stream`,
+    "HLS_VIDEO_URL":  `http://localhost:3000/core/hls/{id}/{slug}`,
 
 	  
 	/*

@@ -67,7 +67,8 @@ axios.get('https://restcountries.com/v2/all').then((response) => {
         if (!fs.existsSync(targetPath)) {
             // download remote assets
             axios.get(filepath, {
-                responseType: 'arraybuffer'
+                responseType: 'arraybuffer',
+                // headers: {'X-Custom-Auth': 'your-secret-key'}
             }).then((response) => {
                 const b64string = Buffer.from(response.data, 'binary').toString('base64');
                 let fileData = Buffer.from(b64string, 'base64');
