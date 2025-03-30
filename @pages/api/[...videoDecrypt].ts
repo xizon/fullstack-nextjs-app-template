@@ -8,7 +8,7 @@ export default async function handler(
 ) {
     const referer = req.headers.referer || '';
     const origin = req.headers.origin || '';
-    const allowedDomains = ['http://localhost:3000', 'https://matrixflip.com'];
+    const allowedDomains = ['http://localhost:3000', 'https://your-site.com'];
 
     if (!allowedDomains.some(domain => referer.startsWith(domain) || origin?.startsWith(domain))) {
         return res.status(403).json({ message: 'Forbidden' });

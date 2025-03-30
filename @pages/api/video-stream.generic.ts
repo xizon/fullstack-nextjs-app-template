@@ -22,7 +22,7 @@ export default async function handler(
     const referer = req.headers.referer || '';
     const origin = req.headers.origin || '';
   
-    const allowedDomains = ['http://localhost:3000', 'https://matrixflip.com'];
+    const allowedDomains = ['http://localhost:3000', 'https://your-site.com'];
   
     // Users are not allowed to access directly in the address bar, 
     // but front-end code is allowed to make requests
