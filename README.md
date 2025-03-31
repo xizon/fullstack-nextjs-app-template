@@ -1417,7 +1417,7 @@ $ npm cache verify
 
 
 
-## Contributing
+## Ecosystem
 
 **Generics (!!Required):**
 - [React](https://reactjs.org/)
@@ -1440,8 +1440,6 @@ $ npm cache verify
 - [markdown-it](https://github.com/markdown-it/markdown-it)
 
 
-
-markdown-it
 ## Supported development environment
 
 - Next.js 13.0.0 to 15+
