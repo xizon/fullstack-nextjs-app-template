@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import ffmpeg from 'fluent-ffmpeg';
 import crypto from 'crypto';
+import apiUrls from '@/config/apiUrls';
 
 /*
 macOS：
@@ -114,7 +115,7 @@ export default async function handler(
        fs.writeFileSync(keyFile, key);
        
        // Create key info file
-       const keyInfoContent = `enc.key\n${hlsDir}/enc.key\n${key.toString('hex')}`;
+       const keyInfoContent = `${apiUrls.HLS_VIDEO_KEY}?id=${id}\n${hlsDir}/enc.key\n${key.toString('hex')}`;
        fs.writeFileSync(keyInfoFile, keyInfoContent);
    }
 

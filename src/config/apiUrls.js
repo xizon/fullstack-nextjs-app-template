@@ -55,6 +55,7 @@ const config = {
 	*/
 	"VIDEO_URL": `http://localhost:3000/core/video-stream`,
     "HLS_VIDEO_URL":  `http://localhost:3000/core/hls/{id}/{slug}`,
+    "HLS_VIDEO_KEY": `/core-api/video-key`,  // Please don't write domain
 
 	/*
 	 TYPE: Downlaod remote file
@@ -135,6 +136,7 @@ const localConfig = {
 	*/
 	"VIDEO_URL": `http://localhost:3000/core/video-stream`,
     "HLS_VIDEO_URL":  `http://localhost:3000/core/hls/{id}/{slug}`,
+    "HLS_VIDEO_KEY": `/core-api/video-key`,  // Please don't write domain
 
 	  
 	/*
