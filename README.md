@@ -1345,6 +1345,8 @@ socketIOClient(someUrl, {transports: ['websocket']});
 
 #### 2. Configure WebSockets with Envoy Proxy
 
+> The file path of the WebSocket service is `./backend/server-socket.js`
+
 TLS termination is handled at the Envoy Proxy, ensuring secure communication between the browser and the proxy. Here’s the simple configuration block you need within the HttpConnectionManager section to enable WebSocket support:
 
 [check out here](https://www.envoyproxy.io/docs/envoy/latest/start/sandboxes/websocket)
@@ -1354,6 +1356,78 @@ TLS termination is handled at the Envoy Proxy, ensuring secure communication bet
 upgrade_configs: 
  upgrade_type: "websocket"
 ```
+
+
+**Correct WebSocket configuration (for both HTTP/1.1 and HTTP/2)**
+
+Browsers do not allow WebSockets to run directly over HTTP/2.
+
+
+```yml
+static_resources:
+  listeners:
+    - name: listener_0
+      address:
+        socket_address:
+          address: 0.0.0.0
+          port_value: 8080
+      filter_chains:
+        - filters:
+            - name: envoy.filters.network.http_connection_manager
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                codec_type: AUTO  # Allow HTTP/1.1 and HTTP/2
+                stat_prefix: ingress_http
+                route_config:
+                  virtual_hosts:
+                    - name: backend
+                      domains: ["*"]
+                      routes:
+                        - match:
+                            prefix: "/"
+                          route:
+                            cluster: websocket_service
+                            timeout: 0s  # Disable HTTP request timeout to ensure WebSocket long connection
+                            upgrade_configs:
+                              - upgrade_type: "websocket"  # Allow WebSocket
+                http_filters:
+                  - name: envoy.filters.http.router
+
+  clusters:
+    - name: websocket_service
+      connect_timeout: 0.25s
+      type: STATIC
+      http2_protocol_options: {}  # Enable HTTP/2
+      load_assignment:
+        cluster_name: websocket_service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: 127.0.0.1  # WebSocket server address
+                      port_value: 5001  # WebSocket Server Port
+```
+
+And, Disabling HTTP/2 on the Node.js server:
+
+```js
+const http = require('http');  // Use HTTP/1.1 instead of HTTP/2
+const express = require('express');
+const { Server } = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);  // Make sure you use HTTP/1.1
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
+
+...
+```
+
 
 
 #### 3. Other platforms
