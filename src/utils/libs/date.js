@@ -204,7 +204,73 @@ function getSpecifiedDate(v, days) {
     return specifiedDay;
 }
 
+/**
+ * Calculates the total number of days from today going back a specified number of months.
+ *
+ * @param {number} monthsAgo - The number of months to go back (e.g., 3 means the past 3 months).
+ * @returns {number} The total number of days between the calculated past date and today.
+ *
+ * @example
+ * getDaysInLastMonths(3); // Returns number of days in the past 3 months
+ */
+function getDaysInLastMonths(monthsAgo = 3) {
+    const today = new Date();
+    const pastDate = new Date();
+    pastDate.setMonth(today.getMonth() - monthsAgo);
 
+    const diffInMs = today - pastDate;
+    const diffInDays = Math.round(diffInMs / (1000 * 60 * 60 * 24));
+
+    return diffInDays;
+}
+
+/**
+ * Generates timeslots between a start and end time.
+ *
+ * @param {string} start - The start time in "HH:mm" format (24-hour).
+ * @param {string} end - The end time in "HH:mm" format (24-hour).
+ * @param {number} interval - The interval in minutes for each slot (e.g., 60).
+ * @param {boolean} [formatRange=false] - If true, returns slots as time ranges like "10:00 - 11:00".
+ * @returns {string[]} An array of timeslots, either as time strings or time ranges.
+ *
+ * @example
+
+console.log(getTimeslots("10:00", "14:00", 60, true)); //['10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00']
+console.log(getTimeslots("10:00", "14:00", 60));   // ['10:00', '11:00', '12:00', '13:00']
+*/
+function getTimeslots(start, end, interval = 30, formatRange = false) {
+    const timeslots = [];
+
+    const [startHour, startMinute] = start.split(':').map(Number);
+    const [endHour, endMinute] = end.split(':').map(Number);
+
+    const startDate = new Date();
+    startDate.setHours(startHour, startMinute, 0, 0);
+
+    const endDate = new Date();
+    endDate.setHours(endHour, endMinute, 0, 0);
+
+    const current = new Date(startDate);
+
+    while (current < endDate) {
+        const from = new Date(current);
+        current.setMinutes(current.getMinutes() + interval);
+        const to = new Date(current);
+
+        const formatTime = (date) =>
+            `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+
+        if (current <= endDate) {
+            if (formatRange) {
+                timeslots.push(`${formatTime(from)} - ${formatTime(to)}`);
+            } else {
+                timeslots.push(formatTime(from));
+            }
+        }
+    }
+
+    return timeslots;
+}
 
 /**
  * Get next month date
@@ -303,7 +369,7 @@ function getCurrentYear() {
 /**
  * Get current month
  * @param {Boolean} padZeroEnabled 
- * @returns {Number}
+ * @returns {Number|String}
  */
 function getCurrentMonth(padZeroEnabled = true) {
     const m = new Date().getMonth() + 1;
@@ -315,7 +381,7 @@ function getCurrentMonth(padZeroEnabled = true) {
 /**
  * Get current day
  * @param {Boolean} padZeroEnabled 
- * @returns {Number}
+ * @returns {Number|String}
  */
 function getCurrentDay(padZeroEnabled = true) {
     const d = new Date().getDate();
@@ -562,7 +628,11 @@ export {
     getPrevMonthDate,
     getNextYearDate,
     getPrevYearDate,
+
+    //
     getSpecifiedDate,
+    getDaysInLastMonths,
+    getTimeslots,
 
 
     // convert

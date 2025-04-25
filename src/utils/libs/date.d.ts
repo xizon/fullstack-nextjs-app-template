@@ -112,9 +112,9 @@ export function getTodayDate(): string;
 /**
  * Get current month
  * @param {Boolean} padZeroEnabled
- * @returns {Number}
+ * @returns {Number|String}
  */
-export function getCurrentMonth(padZeroEnabled?: boolean): number;
+export function getCurrentMonth(padZeroEnabled?: boolean): number | string;
 /**
  * Get current year
  * @returns {Number}
@@ -123,9 +123,9 @@ export function getCurrentYear(): number;
 /**
  * Get current day
  * @param {Boolean} padZeroEnabled
- * @returns {Number}
+ * @returns {Number|String}
  */
-export function getCurrentDay(padZeroEnabled?: boolean): number;
+export function getCurrentDay(padZeroEnabled?: boolean): number | string;
 /**
  * Get current date
  * @param {Boolean} padZeroEnabled
@@ -179,6 +179,31 @@ export function getPrevYearDate(v: Date | string): string;
  * @returns {String}  yyyy-MM-dd
  */
 export function getSpecifiedDate(v: Date | string, days: number): string;
+/**
+ * Calculates the total number of days from today going back a specified number of months.
+ *
+ * @param {number} monthsAgo - The number of months to go back (e.g., 3 means the past 3 months).
+ * @returns {number} The total number of days between the calculated past date and today.
+ *
+ * @example
+ * getDaysInLastMonths(3); // Returns number of days in the past 3 months
+ */
+export function getDaysInLastMonths(monthsAgo?: number): number;
+/**
+ * Generates timeslots between a start and end time.
+ *
+ * @param {string} start - The start time in "HH:mm" format (24-hour).
+ * @param {string} end - The end time in "HH:mm" format (24-hour).
+ * @param {number} interval - The interval in minutes for each slot (e.g., 60).
+ * @param {boolean} [formatRange=false] - If true, returns slots as time ranges like "10:00 - 11:00".
+ * @returns {string[]} An array of timeslots, either as time strings or time ranges.
+ *
+ * @example
+
+console.log(getTimeslots("10:00", "14:00", 60, true)); //['10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00']
+console.log(getTimeslots("10:00", "14:00", 60));   // ['10:00', '11:00', '12:00', '13:00']
+*/
+export function getTimeslots(start: string, end: string, interval?: number, formatRange?: boolean): string[];
 /**
  * Add hours
  * @param {Date | String} v
