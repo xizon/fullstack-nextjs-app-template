@@ -237,7 +237,6 @@ import {
     //
     getSpecifiedDate,
     getDaysInLastMonths,
-    getTimeslots,
 
 
     // convert
@@ -427,7 +426,6 @@ CoreUtils.add('getNextYearDate', (...attrs) => getNextYearDate(...attrs));
 CoreUtils.add('getPrevYearDate', (...attrs) => getPrevYearDate(...attrs));
 CoreUtils.add('getSpecifiedDate', (...attrs) => getSpecifiedDate(...attrs));
 CoreUtils.add('getDaysInLastMonths', (...attrs) => getDaysInLastMonths(...attrs));
-CoreUtils.add('getTimeslots', (...attrs) => getTimeslots(...attrs));
 CoreUtils.add('getTimeslots', (...attrs) => getTimeslots(...attrs));
 CoreUtils.add('getMinutesBetweenDates', (...attrs) => getMinutesBetweenDates(...attrs));
 CoreUtils.add('getMinutesBetweenTime', (...attrs) => getMinutesBetweenTime(...attrs));

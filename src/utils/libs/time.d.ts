@@ -1,11 +1,16 @@
 /**
  * Get timeslots from starting and ending time
- * @param  {String} startTime  -  start time
- * @param  {String} endTime  -  ebd time
- * @param  {Number} timeInterval  -  time interval
- * @returns Array
- */
-export function getTimeslots(startTime: string, endTime: string, timeInterval: number): any[];
+ * @param  {string} startTime  -  start time in format "HH:mm"
+ * @param  {string} endTime  -  end time in format "HH:mm"
+ * @param  {number} timeInterval  -  time interval in minutes
+ * @param  {boolean} formatRange  -  if true returns ranges like "10:00 - 11:00", if false returns single times like "10:00"
+ * @returns {string[]} Array of time slots
+ * @example
+
+console.log(getTimeslots("10:00", "14:00", 60, true)); //['10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00']
+console.log(getTimeslots("10:00", "14:00", 60));   // ['10:00', '11:00', '12:00', '13:00']
+*/
+export function getTimeslots(startTime: string, endTime: string, timeInterval: number, formatRange?: boolean): string[];
 /**
  * Get minutes between two dates
  * @param  {Date} startDate  -  start date

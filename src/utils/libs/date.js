@@ -224,53 +224,6 @@ function getDaysInLastMonths(monthsAgo = 3) {
     return diffInDays;
 }
 
-/**
- * Generates timeslots between a start and end time.
- *
- * @param {string} start - The start time in "HH:mm" format (24-hour).
- * @param {string} end - The end time in "HH:mm" format (24-hour).
- * @param {number} interval - The interval in minutes for each slot (e.g., 60).
- * @param {boolean} [formatRange=false] - If true, returns slots as time ranges like "10:00 - 11:00".
- * @returns {string[]} An array of timeslots, either as time strings or time ranges.
- *
- * @example
-
-console.log(getTimeslots("10:00", "14:00", 60, true)); //['10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00']
-console.log(getTimeslots("10:00", "14:00", 60));   // ['10:00', '11:00', '12:00', '13:00']
-*/
-function getTimeslots(start, end, interval = 30, formatRange = false) {
-    const timeslots = [];
-
-    const [startHour, startMinute] = start.split(':').map(Number);
-    const [endHour, endMinute] = end.split(':').map(Number);
-
-    const startDate = new Date();
-    startDate.setHours(startHour, startMinute, 0, 0);
-
-    const endDate = new Date();
-    endDate.setHours(endHour, endMinute, 0, 0);
-
-    const current = new Date(startDate);
-
-    while (current < endDate) {
-        const from = new Date(current);
-        current.setMinutes(current.getMinutes() + interval);
-        const to = new Date(current);
-
-        const formatTime = (date) =>
-            `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-
-        if (current <= endDate) {
-            if (formatRange) {
-                timeslots.push(`${formatTime(from)} - ${formatTime(to)}`);
-            } else {
-                timeslots.push(formatTime(from));
-            }
-        }
-    }
-
-    return timeslots;
-}
 
 /**
  * Get next month date
@@ -632,7 +585,6 @@ export {
     //
     getSpecifiedDate,
     getDaysInLastMonths,
-    getTimeslots,
 
 
     // convert

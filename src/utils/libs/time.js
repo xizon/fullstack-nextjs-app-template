@@ -1,40 +1,56 @@
 /**
  * Get timeslots from starting and ending time
- * @param  {String} startTime  -  start time
- * @param  {String} endTime  -  ebd time
- * @param  {Number} timeInterval  -  time interval
- * @returns Array
- */
-function getTimeslots(startTime, endTime, timeInterval) {
+ * @param  {string} startTime  -  start time in format "HH:mm"
+ * @param  {string} endTime  -  end time in format "HH:mm"
+ * @param  {number} timeInterval  -  time interval in minutes
+ * @param  {boolean} formatRange  -  if true returns ranges like "10:00 - 11:00", if false returns single times like "10:00"
+ * @returns {string[]} Array of time slots
+ * @example
+
+console.log(getTimeslots("10:00", "14:00", 60, true)); //['10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00']
+console.log(getTimeslots("10:00", "14:00", 60));   // ['10:00', '11:00', '12:00', '13:00']
+*/
+function getTimeslots(startTime, endTime, timeInterval, formatRange = false) {
+    // Convert time string to minutes
     const parseTime = (s) => {
-        let c = s.split(':');
+        const c = s.split(':');
         return parseInt(c[0]) * 60 + parseInt(c[1]);
     }
 
+    // Convert minutes to time string format
     const convertHours = (mins) => {
-        let hour = Math.floor(mins / 60);
-        mins = Math.trunc(mins % 60);  // required `Math.trunc()`
-        let converted = pad(hour, 2) + ':' + pad(mins, 2);
+        const hour = Math.floor(mins / 60);
+        mins = Math.trunc(mins % 60);
+        const converted = pad(hour, 2) + ':' + pad(mins, 2);
         return converted;
     }
 
+    // Add leading zeros to numbers
     const pad = (str, max) => {
         str = str.toString();
         return str.length < max ? pad("0" + str, max) : str;
     }
 
-    // calculate time slot
+    // Calculate time slots
     const calculateTimeSlot = (_startTime, _endTime, _timeInterval) => {
-        let i, formatted_time;
-        let timeSlots = new Array();
+        const timeSlots = [];
+        
         // Round start and end times to next 30 min interval
         _startTime = Math.ceil(_startTime / 30) * 30;
         _endTime = Math.ceil(_endTime / 30) * 30;
 
-        // Start and end of interval in the loop
-        while (_startTime < _endTime) {
-            let t = convertHours(_startTime) + ' - ' + (convertHours(_startTime += _timeInterval));
-            timeSlots.push(t);
+        // Generate time slots
+        let currentTime = _startTime;
+        while (currentTime < _endTime) {
+            if (formatRange) {
+                // Format with range: "10:00 - 11:00"
+                const t = convertHours(currentTime) + ' - ' + convertHours(currentTime + _timeInterval);
+                timeSlots.push(t);
+            } else {
+                // Format single time: "10:00"
+                timeSlots.push(convertHours(currentTime));
+            }
+            currentTime += _timeInterval;
         }
         return timeSlots;
     }
@@ -44,8 +60,8 @@ function getTimeslots(startTime, endTime, timeInterval) {
     const timeSegment = calculateTimeSlot(inputStartTime, inputEndTime, timeInterval);
 
     return timeSegment;
-    
 }
+
 
 /**
  * Get minutes between two dates
