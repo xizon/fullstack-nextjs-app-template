@@ -1,56 +1,103 @@
 /**
- * Format string
- * 
- * @param {String} input
- * @return {String}  
+ * String formatting utility functions
  */
 
-// Remove all special characters except space from a string using JavaScript
+/**
+ * Remove all special characters except space from a string
+ * @param {string} input - The input string to process
+ * @returns {string} The processed string
+ */
 function rmSpec(input) {
     return input?.replace(/[^a-zA-Z0-9 \u4E00-\u9FFF]/g, "");
 }
 
-//only number and letters are allowed
+/**
+ * Allow only numbers and letters in a string
+ * @param {string} input - The input string to process
+ * @returns {string} The processed string
+ */
 function onlyNumAndLetter(input) {
     return input?.replace(/[^a-zA-Z0-9 ]/g, "");
 }
 
-//remove all spaces including the middle
+/**
+ * Remove all spaces including those in the middle
+ * @param {string} input - The input string to process
+ * @returns {string} The processed string
+ */
 function rmAllSpace(input) {
     return input?.replace(/\s/g, "");
 }
 
-//remove whitespace from both sides of a string.
+/**
+ * Remove whitespace from both sides of a string
+ * @param {string} input - The input string to process
+ * @returns {string} The processed string
+ */
 function trimAll(input) {
     return input?.replace(/(^\s+)|(\s+$)/g, "");
 }
 
-//replace multiple spaces with a single space
+/**
+ * Replace multiple spaces with a single space
+ * @param {string} input - The input string to process
+ * @returns {string} The processed string
+ */
 function multiSpacesToSingle(input) {
     return input?.replace(/\s+(\W)/g, ' ');
 }
 
-//convert HTML text to plain text
+/**
+ * Convert HTML text to plain text (Remove html tag content)
+ * @param {string} input - The input string to process
+ * @returns {string} The processed string
+ */
+/*
+Examples:
+console.log(htmlToPlain("<p>Hello <b>World</b></p>"));   // Hello World
+*/
 function htmlToPlain(input) {
     return input?.replace(/(<([^>]+)>)/ig, '');
 }
 
-//strip tags and content
+/**
+ * Strip HTML tags and their content 
+ * !!!Important: It will remove nested tags
+ * @param {string} input - The input string to process
+ * @returns {string} The processed string
+ */
+/*
+Examples:
+console.log(stripTagsAndContent("<p>Hello <b>World</b></p>"));  // World
+console.log(stripTagsAndContent("Hello <b>World</b>"));  // Hello
+*/
 function stripTagsAndContent(input) {
     return input?.replace(/<\/?[^>]+(>|$)(.*?)<\/?[^>]+(>|$)/ig, '');
 }
 
-//remove first and last slash from specific url
+/**
+ * Remove first and last slash from a URL
+ * @param {string} input - The input URL to process
+ * @returns {string} The processed URL
+ */
 function removeFirstLastSlash(input) {
     return input?.replace(/^\/|\/$/g, '');
 }
 
-//remove trailing slash from specific url
+/**
+ * Remove trailing slash from a URL
+ * @param {string} input - The input URL to process
+ * @returns {string} The processed URL
+ */
 function removeTrailingSlash(input) {
     return input?.replace(/\/+$/, '');
 }
 
-//remove first slash from specific url
+/**
+ * Remove first slash from a URL
+ * @param {string} input - The input URL to process
+ * @returns {string} The processed URL
+ */
 function removeFirstSlash(input) {
     return input?.replace(/\//, '');
 }
@@ -66,4 +113,4 @@ export {
     removeFirstLastSlash,
     removeTrailingSlash,
     removeFirstSlash
-}
+};
