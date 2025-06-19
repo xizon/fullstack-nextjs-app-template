@@ -9,59 +9,54 @@
 
 console.log(getTimeslots("10:00", "14:00", 60, true)); //['10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00']
 console.log(getTimeslots("10:00", "14:00", 60));   // ['10:00', '11:00', '12:00', '13:00']
+console.log(getTimeslots("08:00:00", "08:02:00", 0.4));   // ['08:00:00', '08:00:24', '08:00:48', '08:01:12', '08:01:36', '08:02:00']
+
 */
 function getTimeslots(startTime, endTime, timeInterval, formatRange = false) {
-    // Convert time string to minutes
-    const parseTime = (s) => {
-        const c = s.split(':');
-        return parseInt(c[0]) * 60 + parseInt(c[1]);
-    }
+    // Parse time string to seconds
+    const parseTime = function(s) {
+        var c = s.split(":").map(Number);
+        // Support HH:mm or HH:mm:ss
+        return c[0] * 3600 + c[1] * 60 + (c[2] || 0);
+    };
 
-    // Convert minutes to time string format
-    const convertHours = (mins) => {
-        const hour = Math.floor(mins / 60);
-        mins = Math.trunc(mins % 60);
-        const converted = pad(hour, 2) + ':' + pad(mins, 2);
-        return converted;
-    }
-
-    // Add leading zeros to numbers
-    const pad = (str, max) => {
+    // Pad with zeros
+    const pad = function(str, max) {
         str = str.toString();
         return str.length < max ? pad("0" + str, max) : str;
-    }
+    };
+
+    // Convert seconds to HH:mm:ss
+    const convertTime = function(secs) {
+        var hour = Math.floor(secs / 3600);
+        var min = Math.floor((secs % 3600) / 60);
+        var sec = secs % 60;
+        return pad(hour, 2) + ":" + pad(min, 2) + ":" + pad(sec, 2);
+    };
 
     // Calculate time slots
-    const calculateTimeSlot = (_startTime, _endTime, _timeInterval) => {
-        const timeSlots = [];
-        
-        // Round start and end times to next 30 min interval
-        _startTime = Math.ceil(_startTime / 30) * 30;
-        _endTime = Math.ceil(_endTime / 30) * 30;
-
-        // Generate time slots
-        let currentTime = _startTime;
-        while (currentTime < _endTime) {
+    const calculateTimeSlot = function(_startTime, _endTime, _timeInterval) {
+        var timeSlots = [];
+        var currentTime = _startTime;
+        while (currentTime <= _endTime) {
             if (formatRange) {
-                // Format with range: "10:00 - 11:00"
-                const t = convertHours(currentTime) + ' - ' + convertHours(currentTime + _timeInterval);
+                var t = convertTime(currentTime) + ' - ' + convertTime(Math.min(currentTime + _timeInterval, _endTime));
                 timeSlots.push(t);
             } else {
-                // Format single time: "10:00"
-                timeSlots.push(convertHours(currentTime));
+                timeSlots.push(convertTime(currentTime));
             }
             currentTime += _timeInterval;
         }
         return timeSlots;
-    }
+    };
 
-    const inputEndTime = parseTime(endTime);
-    const inputStartTime = parseTime(startTime);
-    const timeSegment = calculateTimeSlot(inputStartTime, inputEndTime, timeInterval);
-
-    return timeSegment;
+    var inputStartTime = parseTime(startTime);
+    var inputEndTime = parseTime(endTime);
+    // If timeInterval is not an integer, treat as minutes with decimals, convert to seconds
+    var isDecimal = !Number.isInteger(timeInterval);
+    var intervalInSeconds = isDecimal ? Math.round(timeInterval * 60) : timeInterval * 60;
+    return calculateTimeSlot(inputStartTime, inputEndTime, intervalInSeconds);
 }
-
 
 /**
  * Get minutes between two dates
