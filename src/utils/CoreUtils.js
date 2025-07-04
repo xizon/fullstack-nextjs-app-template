@@ -192,9 +192,12 @@ import {
 
 
 import {
+    extractorExist,
     extractContentsOfBrackets,
     extractContentsOfBraces,
-    extractContentsOfParentheses
+    extractContentsOfParentheses,
+    extractContentsOfMixedCharactersWithBraces,
+    extractContentsOfMixedCharactersWithComma
 } from './libs/extract';
 
 
@@ -406,6 +409,9 @@ CoreUtils.add('convertStringByCommaToValByBrackets', (...attrs) => convertString
 CoreUtils.add('convertArrToValByBrackets', (...attrs) => convertArrToValByBrackets(...attrs));
 CoreUtils.add('convertStringByCommaToValByBraces', (...attrs) => convertStringByCommaToValByBraces(...attrs));
 CoreUtils.add('convertArrToValByBraces', (...attrs) => convertArrToValByBraces(...attrs));
+CoreUtils.add('extractorExist', (...attrs) => extractorExist(...attrs));
+CoreUtils.add('extractContentsOfMixedCharactersWithBraces', (...attrs) => extractContentsOfMixedCharactersWithBraces(...attrs));
+CoreUtils.add('extractContentsOfMixedCharactersWithComma', (...attrs) => extractContentsOfMixedCharactersWithComma(...attrs));
 CoreUtils.add('extractContentsOfBrackets', (...attrs) => extractContentsOfBrackets(...attrs));
 CoreUtils.add('extractContentsOfBraces', (...attrs) => extractContentsOfBraces(...attrs));
 CoreUtils.add('extractContentsOfParentheses', (...attrs) => extractContentsOfParentheses(...attrs));
