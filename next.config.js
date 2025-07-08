@@ -1,116 +1,95 @@
 /** @type {import('next').NextConfig} */
-const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
-
 const isProd = process.env.NODE_ENV === 'production';
 
-// Docker deployment
-// To add support for Docker to an existing project, 
-// you can directly set the `dockerDeploymentEnabled` property to `true`
-const dockerDeploymentEnabled = false;
+// Toggle this flag if you're deploying with Docker
+const dockerDeploymentEnabled = true;
 
-// Static Exports
-let exportHtmlEnabled = process.env.EXPORT_ENABLED == 'false' ? false : true;
+// Control for static HTML export (via ENV)
+let exportHtmlEnabled = process.env.EXPORT_ENABLED === 'false' ? false : true;
 if (dockerDeploymentEnabled) exportHtmlEnabled = false;
 
-
-//
 const nextConfig = {
-    reactStrictMode: true,
-    swcMinify: true,
+  reactStrictMode: true,
+  swcMinify: true,
 
+  // Output mode: 'standalone' for Docker, 'export' for static HTML, undefined for standard SSR
+  output: dockerDeploymentEnabled
+    ? 'standalone'
+    : exportHtmlEnabled
+    ? 'export'
+    : undefined,
 
-    // Use the "https://yourusername.github.io/my-subdirectory/ " in production and localhost for development.
-    // !!!IMPORTANT: You need to modify the relevant paths in the "scripts/config-rootdir-of-publishing-source.js" at the same time
-    /*
-    basePath: isProd ? '/my-subdirectory' : undefined,
-    assetPrefix: isProd ? '/my-subdirectory/' : undefined,
-    */
+  // Prevent source maps in production (optional toggle)
+  productionBrowserSourceMaps: false,
 
-    // disable source map 
-    productionBrowserSourceMaps: true,
+  // Unoptimized image delivery (for export mode or simplified setup)
+  images: {
+    unoptimized: true,
+  },
 
-    // !!! for docker (`output: 'standalone'`)
-    // This will create a folder at .next/standalone which can then be deployed on its own without installing node_modules.
+  // Custom file extensions, including .html.jsx for hybrid pages
+  pageExtensions: ['html.jsx', 'jsx', 'js', 'tsx', 'ts'],
 
-    output: dockerDeploymentEnabled ? 'standalone' : !exportHtmlEnabled ? undefined : 'export',
+  // Avoid appending trailing slashes
+  trailingSlash: false,
 
-
-    // image optimize
-    images: {
-        unoptimized: true
-    },
-
-
-    //  add a page route with html extension 
-    // Rename the file under pages directory to `.html.tsx`
-    pageExtensions: ['html.jsx', 'jsx', 'js', 'tsx', 'ts'],
-    // omit the html extension 
-    trailingSlash: false,
-    webpack: (config) => {
-        config.module.rules.push({
-            test: /\.svg$/,
-            use: ["@svgr/webpack"]
-        });
-
-
-        return config;
-    },
-    env: {
-        exportHtml: `${exportHtmlEnabled}`
-    }
-    /*
-
-    // change the api route
-    async rewrites() {
-        return [
-            {
-                source: '/core-api/posts',
-                destination: '/api/posts',
-            },
-            // Wildcard writing (such as: /core-api/hls/123/playlist.m3u8, /core-api/hls/123/enc.key)
-            {
-                source: '/core-api/hls/:id(\\d+)/:slug',
-                destination: '/api/hls/:id(\\d+)/:slug',
-            },
-
-        ]
-    },
-
-    async redirects() {
-        return [
-            {
-                source: '/',
-                destination: process.env.NODE_ENV === 'development' ? '/index.html' : '/',
-                permanent: true,
-            },
-        ]
-    },
-    async headers() {
-        return [
-            {
-                source: '/about',
-                headers: [
-                    {
-                        key: 'x-custom-header',
-                        value: 'my custom header value',
-                    },
-                    {
-                        key: 'x-another-custom-header',
-                        value: 'my other custom header value',
-                    },
-                ],
-            },
-        ]
-    },
-    */
-}
-
-module.exports = {
-  future: { webpack5: true },  // if using Next.js 10+
-  webpack(config, options) {
+  // Webpack customization
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
     return config;
-  }
+  },
+
+  // Expose ENV to the client
+  env: {
+    exportHtml: `${exportHtmlEnabled}`,
+  },
+
+  // (Optional) Add rewrites, redirects, headers below if needed
+  /*
+  async rewrites() {
+    return [
+      {
+        source: '/core-api/posts',
+        destination: '/api/posts',
+      },
+      {
+        source: '/core-api/hls/:id(\\d+)/:slug',
+        destination: '/api/hls/:id(\\d+)/:slug',
+      },
+    ];
+  },
+
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: process.env.NODE_ENV === 'development' ? '/index.html' : '/',
+        permanent: true,
+      },
+    ];
+  },
+
+  async headers() {
+    return [
+      {
+        source: '/about',
+        headers: [
+          {
+            key: 'x-custom-header',
+            value: 'my custom header value',
+          },
+          {
+            key: 'x-another-custom-header',
+            value: 'my other custom header value',
+          },
+        ],
+      },
+    ];
+  },
+  */
 };
 
-
-
+module.exports = nextConfig;
