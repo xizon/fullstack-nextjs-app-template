@@ -105,6 +105,12 @@ const nextConfig = {
     */
 }
 
-module.exports = nextConfig
+module.exports = {
+  future: { webpack5: true },  // if using Next.js 10+
+  webpack(config, options) {
+    return config;
+  }
+};
+
 
 
