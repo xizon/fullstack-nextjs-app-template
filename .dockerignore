@@ -4,4 +4,5 @@ node_modules
 npm-debug.log
 README.md
 .next
+.next/cache
 .git
