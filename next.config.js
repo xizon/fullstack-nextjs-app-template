@@ -10,7 +10,7 @@ if (dockerDeploymentEnabled) exportHtmlEnabled = false;
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+ 
 
   // Output mode: 'standalone' for Docker, 'export' for static HTML, undefined for standard SSR
   output: dockerDeploymentEnabled
