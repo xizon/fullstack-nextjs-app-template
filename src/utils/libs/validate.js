@@ -1,59 +1,75 @@
 /**
  * Fix And Parse JSON (Support for handling complex escape JSON strings)
+ * @desc recursively fix top-level key/value (recursively handles when encountering top-level values that are objects/arrays)
  * @private
  */
 /*
- - Always try JSON.parse first;
- - If parsing fails, unescape \" → ";
- - Then process the outermost object or array key-by-key, value-by-value;
- - If a top-level value is an unquoted object or array (e.g. messages: [ {...} ]),
-   recursively treat that value as a new root to repair;
- - For values wrapped in quotes ('...' or "..."), extract the inner text and
-   re-encode it using JSON.stringify (ensures internal single/double quotes
-   are not corrupted);
+ - Still prioritize JSON.parse first;
+ - After parse fails, do unescaping (\\" → ");
+ - Then process the outermost layer (object or array) key by key, value by value;
+ - If a top-level value is an unquoted object or array (e.g., messages: [ {...} ]), recursively treat that value as a new outermost layer for fixing;
+ - For strings wrapped in quotes ('...' or "..."), only extract the outer layer and re-encode with JSON.stringify (ensuring internal single/double quotes won't be mistakenly changed);
  - Set MAX_DEPTH to prevent infinite recursion.
 */
-// fixAndParseJSON - recursively repairs top-level key/value
-// (when encountering outermost values that are objects/arrays, it recurses)
-
 /*
-DEMO:
+@Examples:
 
-// ✅ Valid JSON (contains svg and single-quote content)
+// ✅ Valid JSON (contains svg and single quote content)
 const okJson = `{
-  "label":"<svg width='16' height='16'><path fill='currentColor' d='M19 13h-6'/></svg> New Session",
+  "label":"<svg width='16' height='16'><path fill='currentColor' d='M19 13h-6'/></svg> 新建会话",
   "value":"new",
   "onClick":"method.setVal(''); method.clearData();"
 }`;
 
-// ❌ Single-quote JSON
+const okJson2 = `{
+  label:"<svg width='16' height='16'><path fill='currentColor' d='M19 13h-6'/></svg> 新建会话",
+  value:"new",
+  onClick:"method.setVal(''); method.clearData();"
+}`;
+
+// ⚠️ Single quote JSON
 const badJson = "{'model':'{model}','messages':[{'role':'user','content':'{message}'}],'stream': true}";
 
-// ❌ Escaped JSON
-const badJson2 = "{\\\"label\\\":\\\"<svg width='16' height='16' viewBox='0 0 24 24'><path fill='currentColor' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/></svg> New Session\\\",\\\"value\\\":\\\"new\\\",\\\"onClick\\\":\\\"method.setVal(''); method.clearData();\\\"}";
+// ⚠️ Escaped JSON
+const badJson2 = "{\\\"label\\\":\\\"<svg width='16' height='16' viewBox='0 0 24 24'><path fill='currentColor' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/></svg> 新建会话\\\",\\\"value\\\":\\\"new\\\",\\\"onClick\\\":\\\"method.setVal(''); method.clearData();\\\"}";
 
-const badJson3 = "{\"label\":\"<svg width='16' height='16' viewBox='0 0 24 24'><path fill='currentColor' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/></svg> New Session\",\"value\":\"new\",\"onClick\":\"method.setVal(''); method.clearData();\"}";
+const badJson3 = "{\"label\":\"<svg width='16' height='16' viewBox='0 0 24 24'><path fill='currentColor' d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/></svg> 新建会话\",\"value\":\"new\",\"onClick\":\"method.setVal(''); method.clearData();\"}";
 
-const badJson4 = "[{\"label\":\"<svg fill='currentColor' width='12' height='12' viewBox='0 0 24 24'><path d='M20.5 9a3.49 3.49 0 0 0-3.45 3h-1.1a2.49 2.49 0 0 0-4.396-1.052L8.878 9.731l3.143-4.225a2.458 2.458 0 0 0 2.98-.019L17.339 8H16v1h3V6h-1v1.243l-2.336-2.512A2.473 2.473 0 0 0 16 3.5a2.5 2.5 0 0 0-5 0 2.474 2.474 0 0 0 .343 1.243L7.947 9.308 4.955 7.947a2.404 2.404 0 0 0-.161-1.438l3.704-1.385-.44 1.371.942.333L10 4 7.172 3l-.334.943 1.01.357-3.659 1.368a2.498 2.498 0 1 0-.682 4.117l2.085 2.688-2.053 2.76a2.5 2.5 0 1 0 .87 3.864l3.484 1.587-1.055.373.334.943L10 21l-1-2.828-.943.333.435 1.354-3.608-1.645A2.471 2.471 0 0 0 5 17.5a2.5 2.5 0 0 0-.058-.527l3.053-1.405 3.476 4.48a2.498 2.498 0 1 0 4.113.075L18 17.707V19h1v-3h-3v1h1.293l-2.416 2.416a2.466 2.466 0 0 0-2.667-.047l-3.283-4.23 2.554-1.176A2.494 2.494 0 0 0 15.95 13h1.1a3.493 3.493 0 1 0 3.45-4zm-7-7A1.5 1.5 0 1 1 12 3.5 1.502 1.502 0 0 1 13.5 2zm0 18a1.5 1.5 0 1 1-1.5 1.5 1.502 1.502 0 0 1 1.5-1.5zM1 7.5a1.5 1.5 0 1 1 2.457 1.145l-.144.112A1.496 1.496 0 0 1 1 7.5zm3.32 1.703a2.507 2.507 0 0 0 .264-.326l2.752 1.251-1.124 1.512zM2.5 19A1.5 1.5 0 1 1 4 17.5 1.502 1.502 0 0 1 2.5 19zm2.037-2.941a2.518 2.518 0 0 0-.193-.234l1.885-2.532 1.136 1.464zm3.76-1.731L6.849 12.46l1.42-1.908L11.1 11.84a2.29 2.29 0 0 0-.033 1.213zM13.5 14a1.5 1.5 0 1 1 1.5-1.5 1.502 1.502 0 0 1-1.5 1.5zm7 1a2.5 2.5 0 1 1 2.5-2.5 2.502 2.502 0 0 1-2.5 2.5zm1.5-2.5a1.5 1.5 0 1 1-1.5-1.5 1.502 1.502 0 0 1 1.5 1.5z'/><path fill='none' d='M0 0h24v24H0z'/></svg> Deep Thought","value":"brief","onClick":"if(isActive){method.executeCustomMethod('changeModel', true)}else{method.executeCustomMethod('changeModel', false)}"},{"label":"<svg fill='currentColor' width='12' height='12' viewBox='0 0 24 24'><path d='M19 2H5c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h3.586L12 21.414 15.414 18H19c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14h-4.414L12 18.586 9.414 16H5V4h14v12z'/></svg> Concise Answer","value":"brief","onClick":"if(isActive){method.setContextData({systemPrompt:'Please answer concisely, around 150 words, keep reasoning brief',mergedText:method.getContextData().mergedText,analyzeMetrics:method.getContextData().analyzeMetrics});}else{method.setContextData({mergedText:method.getContextData().mergedText,analyzeMetrics:method.getContextData().analyzeMetrics});}"},{"label":"<svg fill='none' width='12' height='12' viewBox='0 0 16 16'><path d='M7 0.0618896V9H15.9381C15.446 12.9463 12.0796 16 8 16C3.58172 16 0 12.4183 0 8C0 3.92038 3.05369 0.553988 7 0.0618896Z' fill='currentColor'/><path d='M9 0.0618897V7H15.9381C15.4869 3.38128 12.6187 0.513137 9 0.0618897Z' fill='currentColor'/></svg> Metrics Analysis","value":"lab","onClick":"return method.executeCustomMethod('getLibList')","isSelect":true,"dynamicOptions":true}]";
+const badJson4 = "[{\"label\":\"<svg fill='currentColor' width='12' height='12' viewBox='0 0 24 24'><path d='M20.5 9a3.49 3.49 0 0 0-3.45 3h-1.1a2.49 2.49 0 0 0-4.396-1.052L8.878 9.731l3.143-4.225a2.458 2.458 0 0 0 2.98-.019L17.339 8H16v1h3V6h-1v1.243l-2.336-2.512A2.473 2.473 0 0 0 16 3.5a2.5 2.5 0 0 0-5 0 2.474 2.474 0 0 0 .343 1.243L7.947 9.308 4.955 7.947a2.404 2.404 0 0 0-.161-1.438l3.704-1.385-.44 1.371.942.333L10 4 7.172 3l-.334.943 1.01.357-3.659 1.368a2.498 2.498 0 1 0-.682 4.117l2.085 2.688-2.053 2.76a2.5 2.5 0 1 0 .87 3.864l3.484 1.587-1.055.373.334.943L10 21l-1-2.828-.943.333.435 1.354-3.608-1.645A2.471 2.471 0 0 0 5 17.5a2.5 2.5 0 0 0-.058-.527l3.053-1.405 3.476 4.48a2.498 2.498 0 1 0 4.113.075L18 17.707V19h1v-3h-3v1h1.293l-2.416 2.416a2.466 2.466 0 0 0-2.667-.047l-3.283-4.23 2.554-1.176A2.494 2.494 0 0 0 15.95 13h1.1a3.493 3.493 0 1 0 3.45-4zm-7-7A1.5 1.5 0 1 1 12 3.5 1.502 1.502 0 0 1 13.5 2zm0 18a1.5 1.5 0 1 1-1.5 1.5 1.502 1.502 0 0 1 1.5-1.5zM1 7.5a1.5 1.5 0 1 1 2.457 1.145l-.144.112A1.496 1.496 0 0 1 1 7.5zm3.32 1.703a2.507 2.507 0 0 0 .264-.326l2.752 1.251-1.124 1.512zM2.5 19A1.5 1.5 0 1 1 4 17.5 1.502 1.502 0 0 1 2.5 19zm2.037-2.941a2.518 2.518 0 0 0-.193-.234l1.885-2.532 1.136 1.464zm3.76-1.731L6.849 12.46l1.42-1.908L11.1 11.84a2.29 2.29 0 0 0-.033 1.213zM13.5 14a1.5 1.5 0 1 1 1.5-1.5 1.502 1.502 0 0 1-1.5 1.5zm7 1a2.5 2.5 0 1 1 2.5-2.5 2.502 2.502 0 0 1-2.5 2.5zm1.5-2.5a1.5 1.5 0 1 1-1.5-1.5 1.502 1.502 0 0 1 1.5 1.5z'/><path fill='none' d='M0 0h24v24H0z'/></svg> 深度思考\",\"value\":\"brief\",\"onClick\":\"if(isActive){method.executeCustomMethod('changeModel', true)}else{method.executeCustomMethod('changeModel', false)}\"},{\"label\":\"<svg fill='currentColor' width='12' height='12' viewBox='0 0 24 24'><path d='M19 2H5c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h3.586L12 21.414 15.414 18H19c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14h-4.414L12 18.586 9.414 16H5V4h14v12z'/></svg> 精简回答\",\"value\":\"brief\",\"onClick\":\"if(isActive){method.setContextData({systemPrompt:'请精简回答，字数控制在150个字左右, 思考过程请简洁简短',mergedText:method.getContextData().mergedText,analyzeMetrics:method.getContextData().analyzeMetrics});}else{method.setContextData({mergedText:method.getContextData().mergedText,analyzeMetrics:method.getContextData().analyzeMetrics});}\"},{\"label\":\"<svg fill='none' width='12' height='12' viewBox='0 0 16 16'><path d='M7 0.0618896V9H15.9381C15.446 12.9463 12.0796 16 8 16C3.58172 16 0 12.4183 0 8C0 3.92038 3.05369 0.553988 7 0.0618896Z' fill='currentColor'/><path d='M9 0.0618897V7H15.9381C15.4869 3.38128 12.6187 0.513137 9 0.0618897Z' fill='currentColor'/></svg> 指标分析\",\"value\":\"lab\",\"onClick\":\"return method.executeCustomMethod('getLibList')\",\"isSelect\":true,\"dynamicOptions\":true}]";
 
 
-console.log('okJson =>', fixAndParseJSON(okJson));     // parses correctly
-console.log('badJson =>', fixAndParseJSON(badJson));   // repaired and parsed
-console.log('badJson2 =>', fixAndParseJSON(badJson2)); // repaired and parsed
-console.log('badJson3 =>', fixAndParseJSON(badJson3)); // repaired and parsed
-console.log('badJson4 =>', fixAndParseJSON(badJson4)); // repaired and parsed
+// ❌ Invalid JSON with missing } or ]
+const errorJson001 = "{'model':'qwen-plus','base_url':'https://dashscope.aliyuncs.com/compatible-mode/v1/','api_key':'sk-0989fb9baab8450682af4d000f5b7cba','message':'{message}','stream':'true','chatId': '{chatId}', 'token': '{token}'";
+
+const errorJson002 = "[{'model':'qwen-plus','base_url':'https://dashscope.aliyuncs.com/compatible-mode/v1/','api_key':'sk-0989fb9baab8450682af4d000f5b7cba','message':'{message}','stream':'true','chatId': '{chatId}', 'token': '{token}'}";
+
+// ❌ Invalid JSON with missing quotes
+const errorJson003 = "{'model':'qwen-plus','base_url':'https://dashscope.aliyuncs.com/compatible-mode/v1/','api_key':'sk-0989fb9baab8450682af4d000f5b7cba','message':'{message}','stream':'true','chatId': {chatId}', 'token': '{token}'}";
+
+
+
+console.log('okJson =>', fixAndParseJSON(okJson));   // Can parse normally  success = true
+console.log('okJson =>', fixAndParseJSON(okJson2));   // Can parse normally  success = true
+console.log('badJson =>', fixAndParseJSON(badJson)); // Can parse after fixing success = true
+console.log('badJson =>', fixAndParseJSON(badJson2)); // Can parse after fixing success = true
+console.log('badJson =>', fixAndParseJSON(badJson3)); // Can parse after fixing success = true
+console.log('badJson =>', fixAndParseJSON(badJson4)); // Can parse after fixing success = true
+console.log('errorJson =>', fixAndParseJSON(errorJson001)); // {success: false, error: 'Invalid JSON format', details: 'Invalid object: mismatched braces'}
+console.log('errorJson =>', fixAndParseJSON(errorJson002)); // {success: false, error: 'Invalid JSON format', details: "Expected property name or '}' in JSON at position 2 (line 1 column 3)"}
+console.log('errorJson =>', fixAndParseJSON(errorJson003)); // {success: false, error: 'Invalid JSON format', details: 'Invalid object: mismatched braces'}
+
 */
 function fixAndParseJSON(input) {
     const MAX_DEPTH = 6;
 
-    // 1. Fast attempt
+    // 1. Quick attempt
     try {
         return { success: true, data: JSON.parse(input) };
     } catch (e) {
-        // continue to repair
+        // Continue with fixing
     }
 
-    // 2. Simple unescape of \" (common when copied from JS literals)
+    // 2. Simple unescaping of escaped \" (common case from pasted JS literals)
     let s = input;
     if (s.includes('\\"')) s = s.replace(/\\"/g, '"');
     s = s.trim();
@@ -73,17 +89,54 @@ function fixAndParseJSON(input) {
     }
 }
 
-/* ---------- Helper (recursive) functions ---------- */
+/* ---------- Helper (Recursive) Functions ---------- */
 
 function processTopObject(str, depth, MAX_DEPTH) {
     if (depth > MAX_DEPTH) return str;
     str = str.trim();
-    // Ensure it is wrapped in { ... }
+    
+    // First check if braces match
+    let braceCount = 0;
+    let inString = false;
+    let escapeNext = false;
+    
+    for (let i = 0; i < str.length; i++) {
+        const ch = str[i];
+        
+        if (escapeNext) {
+            escapeNext = false;
+            continue;
+        }
+        
+        if (ch === '\\') {
+            escapeNext = true;
+            continue;
+        }
+        
+        if ((ch === '"' || ch === "'") && !escapeNext) {
+            inString = !inString;
+            continue;
+        }
+        
+        if (!inString) {
+            if (ch === '{') braceCount++;
+            else if (ch === '}') braceCount--;
+        }
+    }
+    
+    if (braceCount !== 0) {
+        throw new Error('Invalid object: mismatched braces');
+    }
+    
+    // Ensure both ends are { ... }
     if (!(str.startsWith('{') && str.endsWith('}'))) {
         const f = str.indexOf('{'), l = str.lastIndexOf('}');
-        if (f === -1 || l === -1 || l <= f) return str;
+        if (f === -1 || l === -1 || l <= f) {
+            throw new Error('Invalid object format: missing or mismatched braces');
+        }
         str = str.slice(f, l + 1);
     }
+    
     const inner = str.slice(1, -1);
     const pairs = splitTopLevel(inner);
 
@@ -129,30 +182,30 @@ function processTopArray(str, depth, MAX_DEPTH) {
     return '[' + processed.join(',') + ']';
 }
 
-// If value is quoted, extract inside and JSON.stringify again (safe escaping)
-// If value is unquoted object/array literal, recurse treating it as new root
-// Otherwise return as is (numbers, booleans, null, or raw expressions)
+// If it's a string wrapped in quotes, extract the inner content and JSON.stringify (safe escaping)
+// If it's an object/array literal (not wrapped in quotes), recursively process (treat as new outermost layer)
+// Otherwise return the original fragment directly (numbers/true/false/null or JS expressions)
 function repairPossiblyQuotedValue(rawVal, depth, MAX_DEPTH) {
     const v = rawVal.trim();
     if (v === '') return v;
 
     if (v[0] === '"' || v[0] === "'") {
         const quote = v[0];
-        // Find the last unescaped matching quote
+        // Find the last unescaped same quote
         let lastPos = -1;
         for (let i = v.length - 1; i >= 0; i--) {
             if (v[i] === quote) {
-                // check if escaped
+                // check escaped
                 let bs = 0, k = i - 1;
                 while (k >= 0 && v[k] === '\\') { bs++; k--; }
                 if (bs % 2 === 0) { lastPos = i; break; }
             }
         }
         const inner = lastPos > 0 ? v.slice(1, lastPos) : v.slice(1);
-        return JSON.stringify(inner); // Generate valid JSON string (auto escape)
+        return JSON.stringify(inner); // Use JSON.stringify to generate valid JSON string (automatically escape internal quotes, etc.)
     }
 
-    // If unquoted object/array literal -> recurse
+    // If it's an object or array literal (not wrapped in quotes) -> recursively treat as new outermost layer
     if (v.startsWith('{')) {
         return processTopObject(v, depth, MAX_DEPTH);
     }
@@ -160,13 +213,13 @@ function repairPossiblyQuotedValue(rawVal, depth, MAX_DEPTH) {
         return processTopArray(v, depth, MAX_DEPTH);
     }
 
-    // Other (number, boolean, null, raw expression): return as is
+    // Others (numbers, boolean, null, or JS expressions): return as-is
     return v;
 }
 
-/* --------- Utils: split by top-level commas, find colon, extract key --------- */
+/* --------- Utilities: Split by top-level commas, find top-level colon, extract key --------- */
 
-// Split string by top-level commas (ignores commas inside strings/objects/arrays/parentheses)
+// Split by top-level commas (ignore strings, sub-objects, sub-arrays, commas inside parentheses)
 function splitTopLevel(str) {
     const parts = [];
     let buf = '';
@@ -207,11 +260,17 @@ function splitTopLevel(str) {
 
         buf += ch;
     }
+    
+    // Check for unclosed brackets or quotes
+    if (depthCurly !== 0 || depthSquare !== 0 || depthParen !== 0 || inSingle || inDouble) {
+        throw new Error('Invalid JSON: unclosed brackets or quotes');
+    }
+    
     if (buf.trim() !== '') parts.push(buf);
     return parts;
 }
 
-// Find the first top-level colon (ignores strings and nested structures)
+// Find the first "top-level" colon index (ignore inside strings & sub-levels)
 function findTopLevelColon(str) {
     let inSingle = false, inDouble = false, esc = false;
     let depthCurly = 0, depthSquare = 0, depthParen = 0;
@@ -238,7 +297,7 @@ function findTopLevelColon(str) {
     return -1;
 }
 
-// Extract key content (supports "key", 'key', key) → returns pure string key
+// Extract key content (supports "key", 'key', key), returns pure key string
 function extractKeyContent(rawKey) {
     const r = rawKey.trim();
     if ((r.startsWith('"') && r.endsWith('"')) || (r.startsWith("'") && r.endsWith("'"))) {
@@ -247,6 +306,7 @@ function extractKeyContent(rawKey) {
     }
     return r;
 }
+
 
 /**
  * Determine whether it is in JSON format
