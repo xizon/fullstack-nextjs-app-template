@@ -194,6 +194,9 @@ $ npm run action:phpserver
 
 
 **b) for `NestJS` in "./backend@nest" **
+
+Unzip the `./backend@nest/__.zip` first.
+
 ```sh
 $ cd backend@nest
 

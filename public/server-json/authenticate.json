@@ -1,0 +1,9 @@
+{
+	"data":
+	{
+		"user_id": 123,
+		"name": "John Doe"
+	},
+	"message": "OK",
+	"code": 200
+}

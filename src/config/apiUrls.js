@@ -17,13 +17,13 @@ const config = {
 	 TYPE: Site Configuration
 	 ------------------------------------------
 	*/
-	"MENU": `https://uiux.cc/server/navigation.php`,
+	"MENU": `https://uiux.cc/server-json/navigation.json`,
 
 	/*
 	 TYPE: Posts
 	 ------------------------------------------
 	*/
-	"RECEIVE_DEMO_LIST": "https://restcountries.com/v2/all",
+	"RECEIVE_DEMO_LIST": "https://restcountries.com/v2/all?fields=name,flag,region,capital",
 	"RECEIVE_DEMO_LISTDETAIL": "https://restcountries.com/v2/name/{id}",
 
 
@@ -31,14 +31,14 @@ const config = {
 	 TYPE: Posts Pagination
 	 ------------------------------------------
 	*/
-	 "RECEIVE_PAGE_LIST": `https://uiux.cc/server/posts-pagination.php?page={page}`,
+	 "RECEIVE_PAGE_LIST": `https://uiux.cc/server-json/posts-pagination/page-{page}/index.json`,
 
 	/*
 	 TYPE: User (The PHP files are located at `./public/server/`)
 	 ------------------------------------------
 	*/
-	"LOGIN_REQUEST": `https://uiux.cc/server/sessions-create.php`,
-	"USER_AUTHENTICATE": `https://uiux.cc/server/authenticate.php`,
+	"LOGIN_REQUEST": `https://uiux.cc/server-json/sessions-create.json`,
+	"USER_AUTHENTICATE": `https://uiux.cc/server-json/authenticate.json`,
 	"SIGNUP_REQUEST": "",
 	
 	  
@@ -46,8 +46,8 @@ const config = {
 	 TYPE: CRUD (The PHP files are located at `./public/server/`)
 	 ------------------------------------------
 	*/
-	"CRUD_SERVICE": `https://uiux.cc/server/curd.php`,
-	"CRUD_DATA_INIT": `https://uiux.cc/server/curd-data-init.php`,
+	"CRUD_SERVICE": `https://uiux.cc/server-json/curd.json`,
+	"CRUD_DATA_INIT": `https://uiux.cc/server-json/curd-data-init.json`,
 	
 	/*
 	 TYPE: Video

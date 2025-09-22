@@ -38,7 +38,7 @@ export default () => {
 
 
     async function getAll() {
-        let response = await axios.get(`https://restcountries.com/v2/all`);
+        let response = await axios.get(`https://restcountries.com/v2/all?fields=name,flag,region,capital`);
         const res = response.data;
         let _data = res.map((item) => {
             return (

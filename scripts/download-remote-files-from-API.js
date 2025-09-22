@@ -53,7 +53,7 @@ const mkdirsSync = function (dirname) {
 
 console.log('\x1b[36m%s\x1b[0m', `--> Downloading remote files from API... `);
 
-axios.get('https://restcountries.com/v2/all').then((response) => {
+axios.get('https://restcountries.com/v2/all?fields=name,flag,region,capital').then((response) => {
     
     const posts = response.data;
     const allFiles = matchAllFilesUrls(JSON.stringify(posts));

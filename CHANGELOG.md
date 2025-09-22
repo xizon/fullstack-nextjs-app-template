@@ -1,5 +1,11 @@
 # Changelog
 
+#### = 1.4.7 (September 22, 2025) =
+
+* Tweak: Upgrade to next 15.5.3.
+* Tweak: Modify the JSON validation function to support complex JSON string valid.
+
+
 #### = 1.4.5 (March 29, 2025) =
 
 * Tweak: Optimized commands for debugging projects to `npm run dev & npm run action:phpserver  `.
