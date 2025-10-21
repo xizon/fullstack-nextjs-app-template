@@ -38,7 +38,7 @@ export function useSSE(url, retryDelay = 3000) {
             };
 
             source.onmessage = (event) => {
-                setMessages((prev) => [...prev, event.data]);
+                setMessages([event.data]);
             };
 
             source.onerror = (err) => {
