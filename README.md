@@ -1519,7 +1519,7 @@ $ npm cache verify
 
 ## Supported development environment
 
-- Next.js 13.0.0 to 15+
+- Next.js 13.0.0 to 16+
 - React 18 to 19
 - TypeScript 4.x.x + 
 - Express 4.x.x

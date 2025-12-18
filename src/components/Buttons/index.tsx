@@ -32,7 +32,7 @@ export default function Button(props: ButtonProps) {
 
   const {
     bgColor,
-    btnName,
+    chilrden,
     href,
     ...attributes
   } = props;
@@ -43,11 +43,11 @@ export default function Button(props: ButtonProps) {
 
       {href ? (
         <a className={myStyles['button']} style={styles[bgColor!] || {}} href={href} {...attributes}>
-          {btnName || 'Default'}
+          {chilrden || 'Default'}
         </a>
       ) : (
         <button type="button" className={myStyles['button']} style={styles[bgColor!] || {}} {...attributes}>
-          {btnName || 'Default'}
+          {chilrden || 'Default'}
         </button>
       )}
 

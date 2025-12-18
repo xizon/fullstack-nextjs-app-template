@@ -19,7 +19,7 @@ import MyButton from '@/components/Buttons';
 const MainContent = (props) => {
     return (
         <>
-            <MyButton btnName={'Other Components'} bgColor={'success'} />
+            <MyButton bgColor={'success'}>Other Components</MyButton>
 
             <hr />
             <article className="markdown-body">

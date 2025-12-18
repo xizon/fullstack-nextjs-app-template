@@ -46,7 +46,7 @@ const nextConfig = {
     pageExtensions: ['html.jsx', 'jsx', 'js', 'tsx', 'ts'],
     // omit the html extension 
     trailingSlash: false,
-    webpack: (config) => {
+    turbopack: (config) => {
         config.module.rules.push({
             test: /\.svg$/,
             use: ["@svgr/webpack"]

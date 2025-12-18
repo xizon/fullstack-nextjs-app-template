@@ -17,7 +17,7 @@ const MainContent = () => {
                 A website-building solution based on Next.js. It serves as a case to sort out the thinking.
             </p>
             <p className="buttons">
-                <Button bgColor='' btnName={<><SvgIcon width="15" style={{ verticalAlign: 'text-top', marginRight: '10px' }} fill="#0576a0" />About US</>} href="/about.html" />
+                <Button bgColor='' href="/about.html"><SvgIcon width="15" style={{ verticalAlign: 'text-top', marginRight: '10px' }} fill="#0576a0" />About US</Button>
             </p>
 
 

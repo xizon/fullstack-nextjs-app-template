@@ -1,5 +1,12 @@
 # Changelog
 
+
+#### = 1.4.8 (December 18, 2025) =
+
+* tweak: Upgrade to next 16.0.10.
+* feat: Large performance optimization for dragging capabilities.
+
+
 #### = 1.4.7 (September 22, 2025) =
 
 * Tweak: Upgrade to next 15.5.3.
