@@ -144,7 +144,7 @@ export const AuthProvider = (props) => {
 
 
         try {
-            const response = await axios.post(url, formData);
+            const response = url.includes('.json') ? await axios.get(url, formData) : await axios.post(url, formData);
             const { data, code, error } = response.data;
 
             // Save user from local storage

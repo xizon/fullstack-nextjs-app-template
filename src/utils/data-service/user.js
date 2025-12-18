@@ -53,10 +53,18 @@ class UserService {
         const { curUrl } = this.deveProcess(this.url, this.config);
         const { curConfig } = this.deveProcess(this.url, this.config);
 
-		return axios.post(curUrl, {}, curConfig).then(function (response) {
-					const jsonData = response.data;
-					return jsonData.data ? jsonData.data.name : null;
-				});
+        if (curUrl.includes('.json')) {
+            return axios.get(curUrl, {}, curConfig).then(function (response) {
+                        const jsonData = response.data;
+                        return jsonData.data ? jsonData.data.name : null;
+                    });
+        } else {
+            return axios.post(curUrl, {}, curConfig).then(function (response) {
+                        const jsonData = response.data;
+                        return jsonData.data ? jsonData.data.name : null;
+                    });
+        }
+
 		
 	}
 

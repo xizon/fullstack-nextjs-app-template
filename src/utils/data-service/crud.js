@@ -33,7 +33,13 @@ class CRUDService {
 			}
 
 			url = url.replace(/^\&|\&$/, '');
-            return axios.post(url, data, this.config);
+
+            if (url.includes('.json')) {
+                return axios.get(url, data, this.config);
+            } else {
+                return axios.post(url, data, this.config);
+            }
+            
 		}
         /**
          * ################################################################
@@ -41,8 +47,12 @@ class CRUDService {
          * ################################################################
          */
 
-
-		return axios.post(`${this.url}?type=create`, data, this.config);
+        if (this.url.includes('.json')) {
+            return axios.get(`${this.url}?type=create`, data, this.config);
+        } else {
+            return axios.post(`${this.url}?type=create`, data, this.config);
+        }
+		
 	}
 	update(id, data) {
 		this.config = {
@@ -61,7 +71,14 @@ class CRUDService {
 			}
 
 			url = url.replace(/^\&|\&$/, '');
-            return axios.post(url, data, this.config);
+
+            if (url.includes('.json')) {
+                return axios.get(url, data, this.config);
+            } else {
+                return axios.post(url, data, this.config);
+            }
+
+            
 		}
         /**
          * ################################################################
@@ -69,9 +86,13 @@ class CRUDService {
          * ################################################################
          */
 
-        
+        if (this.url.includes('.json')) {
+            return axios.get(`${this.url}?type=update&id=${id}`, data, this.config);
+        } else {
+            return axios.post(`${this.url}?type=update&id=${id}`, data, this.config);
+        }
 
-		return axios.post(`${this.url}?type=update&id=${id}`, data, this.config);
+		
 	}
 	remove(id) {
 
