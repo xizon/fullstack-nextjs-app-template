@@ -99,10 +99,9 @@ const App = () => {
         ))}
     </ul>
 );
-};
-
 
  */
+
 import { useRef, useState } from 'react';
 
 export const useBoundedDrag = (options = {}) => {
@@ -113,156 +112,207 @@ export const useBoundedDrag = (options = {}) => {
         dragHandleSelector = '.custom-draggable-list__handle',
         onDragStart,
         onDragOver,
+        onDragUpdate,
         onDragEnd
     } = options;
 
     const [isDragging, setIsDragging] = useState(false);
+
     const dragItem = useRef(null);
     const dragOverItem = useRef(null);
     const dragNode = useRef(null);
+    const draggedElement = useRef(null);
+    const boundaryElement = useRef(null);
     const touchOffset = useRef({ x: 0, y: 0 });
     const currentHoverItem = useRef(null);
+    const rafId = useRef(null);
+    const lastUpdateDragIndex = useRef(null);
+    const lastUpdateDropIndex = useRef(null);
 
     const handleDragStart = (e, position) => {
         const isTouch = 'touches' in e;
         const target = e.target;
 
-        // For block mode or handle mode check
+        // handle 模式校验
         if (dragMode === 'handle') {
             const handle = target.closest(dragHandleSelector);
             if (!handle) {
                 if (!isTouch) e.preventDefault();
-                return false;
+                return;
             }
         }
 
-        // Find the draggable item
         const listItem = target.closest(itemSelector);
         if (!listItem) return;
 
-        // Check boundary
         const boundary = listItem.closest(boundarySelector);
         if (!boundary) return;
 
         dragItem.current = position;
-        onDragStart?.(position);
+        onDragStart && onDragStart(position);
 
         if (isTouch) {
-            e.preventDefault(); // Prevent scrolling
+            e.preventDefault();
             const touch = e.touches[0];
             const rect = listItem.getBoundingClientRect();
-            const boundaryRect = boundary.getBoundingClientRect();
 
-            // Calculate offset relative to the boundary
             touchOffset.current = {
                 x: touch.clientX - rect.left,
                 y: touch.clientY - rect.top
             };
 
-            // Clone the item for dragging
-            dragNode.current = listItem.cloneNode(true);
-            dragNode.current.classList.add('dragging');
+            const clone = listItem.cloneNode(true);
+            clone.classList.add('dragging');
 
-            // Style the clone
-            Object.assign(dragNode.current.style, {
+            Object.assign(clone.style, {
                 position: 'fixed',
-                width: `${rect.width}px`,
-                height: `${rect.height}px`,
-                left: `${rect.left}px`,
-                top: `${rect.top}px`,
-                zIndex: '1000',
+                width: rect.width + 'px',
+                height: rect.height + 'px',
+                left: rect.left + 'px',
+                top: rect.top + 'px',
+                zIndex: 1000,
                 pointerEvents: 'none',
                 transform: 'scale(1.05)',
-                transition: 'transform 0.1s',
                 opacity: '0.9'
             });
 
-            document.body.appendChild(dragNode.current);
+            document.body.appendChild(clone);
+
+            dragNode.current = clone;
+            draggedElement.current = listItem;
+            boundaryElement.current = boundary;
             setIsDragging(true);
+
             listItem.classList.add('dragging-placeholder');
         } else {
-            listItem.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            setTimeout(() => {
-                listItem.style.opacity = '0.5';
-            }, 0);
+            draggedElement.current = listItem;
+            boundaryElement.current = boundary;
+            setIsDragging(true);
+
+            if (e.dataTransfer) {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', '');
+            }
+
+            listItem.classList.add('dragging-placeholder');
         }
     };
 
     const handleDragOver = (e) => {
         e.preventDefault();
+
         const isTouch = 'touches' in e;
+        let clientX, clientY;
 
-        if (!isTouch) {
-            e.dataTransfer.dropEffect = 'move';
-        }
-
-        // Get the current pointer/touch position
-        const point = isTouch ?
-            e.touches[0] :
-            { clientX: e.clientX, clientY: e.clientY };
-
-        // Update dragged element position for touch events
-        if (isTouch && isDragging && dragNode.current) {
-            dragNode.current.style.left = `${point.clientX - touchOffset.current.x}px`;
-            dragNode.current.style.top = `${point.clientY - touchOffset.current.y}px`;
-        }
-
-        // Find the element below the pointer/touch
-        const elemBelow = document.elementFromPoint(
-            point.clientX,
-            point.clientY
-        );
-
-        if (!elemBelow) return;
-
-        // Find the closest list item
-        const listItem = elemBelow.closest(itemSelector);
-        if (!listItem || listItem === currentHoverItem.current) return;
-
-        // Check boundary
-        const boundary = listItem.closest(boundarySelector);
-        if (!boundary) return;
-
-        // Update hover states
-        if (currentHoverItem.current) {
-            currentHoverItem.current.classList.remove('drag-over', 'drag-over-top', 'drag-over-bottom');
-        }
-
-        currentHoverItem.current = listItem;
-        listItem.classList.add('drag-over');
-
-        // Calculate position in list
-        const position = Array.from(listItem.parentNode.children).indexOf(listItem);
-        dragOverItem.current = position;
-
-        // Determine drop position (top/bottom)
-        const rect = listItem.getBoundingClientRect();
-        const middleY = rect.top + rect.height / 2;
-
-        if (point.clientY < middleY) {
-            listItem.classList.add('drag-over-top');
+        if (isTouch) {
+            const touch = e.touches[0];
+            clientX = touch.clientX;
+            clientY = touch.clientY;
         } else {
-            listItem.classList.add('drag-over-bottom');
+            e.dataTransfer.dropEffect = 'move';
+            clientX = e.clientX;
+            clientY = e.clientY;
         }
 
-        onDragOver?.(dragItem.current, dragOverItem.current);
+        if (rafId.current) {
+            cancelAnimationFrame(rafId.current);
+        }
+
+        rafId.current = requestAnimationFrame(() => {
+            if (isTouch && dragNode.current) {
+                dragNode.current.style.left = clientX - touchOffset.current.x + 'px';
+                dragNode.current.style.top = clientY - touchOffset.current.y + 'px';
+            }
+
+            const elemBelow = document.elementFromPoint(clientX, clientY);
+            if (!elemBelow) return;
+
+            const listItem = elemBelow.closest(itemSelector);
+            if (!listItem) return;
+
+            const boundary =
+                boundaryElement.current ||
+                listItem.closest(boundarySelector);
+
+            if (!boundary) return;
+
+            if (
+                currentHoverItem.current &&
+                currentHoverItem.current !== listItem
+            ) {
+                currentHoverItem.current.classList.remove(
+                    'drag-over',
+                    'drag-over-top',
+                    'drag-over-bottom'
+                );
+            }
+
+            currentHoverItem.current = listItem;
+            listItem.classList.add('drag-over');
+
+            const dragEl = draggedElement.current;
+            if (!dragEl) return;
+
+            const children = Array.from(
+                boundary.querySelectorAll(itemSelector)
+            );
+
+            const rect = listItem.getBoundingClientRect();
+            const middleY = rect.top + rect.height / 2;
+
+            listItem.classList.remove('drag-over-top', 'drag-over-bottom');
+
+            const insertBefore =
+                clientY < middleY
+                    ? listItem
+                    : listItem.nextElementSibling;
+
+            if (clientY < middleY) {
+                listItem.classList.add('drag-over-top');
+            } else {
+                listItem.classList.add('drag-over-bottom');
+            }
+
+            if (insertBefore !== dragEl && boundary.contains(dragEl)) {
+                boundary.insertBefore(dragEl, insertBefore);
+            }
+
+            const newChildren = Array.from(
+                boundary.querySelectorAll(itemSelector)
+            );
+            dragOverItem.current = newChildren.indexOf(dragEl);
+
+            onDragOver &&
+                onDragOver(dragItem.current, dragOverItem.current);
+
+            if (
+                onDragUpdate &&
+                (dragItem.current !== lastUpdateDragIndex.current ||
+                    dragOverItem.current !== lastUpdateDropIndex.current)
+            ) {
+                lastUpdateDragIndex.current = dragItem.current;
+                lastUpdateDropIndex.current = dragOverItem.current;
+                onDragUpdate(dragItem.current, dragOverItem.current);
+            }
+
+            rafId.current = null;
+        });
     };
 
-    const handleDragEnd = (e) => {
-        const isTouch = 'touches' in e;
-        if (isTouch && !isDragging) return;
+    const handleDragEnd = () => {
+        onDragEnd && onDragEnd(dragItem.current, dragOverItem.current);
 
-        onDragEnd?.(dragItem.current, dragOverItem.current);
+        if (rafId.current) {
+            cancelAnimationFrame(rafId.current);
+            rafId.current = null;
+        }
 
-        // Cleanup
         if (dragNode.current) {
             dragNode.current.remove();
             dragNode.current = null;
         }
 
         document.querySelectorAll(itemSelector).forEach(item => {
-            item.style.opacity = '1';
             item.classList.remove(
                 'dragging',
                 'dragging-placeholder',
@@ -273,9 +323,11 @@ export const useBoundedDrag = (options = {}) => {
         });
 
         setIsDragging(false);
-        currentHoverItem.current = null;
         dragItem.current = null;
         dragOverItem.current = null;
+        draggedElement.current = null;
+        boundaryElement.current = null;
+        currentHoverItem.current = null;
     };
 
     return {
@@ -287,5 +339,6 @@ export const useBoundedDrag = (options = {}) => {
         }
     };
 };
+
 
 export default useBoundedDrag;
