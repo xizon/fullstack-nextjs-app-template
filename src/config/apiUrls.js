@@ -17,7 +17,7 @@ const config = {
 	 TYPE: Site Configuration
 	 ------------------------------------------
 	*/
-	"MENU": `https://uiux.cc/server-json/navigation.json`,
+	"MENU": `https://raw.githubusercontent.com/xizon/fullstack-nextjs-app-template/refs/heads/main/public/server-json/navigation.json`,
 
 	/*
 	 TYPE: Posts
@@ -31,14 +31,14 @@ const config = {
 	 TYPE: Posts Pagination
 	 ------------------------------------------
 	*/
-	 "RECEIVE_PAGE_LIST": `https://uiux.cc/server-json/posts-pagination/page-{page}/index.json`,
+	 "RECEIVE_PAGE_LIST": `https://raw.githubusercontent.com/xizon/fullstack-nextjs-app-template/refs/heads/main/public/server-json/posts-pagination/page-{page}/index.json`,
 
 	/*
 	 TYPE: User (The PHP files are located at `./public/server/`)
 	 ------------------------------------------
 	*/
-	"LOGIN_REQUEST": `https://uiux.cc/server-json/sessions-create.json`,
-	"USER_AUTHENTICATE": `https://uiux.cc/server-json/authenticate.json`,
+	"LOGIN_REQUEST": `https://raw.githubusercontent.com/xizon/fullstack-nextjs-app-template/refs/heads/main/public/server-json/sessions-create.json`,
+	"USER_AUTHENTICATE": `https://raw.githubusercontent.com/xizon/fullstack-nextjs-app-template/refs/heads/main/public/server-json/authenticate.json`,
 	"SIGNUP_REQUEST": "",
 	
 	  
@@ -46,8 +46,8 @@ const config = {
 	 TYPE: CRUD (The PHP files are located at `./public/server/`)
 	 ------------------------------------------
 	*/
-	"CRUD_SERVICE": `https://uiux.cc/server-json/curd.json`,
-	"CRUD_DATA_INIT": `https://uiux.cc/server-json/curd-data-init.json`,
+	"CRUD_SERVICE": `https://raw.githubusercontent.com/xizon/fullstack-nextjs-app-template/refs/heads/main/public/server-json/curd.json`,
+	"CRUD_DATA_INIT": `https://raw.githubusercontent.com/xizon/fullstack-nextjs-app-template/refs/heads/main/public/server-json/curd-data-init.json`,
 	
 	/*
 	 TYPE: Video
@@ -55,8 +55,9 @@ const config = {
 	*/
 	"VIDEO_URL": `http://localhost:3000/core/video-stream`,
     "HLS_VIDEO_URL":  `http://localhost:3000/core/hls/{id}/{slug}`,
-    "HLS_VIDEO_KEY": `/core-api/video-key`,  // Please don't write domain
+    "HLS_VIDEO_KEY": `/api/video-key`,  // Please don't write domain
 
+    
 	/*
 	 TYPE: Downlaod remote file
 	 ------------------------------------------
@@ -69,6 +70,13 @@ const config = {
 	*/
     "DYNAMIC_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
     "DYNAMIC_ROUTE_2": `http://localhost:3000/api/dynamic-routes/page2`,
+
+
+	/*
+	 TYPE: Auth
+	 ------------------------------------------
+	*/
+    "AUTH_PASSKEY": `http://localhost:3000/api/passkey`,
 
 	/*
 	 TYPE: Nodejs Services (fixed port:45000 - remote port)
@@ -136,7 +144,7 @@ const localConfig = {
 	*/
 	"VIDEO_URL": `http://localhost:3000/core/video-stream`,
     "HLS_VIDEO_URL":  `http://localhost:3000/core/hls/{id}/{slug}`,
-    "HLS_VIDEO_KEY": `/core-api/video-key`,  // Please don't write domain
+    "HLS_VIDEO_KEY": `/api/video-key`,  // Please don't write domain
 
 	  
 	/*
@@ -152,7 +160,13 @@ const localConfig = {
     "DYNAMIC_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
     "DYNAMIC_ROUTE_2": `http://localhost:3000/api/dynamic-routes/page2`,
 
+	/*
+	 TYPE: Auth
+	 ------------------------------------------
+	*/
+    "AUTH_PASSKEY": `http://localhost:3000/api/passkey`,
 
+    
 	/*
 	 TYPE: Nodejs Services (fixed port:4001)
 	 ------------------------------------------

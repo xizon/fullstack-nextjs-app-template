@@ -12,8 +12,15 @@ FROM node:18.20.4-alpine3.20 AS base
 # Install dependencies only when needed
 FROM base AS deps
 
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+
 RUN apk add --no-cache libc6-compat
+
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+# build-base: contains gcc, g++, and make 
+# python3: required by node-gyp 
+# sqlite-dev: required for linking sqlite libraries
+RUN apk add --no-cache libc6-compat build-base python3 sqlite-dev
+
 
 # if using `node:20.15.0`
 # RUN apt-get update && \
@@ -34,7 +41,7 @@ WORKDIR /app-demo-server
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
+RUN --mount=type=cache,target=/root/.npm \
   if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
   elif [ -f package-lock.json ]; then npm ci; \
   elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
@@ -88,6 +95,8 @@ RUN mkdir -p /app-demo-server
 RUN mkdir -p /app-demo-server/utils
 RUN mkdir -p /app-demo-server/plugins
 RUN mkdir -p /app-demo-server/routes
+RUN mkdir -p /app-demo-server/routes/passkey
+RUN mkdir -p /app-demo-server/routes/passkey/comm
 RUN mkdir -p /app-demo-server/core
 RUN mkdir -p /app-demo-server/uploads
 RUN mkdir -p /app-demo-server/call
@@ -96,6 +105,9 @@ RUN mkdir -p /app-demo-server/call
 COPY ./utils/* /app-demo-server/utils/
 COPY ./plugins/* /app-demo-server/plugins/
 COPY ./routes/* /app-demo-server/routes/
+COPY ./routes/passkey/* /app-demo-server/routes/passkey/
+COPY ./routes/passkey/comm/* /app-demo-server/routes/passkey/comm/
+
 
 #
 COPY core/ /app-demo-server/core
@@ -120,6 +132,7 @@ COPY ./server-socket.js /app-demo-server
 COPY ./server-files.js /app-demo-server
 COPY ./server-upload.js /app-demo-server
 COPY ./server-logger.js /app-demo-server
+COPY ./server-passkey.js /app-demo-server
 COPY ./server-auth.js /app-demo-server
 
 
