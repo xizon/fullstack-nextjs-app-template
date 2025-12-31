@@ -3,6 +3,17 @@
  */
 export type JSON = any;
 /**
+ * Get the Sunday of the week of the specific date, and return to the
+ * end of January next year if it is New Year's Eve
+ * @param {Date | String} v
+ * @returns {String}  yyyy-MM-dd
+ *
+ * @example
+ * getSpecialDateEnd('2025-12-29'); // 2026-01-31
+ * getSpecialDateEnd('2025-12-17'); // 2025-12-31
+ */
+export function getSpecialDateEnd(v: Date | string): string;
+/**
  * The check string contains only hours, minutes, and seconds
  * @returns {Boolean}
  */
@@ -76,12 +87,12 @@ export function isValidMonth(v: any): boolean;
  */
 export function isValidDay(v: any): boolean;
 /**
- * Get last day in month
- * @param {Date | String} v
- * @param {?Number}  targetMonth
- * @returns {String}  yyyy-MM-dd
+ * Get the last day of a specific month.
+ * @param {Date | String} v - A Date object or a date string (e.g., "2025-12-30" or "2025").
+ * @param {Number | String} targetMonth - Optional. Target month (1-12).
+ * @returns {Number} The last day of the month (e.g., 28, 29, 30, 31).
  */
-export function getLastDayInMonth(v: Date | string, targetMonth?: number | null): string;
+export function getLastDayInMonth(v: Date | string, targetMonth?: number | string): number;
 /**
  * Get first and last month day
  * @param {Number} v
@@ -228,14 +239,26 @@ export function timestampToDate(v: number, padZeroEnabled?: boolean): string;
  */
 export function getMonthDates(year: number, month: number): Array<string>;
 /**
- * Get the date of the specified week (From Sunday)
- * @param {Number} weekOffset
- * @returns {Array<Date>}
+ * Get all 7 dates for a specific week starting from Sunday.
+ * * @param {Number} weekOffset - The offset of weeks from the current week.
+ * 0: Current week
+ * -1: Previous week
+ * 1: Next week
+ * @returns {Array<Date>} - An array containing 7 Date objects from Sunday to Saturday.
  */
-export function getWeekDatesFromSun(weekOffset: number): Array<Date>;
+export function getWeekDatesFromSun(weekOffset: any): Array<Date>;
 /**
- * Get the date of the specified week (From Monday)
- * @param {Number} weekOffset
- * @returns {Array<Date>}
+ * Get all 7 dates for a specific week starting from Monday.
+ * * @param {Number} weekOffset - The offset of weeks from the current week.
+ * 0: Current week
+ * -1: Previous week
+ * 1: Next week
+ * @returns {Array<Date>} - An array containing 7 Date objects from Monday to Sunday.
  */
-export function getWeekDatesFromMon(weekOffset: number): Array<Date>;
+export function getWeekDatesFromMon(weekOffset: any): Array<Date>;
+/**
+ * Get the date list of the week for the specified date (starting from Monday)
+ * @param {Date | String} v - The specified date
+ * @returns {Array<Date>} - An array containing 7 Date objects
+ */
+export function getWeekDatesByDate(v: Date | string): Array<Date>;

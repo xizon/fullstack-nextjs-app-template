@@ -3,28 +3,25 @@
  * @param {String} str    =>  input string. such as 'a[1], b[2]', '{a[1]}'
  * @returns {Boolean}
  */
-declare function extractorExist(str: string | undefined | null): boolean;
+export function extractorExist(str: string): boolean;
 /**
  * Extract the contents of square brackets
  * @param {String} str    =>  input string. such as '[1,2] [f][c]'
- * @param {Boolean} commaSeparated    =>  flag to determine if the result should be comma separated or not
- * @returns {Array<string>|string} such as: ['1,2','f','c']
+ * @returns {Array|String} such as: ['1,2','f','c']
  */
-declare function extractContentsOfBrackets(str: string, commaSeparated?: boolean): Array<string> | string;
+export function extractContentsOfBrackets(str: string, commaSeparated?: boolean): any[] | string;
 /**
  * Extract the contents of curly braces
  * @param {String} str    =>  input string. such as '{1,2} {f}{c}'
- * @param {Boolean} commaSeparated    =>  flag to determine if the result should be comma separated or not
- * @returns {Array<string>|string} such as: ['1,2','f','c']
+ * @returns {Array|String} such as: ['1,2','f','c']
  */
-declare function extractContentsOfBraces(str: string, commaSeparated?: boolean): Array<string> | string;
+export function extractContentsOfBraces(str: string, commaSeparated?: boolean): any[] | string;
 /**
  * Extract the contents of parentheses
  * @param {String} str    =>  input string. such as '(1,2) (f)(c)'
- * @param {Boolean} commaSeparated    =>  flag to determine if the result should be comma separated or not
- * @returns {Array<string>|string} such as: ['1,2','f','c']
+ * @returns {Array|String} such as: ['1,2','f','c']
  */
-declare function extractContentsOfParentheses(str: string, commaSeparated?: boolean): Array<string> | string;
+export function extractContentsOfParentheses(str: string, commaSeparated?: boolean): any[] | string;
 /**
  * Parses a braces-separated string of `{label[value]}` pairs into an array of objects.
  *
@@ -39,10 +36,10 @@ declare function extractContentsOfParentheses(str: string, commaSeparated?: bool
  * @param {string} str - The input string containing one or more `{label[value]}` segments.
  * @returns {Array<{label: string, value: string}>} - An array of extracted label-value objects.
  */
-declare function extractContentsOfMixedCharactersWithBraces(str: string): {
+export function extractContentsOfMixedCharactersWithBraces(str: string): Array<{
     label: string;
-    value: string | number;
-}[];
+    value: string;
+}>;
 /**
  * Parses a comma-separated string of `label[value]` pairs into an array of objects.
  *
@@ -57,8 +54,7 @@ declare function extractContentsOfMixedCharactersWithBraces(str: string): {
  * @param {string} str - A string containing label-value pairs in the format `label[value]`, separated by commas.
  * @returns {Array<{ label: string, value: string }>} - An array of parsed objects.
  */
-declare function extractContentsOfMixedCharactersWithComma(str: string): {
+export function extractContentsOfMixedCharactersWithComma(str: string): Array<{
     label: string;
-    value: string | number;
-}[];
-export { extractorExist, extractContentsOfBrackets, extractContentsOfBraces, extractContentsOfParentheses, extractContentsOfMixedCharactersWithBraces, extractContentsOfMixedCharactersWithComma };
+    value: string;
+}>;
