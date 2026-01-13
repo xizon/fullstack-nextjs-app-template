@@ -181,7 +181,12 @@ app.post('/upload-plugin', async (req, res) => {
             if ( imgIncludeExtTypes.test(f.name) ) {
 
                 const ext = /^.+\.([^.]+)$/.exec(f.name);
-                let saveName = typeof symbol === 'undefined' ? f.name : `${typeof md5Enabled !== 'undefined' ? symbol + '-' + md5(symbol) : symbol}.${ext == null ? '' : ext[1]}`;
+
+                // Use Buffer to reconvert the encoding (if it is found to be Latin1 garbled)
+                const safeNameOrgin = Buffer.from(f.name, 'latin1').toString('utf8');
+
+
+                let saveName = typeof symbol === 'undefined' ? safeNameOrgin : `${typeof md5Enabled !== 'undefined' ? symbol + '-' + md5(symbol) : symbol}.${ext == null ? '' : ext[1]}`;
 
                 const tempPath = path.join(__dirname, '..', `/${STATIC_FILES_DIR}/_temp/`);
                 const uploadPath = path.join(__dirname, '..', `/${STATIC_FILES_DIR}/_temp/`, saveName);
@@ -194,7 +199,14 @@ app.post('/upload-plugin', async (req, res) => {
 
                 // parse image
                 const imgPath = `http://${HOST_NAME}:${PORT}/${STATIC_FILES_DIR}/_temp/${saveName}`;
-                const paletteDataPromise = await getPaletteData(imgPath); // Promise
+
+                // Determine whether it is Chinese text.
+                const hasChinese = (str) => {
+                    
+                    return /[\u4e00-\u9fa5]/.test(str);
+                };
+                const paletteDataPromise = hasChinese(saveName) ? {} : await getPaletteData(imgPath); // Promise
+
             
                 
                 // delete unnecessary files and folders
