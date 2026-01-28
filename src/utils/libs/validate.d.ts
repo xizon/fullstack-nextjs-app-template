@@ -1,17 +1,26 @@
 /**
- * Determine whether it is in JSON format
+ * Fix And Parse JSON (Support for handling complex escape JSON strings)
+ * @desc recursively fix top-level key/value (recursively handles when encountering top-level values that are objects/arrays)
  * @private
  */
-export function isJSON(input: any): boolean;
 /**
- * Object validation
- * @public
- * @param {String} input
- * @return {Boolean}
+ * Fix And Parse JSON (Support for handling complex escape JSON strings)
+ * @desc recursively fix top-level key/value (recursively handles when encountering top-level values that are objects/arrays)
+ * @private
  */
-export function isEmpty(input: string): boolean;
-export function isNumber(input: any): boolean;
-export function isInt(input: any): boolean;
-export function isEmail(input: any): boolean;
-export function isTel(input: any): boolean;
-export function isMobile(input: any): boolean;
+interface ParseResult {
+    success: boolean;
+    data?: any;
+    error?: string;
+    details?: string;
+}
+declare function fixAndParseJSON(input: string): ParseResult;
+declare function isJSON(input: any): boolean;
+declare function isValidNumeric(str: unknown): boolean;
+declare function isEmpty(input: string | string[]): boolean;
+declare function isNumber(input: string): boolean;
+declare function isInt(input: string): boolean;
+declare function isEmail(input: string): boolean;
+declare function isTel(input: string): boolean;
+declare function isMobile(input: string): boolean;
+export { fixAndParseJSON, isValidNumeric, isJSON, isEmpty, isNumber, isInt, isEmail, isTel, isMobile };

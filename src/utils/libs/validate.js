@@ -59,6 +59,7 @@ console.log('errorJson =>', fixAndParseJSON(errorJson002)); // {success: false, 
 console.log('errorJson =>', fixAndParseJSON(errorJson003)); // {success: false, error: 'Invalid JSON format', details: 'Invalid object: mismatched braces'}
 
 */
+
 function fixAndParseJSON(input) {
     const MAX_DEPTH = 6;
 
@@ -85,7 +86,8 @@ function fixAndParseJSON(input) {
 
         return { success: true, data: JSON.parse(s) };
     } catch (err) {
-        return { success: false, error: 'Invalid JSON format', details: err.message };
+        const error = err instanceof Error ? err : new Error('Unknown error');
+        return { success: false, error: 'Invalid JSON format', details: error.message };
     }
 }
 
@@ -141,17 +143,18 @@ function processTopObject(str, depth, MAX_DEPTH) {
     const pairs = splitTopLevel(inner);
 
     const repairedPairs = pairs.map(pair => {
-        if (!pair || pair.trim() === '') return '';
-        const idx = findTopLevelColon(pair);
-        if (idx === -1) {
-            return pair; // Non key:value fragment, keep as is (rare case)
-        }
-        const rawKey = pair.slice(0, idx).trim();
-        const rawVal = pair.slice(idx + 1);
+        const p = pair.trim();
+        // If the split fragment is empty, there are extra commas (e.g. {"a":1, })
+        if (p === '') throw new Error('Trailing comma detected in object');
+
+        const idx = findTopLevelColon(p);
+        if (idx === -1) throw new Error('Invalid key-value pair');
+
+        const rawKey = p.slice(0, idx).trim();
+        const rawVal = p.slice(idx + 1);
 
         const keyContent = extractKeyContent(rawKey);
         const keyJson = JSON.stringify(keyContent);
-
         const repairedValue = repairPossiblyQuotedValue(rawVal, depth + 1, MAX_DEPTH);
 
         return keyJson + ':' + repairedValue;
@@ -173,7 +176,9 @@ function processTopArray(str, depth, MAX_DEPTH) {
 
     const processed = elements.map(el => {
         const t = el.trim();
-        if (t === '') return '';
+        // If the split fragment is empty, there are extra commas (e.g. [1, 2, ])
+        if (t === '') throw new Error('Trailing comma detected in array');
+        
         if (t.startsWith('{')) return processTopObject(t, depth + 1, MAX_DEPTH);
         if (t.startsWith('[')) return processTopArray(t, depth + 1, MAX_DEPTH);
         return repairPossiblyQuotedValue(t, depth + 1, MAX_DEPTH);
@@ -182,9 +187,6 @@ function processTopArray(str, depth, MAX_DEPTH) {
     return '[' + processed.join(',') + ']';
 }
 
-// If it's a string wrapped in quotes, extract the inner content and JSON.stringify (safe escaping)
-// If it's an object/array literal (not wrapped in quotes), recursively process (treat as new outermost layer)
-// Otherwise return the original fragment directly (numbers/true/false/null or JS expressions)
 function repairPossiblyQuotedValue(rawVal, depth, MAX_DEPTH) {
     const v = rawVal.trim();
     if (v === '') return v;
@@ -202,7 +204,7 @@ function repairPossiblyQuotedValue(rawVal, depth, MAX_DEPTH) {
             }
         }
         const inner = lastPos > 0 ? v.slice(1, lastPos) : v.slice(1);
-        return JSON.stringify(inner); // Use JSON.stringify to generate valid JSON string (automatically escape internal quotes, etc.)
+        return JSON.stringify(inner); 
     }
 
     // If it's an object or array literal (not wrapped in quotes) -> recursively treat as new outermost layer
@@ -219,58 +221,50 @@ function repairPossiblyQuotedValue(rawVal, depth, MAX_DEPTH) {
 
 /* --------- Utilities: Split by top-level commas, find top-level colon, extract key --------- */
 
-// Split by top-level commas (ignore strings, sub-objects, sub-arrays, commas inside parentheses)
 function splitTopLevel(str) {
     const parts = [];
     let buf = '';
     let depthCurly = 0, depthSquare = 0, depthParen = 0;
     let inSingle = false, inDouble = false, esc = false;
+    
+    let lastCharWasComma = false;
 
     for (let i = 0; i < str.length; i++) {
         const ch = str[i];
-
-        if (esc) {
-            buf += ch;
-            esc = false;
-            continue;
-        }
-        if (ch === '\\') {
-            buf += ch;
-            esc = true;
-            continue;
-        }
-
+        if (esc) { buf += ch; esc = false; continue; }
+        if (ch === '\\') { buf += ch; esc = true; continue; }
         if (ch === "'" && !inDouble) { inSingle = !inSingle; buf += ch; continue; }
         if (ch === '"' && !inSingle) { inDouble = !inDouble; buf += ch; continue; }
 
         if (!inSingle && !inDouble) {
-            if (ch === '{') { depthCurly++; buf += ch; continue; }
-            if (ch === '}') { depthCurly--; buf += ch; continue; }
-            if (ch === '[') { depthSquare++; buf += ch; continue; }
-            if (ch === ']') { depthSquare--; buf += ch; continue; }
-            if (ch === '(') { depthParen++; buf += ch; continue; }
-            if (ch === ')') { depthParen--; buf += ch; continue; }
+            if (ch === '{') depthCurly++;
+            else if (ch === '}') depthCurly--;
+            else if (ch === '[') depthSquare++;
+            else if (ch === ']') depthSquare--;
+            else if (ch === '(') depthParen++;
+            else if (ch === ')') depthParen--;
 
             if (ch === ',' && depthCurly === 0 && depthSquare === 0 && depthParen === 0) {
                 parts.push(buf);
                 buf = '';
+                lastCharWasComma = true;
                 continue;
             }
         }
-
+        if (!/\s/.test(ch)) lastCharWasComma = false;
         buf += ch;
     }
     
-    // Check for unclosed brackets or quotes
-    if (depthCurly !== 0 || depthSquare !== 0 || depthParen !== 0 || inSingle || inDouble) {
-        throw new Error('Invalid JSON: unclosed brackets or quotes');
+    if (lastCharWasComma || (parts.length > 0 && buf.trim() === '')) {
+        parts.push(""); 
+    } else if (buf.trim() !== '' || parts.length === 0) {
+        parts.push(buf);
     }
-    
-    if (buf.trim() !== '') parts.push(buf);
+
+    if (depthCurly !== 0 || depthSquare !== 0 || depthParen !== 0) throw new Error('Mismatched structure');
     return parts;
 }
 
-// Find the first "top-level" colon index (ignore inside strings & sub-levels)
 function findTopLevelColon(str) {
     let inSingle = false, inDouble = false, esc = false;
     let depthCurly = 0, depthSquare = 0, depthParen = 0;
@@ -297,82 +291,70 @@ function findTopLevelColon(str) {
     return -1;
 }
 
-// Extract key content (supports "key", 'key', key), returns pure key string
 function extractKeyContent(rawKey) {
     const r = rawKey.trim();
     if ((r.startsWith('"') && r.endsWith('"')) || (r.startsWith("'") && r.endsWith("'"))) {
-        const inner = r.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");
-        return inner;
+        return r.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");
     }
     return r;
 }
 
+/* ---------- Exported Validation Functions ---------- */
 
-/**
- * Determine whether it is in JSON format
- * @private
- */
 function isJSON(input) {
-
-    if (typeof (input) === 'string' && input.length > 0) {
+    if (typeof input === 'string' && input.length > 0) {
         return fixAndParseJSON(input).success;
     } else {
-
-        if (
-            typeof (input) === 'object' &&
+        return (
+            typeof input === 'object' &&
+            input !== null &&
             Object.prototype.toString.call(input) === '[object Object]' &&
-            !input.length
-        ) {
-            return true;
-        } else {
-            return false;
-        }
-
+            !Array.isArray(input)
+        );
     }
-
 }
-/**
- * Object validation
- * @public
- * @param {String} input
- * @return {Boolean}
- */
+
+function isValidNumeric(str) {
+    if (typeof str !== "string") return false;
+    return !isNaN(Number(str)) && !isNaN(parseFloat(str));
+}
 
 function isEmpty(input) {
-    if ( Array.isArray(input) ) {
-        return input.some((str) => !str.replace(/\s/g, '').length === true )
-    } else {
-        return !input.replace(/\s/g, '').length === true;
+    if (Array.isArray(input)) {
+        return input.some((str) => !str.replace(/\s/g, '').length);
     }
+    return !input.replace(/\s/g, '').length;
 }
+
 function isNumber(input) {
     const reg = /^[\d|\.|,]+$/;
     return reg.test(input);
 }
+
 function isInt(input) {
-    if (input == "") {
-        return false;
-    }
+    if (input === "") return false;
     const reg = /\D+/;
     return !reg.test(input);
 }
+
 function isEmail(input) {
     const reg = /^\s*([A-Za-z0-9_-]+(\.\w+)*@(\w+\.)+\w{2,3})\s*$/;
     return reg.test(input);
 }
+
 function isTel(input) {
-    //const reg = /^[\d|\-|\s|\_]+$/;
     const reg = /^[0-9- ]{7,20}$/;
     return reg.test(input);
 }
+
 function isMobile(input) {
-    //const reg = /^13[0-9]{9}|15[012356789][0-9]{8}|18[0256789][0-9]{8}|147[0-9]{8}$/;
     const reg = /^1[0-9]{10}$/;
     return reg.test(input);
 }
 
-
 export {
+    fixAndParseJSON,
+    isValidNumeric,
     isJSON,
     isEmpty,
     isNumber,
@@ -380,4 +362,4 @@ export {
     isEmail,
     isTel,
     isMobile
-}
+};
