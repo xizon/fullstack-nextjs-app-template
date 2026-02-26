@@ -5,11 +5,27 @@
  * @param {String} fieldName 
  */
 function removeArrDuplicateItems(obj, fieldName) {
+    // Ensure input is an array
     if (!Array.isArray(obj)) return [];
 
-    const clean = obj.filter((item, index, self) => index === self.findIndex((t) => (t[fieldName] === item[fieldName])));
+    // fieldName must be provided and must exist on at least one item,
+    // otherwise do not perform deduplication
+    if (!fieldName || !obj.some(item => item && fieldName in item)) {
+        return obj;
+    }
+
+    const clean = obj.filter((item, index, self) =>
+        index === self.findIndex(t =>
+            // fieldName must be equal
+            t[fieldName] === item[fieldName] &&
+            // Objects must be fully identical to be considered duplicates
+            JSON.stringify(t) === JSON.stringify(item)
+        )
+    );
+
     return clean;
-};
+}
+
 
 
 
