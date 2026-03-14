@@ -9,6 +9,9 @@ import { Provider } from "react-redux";
 // auth
 import { AuthProvider } from '@/contexts/JWTAuthContext';
 
+// theme
+import { ThemeProvider } from '@/contexts/ThemeContext';
+
 
 // using disk cache
 // import '../public/assets/css/xxx.css';
@@ -23,10 +26,12 @@ export default function ProviderLayout({children}) {
 
             <Provider store={store}>
 
-                <AuthProvider>
-                    {children}
-                </AuthProvider>
-                
+                <ThemeProvider>
+                    <AuthProvider>
+                        {children}
+                    </AuthProvider>
+                </ThemeProvider>
+
             </Provider>
 
 

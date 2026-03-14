@@ -1,6 +1,6 @@
 .button {
-	background-color: #c4e4db;
-	color: #0576a0;
+	background-color: var(--color-btn-bg);
+	color: var(--color-btn-text);
 	text-decoration: none;
 	padding: .6em 1.7em;
 	display: inline-block;
@@ -12,6 +12,6 @@
 	text-align: center;
 
 	&:hover {
-	  background-color: #fff;
+	  background-color: var(--color-btn-bg-hover);
 	}
   }

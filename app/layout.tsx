@@ -74,7 +74,7 @@ export const metadata: Metadata = {
 // =========================================
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en-US" dir="ltr">
+        <html lang="en-US" dir="ltr" suppressHydrationWarning={true}>
             <body suppressHydrationWarning={true}>
 
                 <ProviderLayout>
@@ -96,6 +96,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     ></Script>
                 */}
 
+
+                {/* Prevent flash of wrong theme — runs before React hydrates */}
+                <Script
+                    id="theme-init"
+                    strategy="beforeInteractive"
+                    dangerouslySetInnerHTML={{
+                        __html: `(function(){try{var t=localStorage.getItem('SITE_DATA_THEME');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();`,
+                    }}
+                />
 
                 {/* Global variables can be used anywhere (plugins, subpages, etc.) */}
                 <Script

@@ -22,7 +22,7 @@
 			content: "+";
 			font-family: 'arial';
 			font-weight: 600;
-			color: #333;
+			color: var(--color-menu-arrow);
 			cursor: pointer;
 		}
 
@@ -37,10 +37,10 @@
 
 		> a {
 			display: block;
-			border-bottom: 1px solid #e5e5e5;
+			border-bottom: 1px solid var(--color-menu-border);
 
 			&:hover {
-				border-color: #333;
+				border-color: var(--color-menu-arrow);
 
 			}
 
@@ -57,8 +57,8 @@
 		}
 
         &.is-active > a {
-            color: #000;
-        }        
+            color: var(--color-menu-active);
+        }
 
 
 	}
