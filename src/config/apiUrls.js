@@ -103,21 +103,21 @@ const localConfig = {
 	 TYPE: Site Configuration
 	 ------------------------------------------
 	*/
-	"MENU": `http://localhost:3000/api/navigation`,
+	"MENU": `/api/navigation`,
 
 
 	/*
 	 TYPE: Posts
 	 ------------------------------------------
 	*/
-	"RECEIVE_DEMO_LIST": `http://localhost:3000/api/posts`,
-	"RECEIVE_DEMO_LISTDETAIL": `http://localhost:3000/api/post-detail?id={id}`,
+	"RECEIVE_DEMO_LIST": `/api/posts`,
+	"RECEIVE_DEMO_LISTDETAIL": `/api/post-detail?id={id}`,
 
 	/*
 	 TYPE: Posts Pagination
 	 ------------------------------------------
 	*/
-	 "RECEIVE_PAGE_LIST": `http://localhost:3000/api/pagination/page-{page}`,
+	 "RECEIVE_PAGE_LIST": `/api/pagination/page-{page}`,
 
 	
 
@@ -142,29 +142,29 @@ const localConfig = {
 	 TYPE: Video
 	 ------------------------------------------
 	*/
-	"VIDEO_URL": `http://localhost:3000/core/video-stream`,
-    "HLS_VIDEO_URL":  `http://localhost:3000/core/hls/{id}/{slug}`,
+	"VIDEO_URL": `/core/video-stream`,
+    "HLS_VIDEO_URL":  `/core/hls/{id}/{slug}`,
     "HLS_VIDEO_KEY": `/api/video-key`,  // Please don't write domain
 
-	  
+
 	/*
 	 TYPE: Downlaod remote file
 	 ------------------------------------------
 	*/
-    "DOWNLOAD_REMOTE_FILE": `http://localhost:3000/api/extract-file?sourceurl={sourceurl}`,
+    "DOWNLOAD_REMOTE_FILE": `/api/extract-file?sourceurl={sourceurl}`,
 
 	/*
 	 TYPE: Dynamic Routes
 	 ------------------------------------------
 	*/
-    "DYNAMIC_ROUTE_1": `http://localhost:3000/api/dynamic-routes/page1`,
-    "DYNAMIC_ROUTE_2": `http://localhost:3000/api/dynamic-routes/page2`,
+    "DYNAMIC_ROUTE_1": `/api/dynamic-routes/page1`,
+    "DYNAMIC_ROUTE_2": `/api/dynamic-routes/page2`,
 
 	/*
 	 TYPE: Auth
 	 ------------------------------------------
 	*/
-    "AUTH_PASSKEY": `http://localhost:3000/api/passkey`,
+    "AUTH_PASSKEY": `/api/passkey`,
 
     
 	/*
