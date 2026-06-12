@@ -39,7 +39,7 @@ async function getServerSideProps() {
         }
     };
 
-    return res !== null ? res.data.filter(v => !testSpecialStr(v.name)) : [];
+    return Array.isArray(res?.data) ? res.data.filter(v => !testSpecialStr(v.name)) : [];
 }
 
 

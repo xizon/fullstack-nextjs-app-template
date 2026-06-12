@@ -71,9 +71,9 @@ export async function generateStaticParams({ params }) {
                 }
             };
 
-            const paths = res.data.filter(v => !testSpecialStr(v.name)).map(post => {
+            const paths = Array.isArray(res?.data) ? res.data.filter(v => !testSpecialStr(v.name)).map(post => {
                 return { id: `${post.name}.html` };
-            });
+            }) : [];
 
             res = paths;
 
