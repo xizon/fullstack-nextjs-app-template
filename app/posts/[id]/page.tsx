@@ -60,7 +60,7 @@ export async function generateStaticParams({ params }) {
 
         // to prevent the export command from being interrupted or encountering HTTP status anomalies.
         try {
-            res = await axios.get(apiUrls.RECEIVE_DEMO_LIST);
+            res = await axios.get(apiUrls.RECEIVE_DEMO_LIST); // Other APIs can be used.
 
 
             // Object variant: paths must match the dynamic route shape.npm st
