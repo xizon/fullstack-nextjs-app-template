@@ -74,8 +74,8 @@ export const metadata: Metadata = {
 // =========================================
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en-US" dir="ltr">
-            <body suppressHydrationWarning={true}>
+        <html lang="en-US" dir="ltr" suppressHydrationWarning>
+            <body>
 
                 <ProviderLayout>
                     {children}
@@ -95,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         src="/assets/js/xxxx.js"
                     ></Script>
                 */}
+
 
 
                 {/* Global variables can be used anywhere (plugins, subpages, etc.) */}
