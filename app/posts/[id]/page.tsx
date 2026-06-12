@@ -62,6 +62,7 @@ export async function generateStaticParams({ params }) {
         try {
             res = await axios.get(apiUrls.RECEIVE_DEMO_LIST);
 
+
             // Object variant: paths must match the dynamic route shape.npm st
             const testSpecialStr = (s) => {
                 if (s.match(/\W/)) {
