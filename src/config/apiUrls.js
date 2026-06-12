@@ -23,8 +23,8 @@ const config = {
 	 TYPE: Posts
 	 ------------------------------------------
 	*/
-	"RECEIVE_DEMO_LIST": "https://restcountries.com/v2/all?fields=name,flag,region,capital",
-	"RECEIVE_DEMO_LISTDETAIL": "https://restcountries.com/v2/name/{id}",
+	"RECEIVE_DEMO_LIST": `https://raw.githubusercontent.com/xizon/fullstack-nextjs-app-template/refs/heads/main/public/server-json/posts/list.json`,
+	"RECEIVE_DEMO_LISTDETAIL": `https://raw.githubusercontent.com/xizon/fullstack-nextjs-app-template/refs/heads/main/public/server-json/posts/detail.json`,
 
 
 	/*
